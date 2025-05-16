@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResetRx - Personalized Wellness For Every Body</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <!-- For Apple devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0077b6;       /* Updated to match React Native primary */
+            --primary-light: #e6f0fa; /* Added from React Native */
+            --primary-dark: #005d91;  /* Added from React Native */
+            --secondary: #333;        /* Updated to match React Native secondary */
+            --secondary-light: #f5f5f5; /* Added from React Native */
+            --accent: #ff9800;        /* Changed to match warning color */
+            --light: #f5f5f5;         /* Updated to match secondaryLight */
+            --dark: #333;             /* Updated to match secondary */
+            --text: #000;             /* Updated to match text color */
+            --success: #4CAF50;       /* Already matching */
+            --success-light: #e6f7ef; /* Added from React Native */
+            --error: #f44336;         /* Added from React Native */
+            --error-light: #ffebee;   /* Added from React Native */
+            --warning: #ff9800;       /* Added from React Native */
+            --warning-light: #fff3e0; /* Added from React Native */
+            --gray: #888;             /* Added from React Native */
+            --light-gray: #e0e0e0;    /* Added from React Native */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0; /* Reduced padding for larger logo */
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 120px; /* Significantly increased from 90px */
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        
+        .btn-outline {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid white;
+            margin-left: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 119, 182, 0.85), rgba(0, 93, 145, 0.75)), 
+                        url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                        center/cover no-repeat;
+            padding: 180px 0 80px; /* Increased top padding to accommodate larger header */
+            position: relative;
+            color: white;
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+            animation: fadeInLeft 1s ease-out;
+        }
+        
+        .hero-text h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-text p.tagline {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+            animation: fadeInRight 1s ease-out;
+        }
+        
+        .hero-logo {
+            max-width: 350px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+        }
+
+        .hero-fitness-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.5s ease;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .hero-image:hover .hero-fitness-image {
+            transform: scale(1.02);
+        }
+        
+        /* Value Proposition */
+        .value-prop {
+            text-align: center;
+            background-color: white;
+            position: relative;
+        }
+        
+        .section-intro {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+        }
+        
+        .value-prop h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            padding: 200px 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .benefit-card .sub-heading {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .benefit-card h3 {
+            margin-bottom: 5px;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .benefit-card .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            background-color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: -60px auto 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 4px solid white;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            background: linear-gradient(rgba(245, 249, 252, 0.95), rgba(245, 249, 252, 0.95)), 
+                          url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                          center/cover fixed no-repeat;
+        }
+        
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .process-steps:before {
+            content: "";
+            position: absolute;
+            top: 50px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            z-index: 0;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            margin: 20px;
+            text-align: center;
+            position: relative;
+            background: white;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .step-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .step:hover .step-image {
+            transform: scale(1.05);
+        }
+        
+        .step h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        /* Inspirational Quote */
+        .quote-section {
+            padding: 0;
+            position: relative;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .quote-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .quote-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(51, 51, 51, 0.7), rgba(0, 119, 182, 0.85));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quote-content {
+            max-width: 800px;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            z-index: 1;
+        }
+        
+        .quote-text {
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .quote-author {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: white;
+            position: relative;
+        }
+        
+        .testimonials:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                        center/cover no-repeat;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .testimonials .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial:hover {
+            transform: translateY(-10px);
+        }
+        
+        .testimonial:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .quote {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .quote:before {
+            content: """;
+            font-size: 60px;
+            color: var(--light-gray);
+            position: absolute;
+            left: -10px;
+            top: -20px;
+        }
+        
+        .patient-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .patient-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Success Gallery */
+        .success-gallery {
+            background-color: var(--light);
+            text-align: center;
+            padding: 80px 0;
+        }
+        
+        .success-gallery h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 250px;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+            text-align: left;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .gallery-caption h4 {
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            background: linear-gradient(rgba(245, 249, 252, 0.9), rgba(233, 246, 252, 0.9)), 
+                        url('https://images.unsplash.com/photo-1530021356476-0a6375ffe73b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                        center/cover no-repeat;
+            text-align: center;
+        }
+        
+        .progress-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+        
+        .stat-box {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            min-width: 200px;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-box:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(rgba(0, 119, 182, 0.9), rgba(0, 93, 145, 0.9)), 
+                        url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                        center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cta-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent);
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .wellness-revolution {
+            background-color: var(--primary-light);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wellness-revolution:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(230, 240, 250, 0.9) 0%, rgba(214, 232, 248, 0.8) 70%);
+            z-index: 1;
+        }
+
+        .wellness-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .wellness-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 40px;
+        }
+
+        .wellness-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .wellness-text h3.sub-heading {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .wellness-text p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: var(--secondary);
+        }
+
+        .wellness-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .revolution-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border: 4px solid white;
+            transition: transform 0.5s ease;
+            object-fit: cover;
+            object-position: 80% center; /* This centers on the man on the right */
+        }
+
+        .wellness-image:hover .revolution-image {
+            transform: scale(1.02);
+        }
+
+        .contact-section {
+            background: linear-gradient(rgba(0, 119, 182, 0.9), rgba(0, 93, 145, 0.9)), 
+                        url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                        center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .contact-form-container {
+            max-width: 600px;
+            margin: 40px auto 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            background: white;
+        }
+
+        .form-submit-btn {
+            background-color: white;
+            color: var(--primary);
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .form-submit-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        nav ul.main-menu {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .menu-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            position: relative;
+            padding: 8px 0;
+            transition: color 0.3s ease;
+        }
+
+        .menu-link span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-link:hover {
+            color: var(--primary);
+        }
+
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .menu-link:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile menu toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Animations */
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-text, .hero-image {
+                flex: 100%;
+            }
+            
+            .hero-text {
+                margin-bottom: 40px;
+            }
+            
+            .benefits-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .process-steps:before {
+                display: none;
+            }
+            
+            .quote-text {
+                font-size: 1.5rem;
+            }
+
+            .wellness-text, .wellness-image {
+                flex: 100%;
+            }
+            
+            .wellness-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+
+            .contact-form-container {
+                padding: 30px 20px;
+            }
+
+            nav ul.main-menu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 30px;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+            
+            nav ul.main-menu.active {
+                right: 0;
+            }
+            
+            nav ul.main-menu li {
+                margin: 20px 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: translateY(9px) rotate(45deg);
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: translateY(-9px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <img src="assets/images/ResetRxLogo_transparent.png" alt="ResetRx Logo">
+            </a>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="#benefits" class="menu-link"><span>Benefits</span></a></li>
+                    <li><a href="#how-it-works" class="menu-link"><span>How It Works</span></a></li>
+                    <li><a href="#contact" class="menu-link"><span>Contact Us</span></a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>ResetRx</h1>
+                    <p class="tagline">Personalized Wellness For Every Body</p>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="btn btn-primary">Contact Us</a>
+                        <a href="#how-it-works" class="btn btn-outline">Learn How</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" alt="Older man exercising" class="hero-fitness-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="value-prop" id="benefits">
+        <div class="container">
+            <h2>Why Choose ResetRx?</h2>
+            <p class="section-intro">ResetRx integrates intelligent nutrition, adaptive fitness, and habit optimization into one seamless platform that easily integrates into your trackers, all backed by clinical research. Designed for your transformation journey, our solution redefines how to live a healthier life alongside your own personal wellness coach guiding you each step of the way.</p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Healthy nutrition" class="card-image">
+                    <div class="icon"><i class="fas fa-apple-alt"></i></div>
+                    <h3>Nutrition</h3>
+                    <h4 class="sub-heading">Personalized for You</h4>
+                    <p>Unlock the power of custom meal plans tailored to your goals and lifestyle. Manage your calories with ease and explore our full recipe database for inspiration, balance, and flavor in every bite.</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Physical activity" class="card-image">
+                    <div class="icon"><i class="fas fa-running"></i></div>
+                    <h3>Activity</h3>
+                    <h4 class="sub-heading">Smarter Movement, Better Results</h4>
+                    <p>Stay active with adaptive fitness routines that evolve with you. Sync your wearables for seamless tracking, and unlock insights to optimize every move, for strength, recovery, and long-term performance.</p>
+                </div>
+                <div class="benefit-card">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Healthy sleep habits" class="card-image">
+                    <div class="icon"><i class="fas fa-moon"></i></div>
+                    <h3>Habits</h3>
+                    <h4 class="sub-heading">Better Habits, Better Health</h4>
+                    <p>Track your sleep, build mindfulness, and create daily rhythms that support your overall wellbeing. Because the small things you do each day aren't just habits. They're the foundation of lasting health.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wellness Revolution Section -->
+    <section class="wellness-revolution">
+        <div class="container">
+            <div class="wellness-content">
+                <div class="wellness-text">
+                    <h2>A Wellness Revolution</h2>
+                    <h3 class="sub-heading">Intelligent Wellness, Clinically Grounded</h3>
+                    <p>An integrated health & wellness platform delivering always-on, personalized coaching through a secure mobile experience and deeper engagement that's human centered and AI-powered.</p>
+                </div>
+                <div class="wellness-image">
+                    <img src="https://images.unsplash.com/photo-1581009137042-c552e485697a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" alt="Man exercising at home" class="revolution-image">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2>Your Path to Better Health</h2>
+            <p class="section-intro">We’ve designed every step to be seamless, so you can focus on what matters most, feeling better, thinking clearer, and building habits that last.</p>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Digital health assessment" class="step-image">
+                    <h3>Initial Assessment</h3>
+                    <p>Begin your journey with a complete wellness profile. We’ll gather insights into your habits, goals, and health priorities, along with your doctor’s lab results, to create a clear picture of where you are today</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <img src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Man analyzing data visualization" class="step-image">
+                    <h3>AI Analysis</h3>
+                    <p>Our AI-powered system reviews your data to uncover patterns, risk areas, and opportunities, providing a deeper understanding of what your body needs to thrive.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <img src="https://images.unsplash.com/photo-1484627147104-f5197bcd6651?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Wellness Plan" class="step-image">
+                    <h3>Personalized Plan</h3>
+                    <p>Get a wellness program designed just for you. From nutrition and fitness to sleep and stress, every recommendation is tailored to your unique biology and lifestyle.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Progress Tracking" class="step-image">
+                    <h3>Results</h3>
+                    <p>Track your progress in real time and receive continuous coaching, nudges, and smart adjustments, so you can build lasting habits and stay on track toward better health.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inspirational Quote Section -->
+    <section class="quote-section">
+        <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" alt="Fresh fruits and vegetables" class="quote-bg">
+        <div class="quote-overlay">
+            <div class="quote-content">
+                <p class="quote-text">"The greatest wealth is health. Small daily improvements are the key to staggering long-term results."</p>
+                <p class="quote-author">— ResetRx Wellness Philosophy</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MD Gallery -->
+    <section class="success-gallery">
+        <div class="container">
+            <h2>Health Transformation Journey</h2>
+            <p class="section-intro">I want this to be Doctor's stories on why they believe in ResetRx</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Healthy cooking">
+                    <div class="gallery-caption">
+                        <h4>Nutrition Success</h4>
+                        <p>Members report healthier eating habits within 30 days</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Morning yoga">
+                    <div class="gallery-caption">
+                        <h4>Active Living</h4>
+                        <p>68% increase in consistent physical activity</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Meditation session">
+                    <div class="gallery-caption">
+                        <h4>Stress Reduction</h4>
+                        <p>Members report 45% lower stress levels</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sleep tracking">
+                    <div class="gallery-caption">
+                        <h4>Better Sleep</h4>
+                        <p>Average of 1.5 more hours of quality sleep</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p class="section-intro">Got questions? Reach out to ResetRx today.</p>
+            
+            <div class="contact-form-container">
+                <form id="contactForm" action="https://formsubmit.co/eva@resetrx.live" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Your email address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message/Comments</label>
+                        <textarea id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn form-submit-btn">Send Message</button>
+                    
+                    <!-- Hidden fields for FormSubmit configuration -->
+                    <input type="hidden" name="_subject" value="New ResetRx Website Contact">
+                    <input type="hidden" name="_next" value="https://resetrx.live/thank-you">
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2025 ResetRx. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Animate numbers when in view
+        const animateStats = () => {
+            const statElements = document.querySelectorAll('.stat-number');
+            statElements.forEach(stat => {
+                const value = stat.innerText;
+                stat.innerText = '0';
+                
+                let counter = 0;
+                const target = parseInt(value.replace(/[^0-9]/g, ''));
+                const duration = 2000;
+                const increment = Math.ceil(target / (duration / 16));
+                
+                const animation = setInterval(() => {
+                    counter += increment;
+                    if (counter >= target) {
+                        stat.innerText = value;
+                        clearInterval(animation);
+                    } else {
+                        if (value.includes('%')) {
+                            stat.innerText = counter + '%';
+                        } else if (value.includes('$')) {
+                            stat.innerText = '$' + counter;
+                        } else {
+                            stat.innerText = counter + '+';
+                        }
+                    }
+                }, 16);
+            });
+        };
+        
+        // Trigger animations when scrolled into view
+        window.addEventListener('scroll', () => {
+            const progressSection = document.getElementById('progress');
+            const sectionPosition = progressSection.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            
+            if (sectionPosition < screenPosition) {
+                animateStats();
+                window.removeEventListener('scroll', this);
+            }
+        });
+    </script>
+</body>
+</html>
