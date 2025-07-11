@@ -89,35 +89,57 @@ exports.handler = async (event, context) => {
             }
         }
 
-        // Send email notification via FormSubmit (so you get notified of every contact)
+        // Send email notification via Resend (more reliable than FormSubmit)
         let emailSuccess = false;
-        try {
-            console.log('Sending email notification...');
-            
-            const formData = new URLSearchParams();
-            formData.append('name', name);
-            formData.append('email', email);
-            formData.append('message', message);
-            formData.append('newsletter_interest', wantsNewsletter ? 'Yes - Added to Mailchimp' : 'No');
-            formData.append('mailchimp_status', mailchimpSuccess ? 'Successfully added' : 'Failed to add');
-            formData.append('form_type', 'Contact Form');
-            formData.append('_subject', 'New Contact Form Submission - ResetRx');
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
+        if (process.env.RESEND_API_KEY) {
+            try {
+                console.log('Sending email notification via Resend...');
+                
+                const emailBody = `
+New Contact Form Submission - ResetRx
 
-            const emailResponse = await fetch('https://formsubmit.co/arne@resetrx.life', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData
-            });
+Name: ${name}
+Email: ${email}
+Message: ${message}
 
-            emailSuccess = emailResponse.ok;
-            console.log('Email notification sent:', emailResponse.status);
+Newsletter Interest: ${wantsNewsletter ? 'Yes - Added to Mailchimp' : 'No'}
+Mailchimp Status: ${mailchimpSuccess ? 'Successfully added' : 'Failed to add'}
+Form Type: Contact Form
+Submitted: ${new Date().toLocaleString()}
 
-        } catch (emailError) {
-            console.log('Failed to send email notification:', emailError.message);
+---
+This email was sent from your ResetRx website contact form.
+                `.trim();
+
+                const resendResponse = await fetch('https://api.resend.com/emails', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        from: 'website@resetrx.life', // Must use your domain
+                        to: ['arne@resetrx.life'],
+                        subject: 'New Contact Form Submission - ResetRx',
+                        text: emailBody,
+                        reply_to: email // Allows you to reply directly to the contact
+                    })
+                });
+
+                const resendData = await resendResponse.json();
+                
+                if (resendResponse.ok) {
+                    emailSuccess = true;
+                    console.log('✅ Email sent via Resend:', resendData.id);
+                } else {
+                    console.log('❌ Resend failed:', resendResponse.status, resendData);
+                }
+
+            } catch (resendError) {
+                console.log('❌ Resend error:', resendError.message);
+            }
+        } else {
+            console.log('❌ No RESEND_API_KEY found in environment variables');
         }
 
         // Return success if we at least got the email notification
