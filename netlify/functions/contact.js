@@ -46,7 +46,7 @@ exports.handler = async (event, context) => {
         formData.append('_captcha', 'false');
         formData.append('_template', 'table');
 
-        const response = await fetch('https://formsubmit.co/eva@resetrx.live', {
+        const response = await fetch('https://formsubmit.co/arne@resetrx.live', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

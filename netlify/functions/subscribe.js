@@ -39,7 +39,7 @@ exports.handler = async (event, context) => {
 
         console.log('Sending to FormSubmit:', { email, tags });
 
-        const response = await fetch('https://formsubmit.co/eva@resetrx.live', {
+        const response = await fetch('https://formsubmit.co/arne@resetrx.life', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

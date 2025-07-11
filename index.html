@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResetRx - Science-Backed Longevity for High Performers</title>
+    
+    <!-- Favicon and Apple Touch Icons -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <!-- For Apple devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Microsoft Clarity -->
+    <script>
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "xxxxxxxx");
+    </script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --primary: #0077b6;
@@ -1010,7 +1039,9 @@
         
         const email = document.getElementById('newsletter-email').value;
         const button = this.querySelector('button');
+        const originalButtonText = button.textContent;
         
+        // Show loading state
         button.textContent = 'Subscribing...';
         button.disabled = true;
         
@@ -1029,17 +1060,27 @@
             const result = await response.json();
             
             if (result.success) {
-                alert('Success! Check your email for confirmation.');
-                this.reset();
+                // Replace form with success message
+                this.innerHTML = `
+                    <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 1px solid #4caf50;">
+                        <i class="fas fa-check-circle" style="color: #4caf50; font-size: 24px; margin-bottom: 10px;"></i>
+                        <h3 style="color: #2e7d32; margin: 10px 0;">Successfully Subscribed!</h3>
+                        <p style="color: #2e7d32; margin: 0;">Thank you for joining our newsletter. We'll keep you updated on the latest longevity insights.</p>
+                    </div>
+                `;
             } else {
-                alert(result.error || 'Something went wrong. Please try again.');
+                // Show error message
+                showMessage(result.error || 'Something went wrong. Please try again.', 'error');
             }
         } catch (error) {
-            alert('Network error. Please try again.');
+            showMessage('Network error. Please try again.', 'error');
         }
         
-        button.textContent = 'Subscribe';
-        button.disabled = false;
+        // Reset button if there was an error
+        if (button.textContent === 'Subscribing...') {
+            button.textContent = originalButtonText;
+            button.disabled = false;
+        }
     });
 
     // Contact form handler
@@ -1052,6 +1093,8 @@
         const wantsNewsletter = document.getElementById('newsletter-interest').checked;
         
         const button = this.querySelector('button');
+        const originalButtonText = button.textContent;
+        
         button.textContent = 'Sending...';
         button.disabled = true;
         
@@ -1072,18 +1115,61 @@
             const result = await response.json();
             
             if (result.success) {
-                alert('Thank you! We\'ll get back to you soon.');
-                this.reset();
+                // Replace form with success message
+                this.innerHTML = `
+                    <div style="text-align: center; padding: 20px; background: #e8f5e8; border-radius: 8px; border: 1px solid #4caf50;">
+                        <i class="fas fa-check-circle" style="color: #4caf50; font-size: 24px; margin-bottom: 10px;"></i>
+                        <h3 style="color: #2e7d32; margin: 10px 0;">Message Sent!</h3>
+                        <p style="color: #2e7d32; margin: 0;">Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                    </div>
+                `;
             } else {
-                alert(result.error || 'Something went wrong. Please try again.');
+                showMessage(result.error || 'Something went wrong. Please try again.', 'error');
             }
         } catch (error) {
-            alert('Network error. Please try again.');
+            showMessage('Network error. Please try again.', 'error');
         }
         
-        button.textContent = 'Send Message';
-        button.disabled = false;
+        // Reset button if there was an error
+        if (button.textContent === 'Sending...') {
+            button.textContent = originalButtonText;
+            button.disabled = false;
+        }
     });
+
+    // Helper function for error messages
+    function showMessage(message, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            background: ${type === 'error' ? '#f44336' : '#4caf50'};
+        `;
+        messageDiv.textContent = message;
+        document.body.appendChild(messageDiv);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            messageDiv.remove();
+        }, 5000);
+    }
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
 
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
