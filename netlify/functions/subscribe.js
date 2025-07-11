@@ -1,5 +1,5 @@
 exports.handler = async (event, context) => {
-    console.log('Newsletter subscription attempt - FormSubmit only');
+    console.log('Newsletter subscription attempt - Mailchimp only');
 
     if (event.httpMethod !== 'POST') {
         return {
@@ -13,7 +13,24 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const { email, tags } = JSON.parse(event.body);
+        // Parse JSON request
+        let email, tags;
+        
+        try {
+            const requestBody = JSON.parse(event.body);
+            email = requestBody.email;
+            tags = requestBody.tags;
+        } catch (parseError) {
+            console.error('JSON parse error:', parseError);
+            return {
+                statusCode: 400,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Content-Type'
+                },
+                body: JSON.stringify({ error: 'Invalid JSON format' })
+            };
+        }
 
         // Validate email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -28,42 +45,86 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Use FormSubmit for reliable email delivery
-        const formData = new URLSearchParams();
-        formData.append('email', email);
-        formData.append('signup_type', 'newsletter');
-        formData.append('tags', (tags || ['newsletter']).join(', '));
-        formData.append('_subject', 'Newsletter Signup - ResetRx');
-        formData.append('_captcha', 'false');
-        formData.append('_template', 'table'); // Nice email formatting
-
-        console.log('Sending to FormSubmit:', { email, tags });
-
-        const response = await fetch('https://formsubmit.co/arne@resetrx.life', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formData
-        });
-
-        console.log('FormSubmit response status:', response.status);
-
-        // FormSubmit returns 200 on success
-        if (response.ok) {
+        // Check Mailchimp credentials
+        if (!process.env.MAILCHIMP_API_KEY || !process.env.MAILCHIMP_LIST_ID) {
+            console.error('Mailchimp credentials missing');
             return {
-                statusCode: 200,
+                statusCode: 500,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Access-Control-Allow-Headers': 'Content-Type'
                 },
                 body: JSON.stringify({ 
-                    success: true, 
-                    message: 'Successfully subscribed! You\'ll receive a confirmation email shortly.' 
+                    success: false, 
+                    error: 'Email service not configured' 
                 })
             };
-        } else {
-            throw new Error(`FormSubmit returned status ${response.status}`);
+        }
+
+        // Subscribe to Mailchimp
+        try {
+            console.log('Adding subscriber to Mailchimp...');
+            
+            const datacenter = process.env.MAILCHIMP_API_KEY.split('-')[1];
+            const mailchimpUrl = `https://${datacenter}.api.mailchimp.com/3.0/lists/${process.env.MAILCHIMP_LIST_ID}/members`;
+            
+            const mailchimpResponse = await fetch(mailchimpUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Basic ${Buffer.from(`anystring:${process.env.MAILCHIMP_API_KEY}`).toString('base64')}`
+                },
+                body: JSON.stringify({
+                    email_address: email,
+                    status: 'subscribed',
+                    tags: (tags || ['newsletter']).map(tag => tag.toString())
+                })
+            });
+
+            const mailchimpData = await mailchimpResponse.json();
+            console.log('Mailchimp response:', mailchimpResponse.status, mailchimpData);
+            
+            if (mailchimpResponse.ok) {
+                return {
+                    statusCode: 200,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': 'Content-Type'
+                    },
+                    body: JSON.stringify({ 
+                        success: true, 
+                        message: 'Successfully subscribed to our newsletter!' 
+                    })
+                };
+            } else if (mailchimpResponse.status === 400 && mailchimpData.title === 'Member Exists') {
+                return {
+                    statusCode: 200,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': 'Content-Type'
+                    },
+                    body: JSON.stringify({ 
+                        success: true, 
+                        message: 'You\'re already subscribed to our newsletter!' 
+                    })
+                };
+            } else {
+                throw new Error(`Mailchimp error: ${mailchimpData.detail || mailchimpData.title}`);
+            }
+
+        } catch (mailchimpError) {
+            console.error('Mailchimp subscription failed:', mailchimpError);
+            return {
+                statusCode: 500,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Content-Type'
+                },
+                body: JSON.stringify({ 
+                    success: false, 
+                    error: 'Failed to subscribe to newsletter. Please try again.' 
+                })
+            };
         }
 
     } catch (error) {
@@ -76,7 +137,7 @@ exports.handler = async (event, context) => {
             },
             body: JSON.stringify({ 
                 success: false, 
-                error: 'Subscription failed. Please try again or contact us directly.' 
+                error: 'Subscription failed. Please try again.' 
             })
         };
     }
