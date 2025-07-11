@@ -118,7 +118,8 @@ This email was sent from your ResetRx website contact form.
                         'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
                     },
                     body: JSON.stringify({
-                        from: 'website@resetrx.life', // Must use your domain
+                        //from: 'website@resetrx.life', // Must use your domain
+                        from: 'onboarding@resend.dev',
                         to: ['arne@resetrx.life'],
                         subject: 'New Contact Form Submission - ResetRx',
                         text: emailBody,
