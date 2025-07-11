@@ -54,7 +54,7 @@ exports.handler = async (event, context) => {
                     ['contact-form', 'no-newsletter'];
 
                 // Set status based on newsletter preference
-                const status = wantsNewsletter ? 'subscribed' : 'transactional';
+                const status = wantsNewsletter ? 'subscribed' : 'pending';
 
                 const mailchimpResponse = await fetch(mailchimpUrl, {
                     method: 'POST',
