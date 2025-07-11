@@ -1,16 +1,13 @@
-// netlify/functions/subscribe.js
 exports.handler = async (event, context) => {
-    console.log('Environment variables check:', {
-        hasApiKey: !!process.env.KIT_API_KEY,
-        hasFormId: !!process.env.KIT_NEWSLETTER_FORM_ID,
-        apiKeyPrefix: process.env.KIT_API_KEY ? process.env.KIT_API_KEY.substring(0, 10) + '...' : 'undefined',
-        formId: process.env.KIT_NEWSLETTER_FORM_ID
-    });
+    console.log('Newsletter subscription attempt - FormSubmit only');
 
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            },
             body: JSON.stringify({ error: 'Method not allowed' })
         };
     }
@@ -23,57 +20,36 @@ exports.handler = async (event, context) => {
         if (!emailRegex.test(email)) {
             return {
                 statusCode: 400,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Content-Type'
+                },
                 body: JSON.stringify({ error: 'Please enter a valid email address' })
             };
         }
 
-        // Check if environment variables are available
-        if (!process.env.KIT_API_KEY) {
-            console.error('KIT_API_KEY is not available');
-            return {
-                statusCode: 500,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type'
-                },
-                body: JSON.stringify({ 
-                    success: false, 
-                    error: 'API Key not present' 
-                })
-            };
-        }
+        // Use FormSubmit for reliable email delivery
+        const formData = new URLSearchParams();
+        formData.append('email', email);
+        formData.append('signup_type', 'newsletter');
+        formData.append('tags', (tags || ['newsletter']).join(', '));
+        formData.append('_subject', 'Newsletter Signup - ResetRx');
+        formData.append('_captcha', 'false');
+        formData.append('_template', 'table'); // Nice email formatting
 
-        if (!process.env.KIT_NEWSLETTER_FORM_ID) {
-            console.error('KIT_NEWSLETTER_FORM_ID is not available');
-            return {
-                statusCode: 500,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type'
-                },
-                body: JSON.stringify({ 
-                    success: false, 
-                    error: 'Form ID not present' 
-                })
-            };
-        }
+        console.log('Sending to FormSubmit:', { email, tags });
 
-        // Call Kit API
-        const response = await fetch(`https://api.kit.com/v3/forms/${process.env.KIT_NEWSLETTER_FORM_ID}/subscribe`, {
+        const response = await fetch('https://formsubmit.co/eva@resetrx.live', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.KIT_API_KEY}`
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify({
-                email_address: email,
-                tags: tags || ['newsletter']
-            })
+            body: formData
         });
 
-        const data = await response.json();
-        console.log('Kit API response:', { status: response.status, data });
+        console.log('FormSubmit response status:', response.status);
 
+        // FormSubmit returns 200 on success
         if (response.ok) {
             return {
                 statusCode: 200,
@@ -83,25 +59,15 @@ exports.handler = async (event, context) => {
                 },
                 body: JSON.stringify({ 
                     success: true, 
-                    message: 'Successfully subscribed!' 
+                    message: 'Successfully subscribed! You\'ll receive a confirmation email shortly.' 
                 })
             };
         } else {
-            return {
-                statusCode: response.status,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type'
-                },
-                body: JSON.stringify({ 
-                    success: false, 
-                    error: data.message || 'Subscription failed' 
-                })
-            };
+            throw new Error(`FormSubmit returned status ${response.status}`);
         }
 
     } catch (error) {
-        console.error('Subscription error:', error);
+        console.error('Newsletter subscription error:', error);
         return {
             statusCode: 500,
             headers: {
@@ -110,7 +76,7 @@ exports.handler = async (event, context) => {
             },
             body: JSON.stringify({ 
                 success: false, 
-                error: 'Internal server error' 
+                error: 'Subscription failed. Please try again or contact us directly.' 
             })
         };
     }
