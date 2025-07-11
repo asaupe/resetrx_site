@@ -3,58 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResetRx - Personalized Wellness For Every Body</title>
+    <title>ResetRx - Science-Backed Longevity for High Performers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
-
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
-    <!-- For Apple devices -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
-    
-    <!-- Microsoft Clarity -->
-    <script>
-      (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "xxxxxxxx");
-    </script>
-    
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0077b6;       /* Updated to match React Native primary */
-            --primary-light: #e6f0fa; /* Added from React Native */
-            --primary-dark: #005d91;  /* Added from React Native */
-            --secondary: #333;        /* Updated to match React Native secondary */
-            --secondary-light: #f5f5f5; /* Added from React Native */
-            --accent: #ff9800;        /* Changed to match warning color */
-            --light: #f5f5f5;         /* Updated to match secondaryLight */
-            --dark: #333;             /* Updated to match secondary */
-            --text: #000;             /* Updated to match text color */
-            --success: #4CAF50;       /* Already matching */
-            --success-light: #e6f7ef; /* Added from React Native */
-            --error: #f44336;         /* Added from React Native */
-            --error-light: #ffebee;   /* Added from React Native */
-            --warning: #ff9800;       /* Added from React Native */
-            --warning-light: #fff3e0; /* Added from React Native */
-            --gray: #888;             /* Added from React Native */
-            --light-gray: #e0e0e0;    /* Added from React Native */
+            --primary: #0077b6;
+            --primary-light: #e6f0fa;
+            --primary-dark: #005d91;
+            --secondary: #333;
+            --accent: #ff9800;
+            --light: #f5f5f5;
+            --dark: #333;
+            --text: #000;
+            --gray: #888;
+            --light-gray: #e0e0e0;
         }
         
         * {
@@ -99,20 +64,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0; /* Reduced padding for larger logo */
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
+            padding: 10px 0;
         }
         
         .logo img {
-            height: 120px; /* Significantly increased from 90px */
+            height: 120px;
             width: auto;
             transition: transform 0.3s ease;
         }
@@ -121,24 +77,57 @@
             transform: scale(1.05);
         }
         
-        nav ul {
+        nav ul.main-menu {
             display: flex;
             list-style: none;
+            gap: 40px;
         }
         
-        nav ul li {
-            margin-left: 30px;
-        }
-        
-        nav ul li a {
-            color: var(--dark);
+        .menu-link {
+            color: var(--secondary);
             text-decoration: none;
             font-weight: 600;
+            font-size: 18px;
+            position: relative;
+            padding: 8px 0;
             transition: color 0.3s ease;
         }
         
-        nav ul li a:hover {
+        .menu-link:hover {
             color: var(--primary);
+        }
+        
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .menu-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .mobile-menu-toggle span {
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
         }
         
         .btn {
@@ -183,7 +172,7 @@
             background: linear-gradient(rgba(0, 119, 182, 0.85), rgba(0, 93, 145, 0.75)), 
                         url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
                         center/cover no-repeat;
-            padding: 180px 0 80px; /* Increased top padding to accommodate larger header */
+            padding: 180px 0 80px;
             position: relative;
             color: white;
         }
@@ -197,7 +186,6 @@
         .hero-text {
             flex: 1;
             min-width: 300px;
-            animation: fadeInLeft 1s ease-out;
         }
         
         .hero-text h1 {
@@ -219,12 +207,6 @@
             flex: 1;
             min-width: 300px;
             text-align: center;
-            animation: fadeInRight 1s ease-out;
-        }
-        
-        .hero-logo {
-            max-width: 350px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
         }
 
         .hero-fitness-image {
@@ -244,7 +226,6 @@
         .value-prop {
             text-align: center;
             background-color: white;
-            position: relative;
         }
         
         .section-intro {
@@ -261,7 +242,7 @@
         
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
         
@@ -317,6 +298,176 @@
             margin: -60px auto 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border: 4px solid white;
+        }
+
+        /* Wellness Revolution Section */
+        .wellness-revolution {
+            background-color: var(--primary-light);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wellness-revolution:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(230, 240, 250, 0.9) 0%, rgba(214, 232, 248, 0.8) 70%);
+            z-index: 1;
+        }
+
+        .wellness-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .wellness-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 40px;
+        }
+
+        .wellness-text h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .wellness-text h3.sub-heading {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .wellness-text p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: var(--secondary);
+        }
+
+        .wellness-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .revolution-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border: 4px solid white;
+            transition: transform 0.5s ease;
+            object-fit: cover;
+            object-position: 80% center;
+        }
+
+        .wellness-image:hover .revolution-image {
+            transform: scale(1.02);
+        }
+
+        /* Newsletter Section */
+        .newsletter-section {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter-section:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .newsletter-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .newsletter-content h2 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .newsletter-content p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: stretch;
+        }
+
+        .newsletter-input-group input {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input-group input:focus {
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15), 0 0 0 3px rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .newsletter-input-group button {
+            padding: 18px 35px;
+            border-radius: 50px;
+            white-space: nowrap;
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input-group button:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .newsletter-disclaimer {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
         
         /* How It Works */
@@ -398,7 +549,7 @@
             color: var(--primary);
         }
         
-        /* Inspirational Quote */
+        /* Quote Section */
         .quote-section {
             padding: 0;
             position: relative;
@@ -449,411 +600,8 @@
             font-size: 1.2rem;
             font-weight: 600;
         }
-        
-        /* Testimonials */
-        .testimonials {
-            background-color: white;
-            position: relative;
-        }
-        
-        .testimonials:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
-                        center/cover no-repeat;
-            opacity: 0.05;
-            z-index: 0;
-        }
-        
-        .testimonials .container {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .testimonials h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-        }
-        
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .testimonial {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .testimonial:hover {
-            transform: translateY(-10px);
-        }
-        
-        .testimonial:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--primary);
-            border-radius: 5px 0 0 5px;
-        }
-        
-        .quote {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-        
-        .quote:before {
-            content: """;
-            font-size: 60px;
-            color: var(--light-gray);
-            position: absolute;
-            left: -10px;
-            top: -20px;
-        }
-        
-        .patient-info {
-            display: flex;
-            align-items: center;
-        }
-        
-        .patient-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-right: 15px;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        /* Success Gallery */
-        .success-gallery {
-            background-color: var(--light);
-            text-align: center;
-            padding: 80px 0;
-        }
-        
-        .success-gallery h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-        
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            height: 250px;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .gallery-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            padding: 20px;
-            color: white;
-            text-align: left;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-item:hover .gallery-caption {
-            transform: translateY(0);
-        }
-        
-        .gallery-caption h4 {
-            margin-bottom: 5px;
-            color: white;
-        }
-        
-        /* Progress Section */
-        .progress-section {
-            background: linear-gradient(rgba(245, 249, 252, 0.9), rgba(233, 246, 252, 0.9)), 
-                        url('https://images.unsplash.com/photo-1530021356476-0a6375ffe73b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
-                        center/cover no-repeat;
-            text-align: center;
-        }
-        
-        .progress-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-        }
-        
-        .stats-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-        }
-        
-        .stat-box {
-            background-color: white;
-            padding: 40px 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            min-width: 200px;
-            transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .stat-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        
-        .stat-box:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--primary);
-        }
-        
-        .stat-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 10px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(rgba(0, 119, 182, 0.9), rgba(0, 93, 145, 0.9)), 
-                        url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
-                        center/cover no-repeat;
-            color: white;
-            text-align: center;
-            padding: 100px 0;
-        }
-        
-        .cta-section h2 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-        }
-        
-        .cta-section p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .cta-btn {
-            background-color: white;
-            color: var(--primary);
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .cta-btn:hover {
-            background-color: var(--accent);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 30px;
-        }
-        
-        .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-        
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-            margin-bottom: 30px;
-        }
-        
-        .footer-column h4 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            color: white;
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-column ul li a {
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-column ul li a:hover {
-            color: white;
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-icons a {
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        
-        .social-icons a:hover {
-            color: var(--accent);
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #ccc;
-            font-size: 0.9rem;
-        }
 
-        .wellness-revolution {
-            background-color: var(--primary-light);
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .wellness-revolution:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(230, 240, 250, 0.9) 0%, rgba(214, 232, 248, 0.8) 70%);
-            z-index: 1;
-        }
-
-        .wellness-content {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 2;
-        }
-
-        .wellness-text {
-            flex: 1;
-            min-width: 300px;
-            padding-right: 40px;
-        }
-
-        .wellness-text h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .wellness-text h3.sub-heading {
-            color: var(--primary-dark);
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .wellness-text p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            line-height: 1.7;
-            color: var(--secondary);
-        }
-
-        .wellness-image {
-            flex: 1;
-            min-width: 300px;
-            text-align: center;
-        }
-
-        .revolution-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-            border: 4px solid white;
-            transition: transform 0.5s ease;
-            object-fit: cover;
-            object-position: 80% center; /* This centers on the man on the right */
-        }
-
-        .wellness-image:hover .revolution-image {
-            transform: scale(1.02);
-        }
-
+        /* Contact Section */
         .contact-section {
             background: linear-gradient(rgba(0, 119, 182, 0.9), rgba(0, 93, 145, 0.9)), 
                         url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
@@ -911,6 +659,24 @@
             background: white;
         }
 
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            color: white;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: var(--accent);
+        }
+
         .form-submit-btn {
             background-color: white;
             color: var(--primary);
@@ -932,89 +698,29 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
         }
-
-        nav ul.main-menu {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-        }
-
-        .menu-link {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 18px;
-            position: relative;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-        }
-
-        .menu-link span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .menu-link:hover {
-            color: var(--primary);
-        }
-
-        .menu-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            transition: width 0.3s ease;
-            border-radius: 10px;
-        }
-
-        .menu-link:hover::after {
-            width: 100%;
-        }
-
-        /* Mobile menu toggle */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .mobile-menu-toggle span {
-            display: block;
-            width: 30px;
-            height: 3px;
-            background-color: var(--primary);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
         
-        /* Animations */
-        @keyframes fadeInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
         }
         
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .benefits-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero-text, .hero-image {
                 flex: 100%;
@@ -1022,18 +728,6 @@
             
             .hero-text {
                 margin-bottom: 40px;
-            }
-            
-            .benefits-grid, .testimonial-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            nav ul {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
             }
             
             .process-steps:before {
@@ -1057,9 +751,27 @@
                 padding: 30px 20px;
             }
 
+            .newsletter-input-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .newsletter-input-group button {
+                width: 100%;
+            }
+            
+            .newsletter-content h2 {
+                font-size: 2rem;
+            }
+            
+            .newsletter-content p {
+                font-size: 1.1rem;
+                padding: 0 20px;
+            }
+
             nav ul.main-menu {
                 position: fixed;
-                top: 70px;
+                top: 140px;
                 right: -100%;
                 width: 70%;
                 height: 100vh;
@@ -1126,14 +838,14 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>ResetRx</h1>
-                    <p class="tagline">Extend Your Healthspan. One Measurable Reset at a Time.</p>
+                    <p class="tagline">Precision Health. Real Results.</p>
                     <div class="cta-buttons">
                         <a href="#contact" class="btn btn-primary">Start Your Reset</a>
-                        <a href="#how-it-works" class="btn btn-outline">See How It Works</a>
+                        <a href="#how-it-works" class="btn btn-outline">How It Works</a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" alt="Executive staying healthy" class="hero-fitness-image">
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" alt="Professional staying healthy" class="hero-fitness-image">
                 </div>
             </div>
         </div>
@@ -1143,28 +855,28 @@
     <section class="value-prop" id="benefits">
         <div class="container">
             <h2>Science-Backed Longevity for High Performers</h2>
-            <p class="section-intro">ResetRx focuses on just 3 key biomarkers predictive of longevity - CRP, HbA1c, and cholesterol. No overwhelming data, just simple, actionable coaching through AI with personality. Designed for busy professionals who want straight talk that works, with humor that makes wellness actually achievable.</p>
+            <p class="section-intro">ResetRx focuses on just 3 key biomarkers predictive of longevity - CRP, HbA1c, and cholesterol. No overwhelming data, just simple, actionable coaching that boosts your vitality through AI with personality. Designed for busy professionals who want straight talk that works, with humor that makes wellness actually achievable.</p>
             <div class="benefits-grid">
                 <div class="benefit-card">
                     <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Personalized nutrition and weight management" class="card-image">
                     <div class="icon"><i class="fas fa-apple-alt"></i></div>
                     <h3>Nutrition</h3>
-                    <h4 class="sub-heading">Simple Meals, Real Results</h4>
+                    <h4 class="sub-heading">Optimize Performance & Weight</h4>
                     <p>Nutritional interventions that lower CRP, improve glucose levels, and support sustainable weight management. Custom meal plans that fit your schedule, because Eva knows you're not meal prepping on Sundays like a lifestyle influencer.</p>
                 </div>
                 <div class="benefit-card">
                     <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Professional fitness and movement" class="card-image">
                     <div class="icon"><i class="fas fa-running"></i></div>
                     <h3>Movement</h3>
-                    <h4 class="sub-heading">Smart Workouts for Busy Lives</h4>
-                    <p>Physical activity programs that improve insulin sensitivity and cardiovascular health. Smart workouts that respect your time, because Eva understands that "finding time for the gym" isn't always realistic when you're juggling life's demands.</p>
+                    <h4 class="sub-heading">Build Elite-Level Resilience</h4>
+                    <p>Physical activity programs that improve insulin sensitivity and cardiovascular health. Smart workouts that respect your time, because Eva understands that "finding time for the gym" isn't always realistic.</p>
                 </div>
                 <div class="benefit-card">
                     <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mindset and sleep optimization" class="card-image">
                     <div class="icon"><i class="fas fa-brain"></i></div>
                     <h3>Mindset</h3>
-                    <h4 class="sub-heading">Stress Less, Sleep Better</h4>
-                    <p>Evidence-based stress reduction and sleep optimization protocols that modulate inflammation and enhance cognitive performance. Simple strategies that actually work, no meditation retreats required.</p>
+                    <h4 class="sub-heading">Mental Performance & Recovery</h4>
+                    <p>Evidence-based stress reduction and sleep optimization protocols that modulate inflammation and enhance cognitive performance. Because peak performance requires both mental resilience and actually sleeping instead of scrolling LinkedIn at midnight.</p>
                 </div>
             </div>
         </div>
@@ -1177,11 +889,32 @@
                 <div class="wellness-text">
                     <h2>Your AI Coach with Personality</h2>
                     <h3 class="sub-heading">Simple Health, Backed by Science</h3>
-                    <p>Meet Eva, your relentlessly helpful, humorous AI coach who focuses on what matters most. No overwhelming dashboards or hundreds of metrics. Just 3 key biomarkers, clear action steps, and the straight talk you need to optimize your health and extend your healthspan.</p>
+                    <p>Meet Eva, your relentlessly helpful, humorous AI coach who focuses on what matters most for your vitality and longevity. No overwhelming dashboards or hundreds of metrics. Just 3 key biomarkers, clear action steps, and the straight talk you need to optimize your health and extend your healthspan.</p>
                 </div>
                 <div class="wellness-image">
                     <img src="https://images.unsplash.com/photo-1581009137042-c552e485697a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1050&q=80" alt="Professional working out" class="revolution-image">
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup Section -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Stay Updated with ResetRx</h2>
+                <p>Get science-backed health tips, biomarker insights, and early access to new features from Eva</p>
+                
+                <form class="newsletter-form" id="newsletterForm">
+                    <div class="newsletter-input-group">
+                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </div>
+                    
+                    <p class="newsletter-disclaimer">
+                        <small>We respect your privacy. Get actionable health insights, not spam. Unsubscribe anytime.</small>
+                    </p>
+                </form>
             </div>
         </div>
     </section>
@@ -1193,71 +926,33 @@
             <div class="process-steps">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <img src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Health data and biomarker tracking" class="step-image">
+                    <img src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Medical lab analysis and biomarkers" class="step-image">
                     <h3>Simple Assessment</h3>
                     <p>We focus on just 3 key biomarkers - CRP, HbA1c, and cholesterol. No complex panels or overwhelming data. Eva reviews what matters most and creates a clear baseline for your health journey.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">2</div>
-                    <img src="https://images.unsplash.com/photo-1484627147104-f5197bcd6651?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Easy-to-follow coaching program" class="step-image">
-                    <h3>Easy-to-Follow Plan</h3>
-                    <p>Get simple, actionable recommendations for nutrition, movement, and mindset. Eva delivers coaching that's straightforward, not overwhelming, with humor, clear steps, and realistic expectations.</p>
+                    <img src="https://images.unsplash.com/photo-1484627147104-f5197bcd6651?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Personalized coaching program" class="step-image">
+                    <h3>Personalized Coaching Program</h3>
+                    <p>Get a science-backed program targeting nutrition, movement, and mindset. Eva delivers coaching that's engaging, not robotic - with humor, challenges, and accountability across all three core pillars.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
                     <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Clear progress tracking" class="step-image">
-                    <h3>Clear Progress</h3>
-                    <p>Track improvements in your 3 key biomarkers and celebrate real wins. Eva shows you exactly how your simple daily actions create meaningful changes in your health, no guesswork required.</p>
+                    <h3>Measurable Results</h3>
+                    <p>Track biomarker improvements and celebrate wins. Eva connects the dots between your actions and results, showing how each habit moves the needle on your longevity metrics.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Inspirational Quote Section -->
+    <!-- Quote Section -->
     <section class="quote-section">
         <img src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" alt="Fresh fruits and vegetables" class="quote-bg">
         <div class="quote-overlay">
             <div class="quote-content">
-                <p class="quote-text">"Your greatest asset is your health. Small daily improvements are the key to staggering long-term results."</p>
-                <p class="quote-author">— ResetRx Wellness Philosophy</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- MD Gallery -->
-    <section class="success-gallery">
-        <div class="container">
-            <h2>Health Transformation Journey</h2>
-            <p class="section-intro">I want this to be Doctor's stories on why they believe in ResetRx</p>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Healthy cooking">
-                    <div class="gallery-caption">
-                        <h4>Nutrition Success</h4>
-                        <p>Members report healthier eating habits within 30 days</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Morning yoga">
-                    <div class="gallery-caption">
-                        <h4>Active Living</h4>
-                        <p>68% increase in consistent physical activity</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Meditation session">
-                    <div class="gallery-caption">
-                        <h4>Stress Reduction</h4>
-                        <p>Members report 45% lower stress levels</p>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sleep tracking">
-                    <div class="gallery-caption">
-                        <h4>Better Sleep</h4>
-                        <p>Average of 1.5 more hours of quality sleep</p>
-                    </div>
-                </div>
+                <p class="quote-text">"We envision a world where everyone can extend their healthspan, one small daily improvement at a time."</p>
+                <p class="quote-author">— ResetRx Mission</p>
             </div>
         </div>
     </section>
@@ -1269,27 +964,30 @@
             <p class="section-intro">Got questions? Reach out to ResetRx today.</p>
             
             <div class="contact-form-container">
-                <form id="contactForm" action="https://formsubmit.co/eva@resetrx.live" method="POST">
+                <form id="contactForm">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                        <input type="text" id="contact-name" placeholder="Your name" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Your email address" required>
+                        <input type="email" id="contact-email" placeholder="Your email address" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="message">Message/Comments</label>
-                        <textarea id="message" name="message" rows="5" placeholder="How can we help you?" required></textarea>
+                        <textarea id="contact-message" rows="5" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="newsletter-interest">
+                            Yes, I'd like to receive health tips and updates from ResetRx
+                        </label>
                     </div>
                     
                     <button type="submit" class="btn form-submit-btn">Send Message</button>
-                    
-                    <!-- Hidden fields for FormSubmit configuration -->
-                    <input type="hidden" name="_subject" value="New ResetRx Website Contact">
-                    <input type="hidden" name="_next" value="https://resetrx.live/thank-you">
                 </form>
             </div>
         </div>
@@ -1304,72 +1002,113 @@
         </div>
     </footer>
 
-    <script>
-        // Simple scroll animation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+<!-- ...existing code... -->
+<script>
+    // Newsletter form handler
+    document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        // Animate numbers when in view
-        const animateStats = () => {
-            const statElements = document.querySelectorAll('.stat-number');
-            statElements.forEach(stat => {
-                const value = stat.innerText;
-                stat.innerText = '0';
-                
-                let counter = 0;
-                const target = parseInt(value.replace(/[^0-9]/g, ''));
-                const duration = 2000;
-                const increment = Math.ceil(target / (duration / 16));
-                
-                const animation = setInterval(() => {
-                    counter += increment;
-                    if (counter >= target) {
-                        stat.innerText = value;
-                        clearInterval(animation);
-                    } else {
-                        if (value.includes('%')) {
-                            stat.innerText = counter + '%';
-                        } else if (value.includes('$')) {
-                            stat.innerText = '$' + counter;
-                        } else {
-                            stat.innerText = counter + '+';
-                        }
-                    }
-                }, 16);
-            });
-        };
+        const email = document.getElementById('newsletter-email').value;
+        const button = this.querySelector('button');
         
-        // Trigger animations when scrolled into view
-        window.addEventListener('scroll', () => {
-            const progressSection = document.getElementById('progress');
-            const sectionPosition = progressSection.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
+        button.textContent = 'Subscribing...';
+        button.disabled = true;
+        
+        try {
+            const response = await fetch('/.netlify/functions/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    email: email, 
+                    tags: ['newsletter'] 
+                })
+            });
             
-            if (sectionPosition < screenPosition) {
-                animateStats();
-                window.removeEventListener('scroll', this);
+            const result = await response.json();
+            
+            if (result.success) {
+                alert('Success! Check your email for confirmation.');
+                this.reset();
+            } else {
+                alert(result.error || 'Something went wrong. Please try again.');
             }
-        });
+        } catch (error) {
+            alert('Network error. Please try again.');
+        }
+        
+        button.textContent = 'Subscribe';
+        button.disabled = false;
+    });
 
-        // Mobile menu toggle functionality
-        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.main-menu').classList.toggle('active');
-        });
+    // Contact form handler
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('contact-name').value;
+        const email = document.getElementById('contact-email').value;
+        const message = document.getElementById('contact-message').value;
+        const wantsNewsletter = document.getElementById('newsletter-interest').checked;
+        
+        const button = this.querySelector('button');
+        button.textContent = 'Sending...';
+        button.disabled = true;
+        
+        try {
+            const response = await fetch('/.netlify/functions/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    message: message,
+                    wantsNewsletter: wantsNewsletter
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                alert('Thank you! We\'ll get back to you soon.');
+                this.reset();
+            } else {
+                alert(result.error || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            alert('Network error. Please try again.');
+        }
+        
+        button.textContent = 'Send Message';
+        button.disabled = false;
+    });
 
-        // Close mobile menu when a link is clicked
-        document.querySelectorAll('.menu-link').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelector('.mobile-menu-toggle').classList.remove('active');
-                document.querySelector('.main-menu').classList.remove('active');
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
         });
-    </script>
+    });
+
+    // Mobile menu toggle functionality
+    document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.querySelector('.main-menu').classList.toggle('active');
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('.menu-link').forEach(link => {
+        link.addEventListener('click', function() {
+            document.querySelector('.mobile-menu-toggle').classList.remove('active');
+            document.querySelector('.main-menu').classList.remove('active');
+        });
+});
+</script>
+<!-- ...existing code... -->
 </body>
 </html>
