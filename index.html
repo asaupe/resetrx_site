@@ -4,6 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResetRx - Science-Backed Longevity for High Performers</title>
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.resetrx.life/">
+    <meta property="og:title" content="ResetRx - Science-Backed Longevity for High Performers">
+    <meta property="og:description" content="AI-powered health coaching focused on 3 key biomarkers. Simple, actionable wellness for busy professionals. Start your longevity journey today.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Woman in yoga meditation pose - ResetRx wellness coaching">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://www.resetrx.life/">
+    <meta name="twitter:title" content="ResetRx - Science-Backed Longevity for High Performers">
+    <meta name="twitter:description" content="AI-powered health coaching focused on 3 key biomarkers. Simple, actionable wellness for busy professionals.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- General Meta Tags -->
+    <meta name="description" content="ResetRx offers AI-powered health coaching focused on 3 key biomarkers predictive of longevity. Get personalized nutrition, movement, and mindset coaching designed for busy professionals.">
+    <meta name="keywords" content="longevity, health coaching, AI wellness, biomarkers, CRP, HbA1c, cholesterol, nutrition, fitness, mindset">
+    <meta name="author" content="ResetRx">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.resetrx.life/">
+
+    <!-- Add Global Stylesheet -->
+    <link rel="stylesheet" href="assets/styles/global.css">
     
     <!-- Favicon and Apple Touch Icons -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -36,167 +65,36 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
-        :root {
-            --primary: #0077b6;
-            --primary-light: #e6f0fa;
-            --primary-dark: #005d91;
-            --secondary: #333;
-            --accent: #ff9800;
-            --light: #f5f5f5;
-            --dark: #333;
-            --text: #000;
-            --gray: #888;
-            --light-gray: #e0e0e0;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        /* Page-specific styles only - leveraging global.css */
         body {
             font-family: 'Open Sans', sans-serif;
-            color: var(--text);
+            color: var(--text-primary);
             line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
-        
+
         h1, h2, h3, h4, h5 {
             font-family: 'Montserrat', sans-serif;
             font-weight: 700;
             margin-bottom: 1rem;
         }
-        
+
+        /* Container - Homepage specific sizing */
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
         }
-        
+
         section {
             padding: 80px 0;
         }
-        
-        /* Header & Navigation */
-        header {
-            background-color: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-        }
-        
-        .logo img {
-            height: 120px;
-            width: auto;
-            transition: transform 0.3s ease;
-        }
-        
-        .logo:hover img {
-            transform: scale(1.05);
-        }
-        
-        nav ul.main-menu {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-        }
-        
-        .menu-link {
-            color: var(--secondary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 18px;
-            position: relative;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-        }
-        
-        .menu-link:hover {
-            color: var(--primary);
-        }
-        
-        .menu-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--primary-light));
-            transition: width 0.3s ease;
-            border-radius: 10px;
-        }
-        
-        .menu-link:hover::after {
-            width: 100%;
-        }
-        
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            cursor: pointer;
-            padding: 5px;
-        }
-        
-        .mobile-menu-toggle span {
-            display: block;
-            width: 30px;
-            height: 3px;
-            background-color: var(--primary);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: 600;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        
-        .btn-outline {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: white;
-            border: 2px solid white;
-            margin-left: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
 
-        .btn-outline:hover {
-            background-color: white;
-            color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Hero Section */
+        /* Hero Section - Homepage specific */
         .hero {
             background: linear-gradient(rgba(0, 119, 182, 0.85), rgba(0, 93, 145, 0.75)), 
                         url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
@@ -205,18 +103,18 @@
             position: relative;
             color: white;
         }
-        
+
         .hero-content {
             display: flex;
             align-items: center;
             flex-wrap: wrap;
         }
-        
+
         .hero-text {
             flex: 1;
             min-width: 300px;
         }
-        
+
         .hero-text h1 {
             font-size: 5rem;
             font-weight: 800;
@@ -224,14 +122,14 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        
+
         .hero-text p.tagline {
             font-size: 2rem;
             margin-bottom: 30px;
             color: rgba(255, 255, 255, 0.9);
             max-width: 600px;
         }
-        
+
         .hero-image {
             flex: 1;
             min-width: 300px;
@@ -250,35 +148,35 @@
         .hero-image:hover .hero-fitness-image {
             transform: scale(1.02);
         }
-        
-        /* Value Proposition */
+
+        /* Value Proposition Section */
         .value-prop {
             text-align: center;
             background-color: white;
         }
-        
+
         .section-intro {
             max-width: 700px;
             margin: 0 auto 40px;
             font-size: 1.1rem;
         }
-        
+
         .value-prop h2 {
             font-size: 2.5rem;
             margin-bottom: 20px;
-            color: var(--dark);
+            color: var(--text-primary);
         }
-        
+
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
-        
+
         .benefit-card {
             padding: 200px 25px 30px;
             border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-sm);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             background-color: white;
             position: relative;
@@ -287,7 +185,7 @@
         }
 
         .benefit-card .sub-heading {
-            color: var(--primary);
+            color: var(--azure-blue);
             font-size: 1.1rem;
             margin-top: -10px;
             margin-bottom: 15px;
@@ -297,12 +195,12 @@
         .benefit-card h3 {
             margin-bottom: 5px;
         }
-        
+
         .benefit-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-lg);
         }
-        
+
         .benefit-card .card-image {
             position: absolute;
             top: 0;
@@ -311,11 +209,11 @@
             height: 180px;
             object-fit: cover;
         }
-        
-        .icon {
+
+        .benefit-card .icon {
             font-size: 40px;
             margin-bottom: 20px;
-            color: var(--primary);
+            color: var(--azure-blue);
             background-color: white;
             width: 80px;
             height: 80px;
@@ -325,13 +223,13 @@
             justify-content: center;
             position: relative;
             margin: -60px auto 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-md);
             border: 4px solid white;
         }
 
         /* Wellness Revolution Section */
         .wellness-revolution {
-            background-color: var(--primary-light);
+            background-color: var(--azure-bg);
             padding: 100px 0;
             position: relative;
             overflow: hidden;
@@ -364,12 +262,12 @@
 
         .wellness-text h2 {
             font-size: 2.5rem;
-            color: var(--primary);
+            color: var(--azure-blue);
             margin-bottom: 15px;
         }
 
         .wellness-text h3.sub-heading {
-            color: var(--primary-dark);
+            color: var(--azure-blue-dark);
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 20px;
@@ -379,7 +277,7 @@
             font-size: 1.1rem;
             margin-bottom: 30px;
             line-height: 1.7;
-            color: var(--secondary);
+            color: var(--text-primary);
         }
 
         .wellness-image {
@@ -405,7 +303,7 @@
 
         /* Newsletter Section */
         .newsletter-section {
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--purple-bg) 0%, var(--electric-purple) 100%);
             padding: 80px 0;
             text-align: center;
             position: relative;
@@ -478,7 +376,7 @@
             border-radius: 50px;
             white-space: nowrap;
             background-color: white;
-            color: var(--primary);
+            color: var(--azure-blue);
             border: none;
             font-weight: 600;
             font-size: 1.1rem;
@@ -487,7 +385,7 @@
         }
 
         .newsletter-input-group button:hover {
-            background-color: var(--accent);
+            background-color: var(--focus-orange);
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.2);
@@ -498,27 +396,27 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
-        
-        /* How It Works */
+
+        /* How It Works Section */
         .how-it-works {
             background: linear-gradient(rgba(245, 249, 252, 0.95), rgba(245, 249, 252, 0.95)), 
-                          url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
-                          center/cover fixed no-repeat;
+                        url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') 
+                        center/cover fixed no-repeat;
         }
-        
+
         .how-it-works h2 {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
-        
+
         .process-steps {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             position: relative;
         }
-        
+
         .process-steps:before {
             content: "";
             position: absolute;
@@ -526,10 +424,10 @@
             left: 10%;
             width: 80%;
             height: 3px;
-            background: linear-gradient(to right, transparent, var(--primary), transparent);
+            background: linear-gradient(to right, transparent, var(--azure-blue), transparent);
             z-index: 0;
         }
-        
+
         .step {
             flex: 1;
             min-width: 250px;
@@ -539,14 +437,14 @@
             background: white;
             padding: 30px 25px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-sm);
             z-index: 1;
         }
-        
+
         .step-number {
             width: 60px;
             height: 60px;
-            background-color: var(--primary);
+            background-color: var(--performance-green);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -556,28 +454,28 @@
             font-weight: bold;
             margin: 0 auto 20px;
             border: 4px solid white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
         }
-        
+
         .step-image {
             width: 100%;
             height: 160px;
             object-fit: cover;
             border-radius: 8px;
             margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
             transition: transform 0.3s ease;
         }
-        
+
         .step:hover .step-image {
             transform: scale(1.05);
         }
-        
+
         .step h3 {
             margin-bottom: 15px;
-            color: var(--primary);
+            color: var(--azure-blue);
         }
-        
+
         /* Quote Section */
         .quote-section {
             padding: 0;
@@ -588,7 +486,7 @@
             justify-content: center;
             overflow: hidden;
         }
-        
+
         .quote-bg {
             position: absolute;
             top: 0;
@@ -597,7 +495,7 @@
             height: 100%;
             object-fit: cover;
         }
-        
+
         .quote-overlay {
             position: absolute;
             top: 0;
@@ -609,7 +507,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .quote-content {
             max-width: 800px;
             text-align: center;
@@ -617,14 +515,14 @@
             padding: 0 20px;
             z-index: 1;
         }
-        
+
         .quote-text {
             font-size: 2rem;
             font-style: italic;
             margin-bottom: 20px;
             line-height: 1.4;
         }
-        
+
         .quote-author {
             font-size: 1.2rem;
             font-weight: 600;
@@ -677,7 +575,7 @@
             border: none;
             border-radius: 6px;
             font-size: 1rem;
-            color: var(--dark);
+            color: var(--text-primary);
             transition: all 0.3s ease;
         }
 
@@ -703,16 +601,16 @@
             height: 18px;
             margin: 0;
             cursor: pointer;
-            accent-color: var(--accent);
+            accent-color: var(--focus-orange);
         }
 
         .form-submit-btn {
             background-color: white;
-            color: var(--primary);
+            color: var(--azure-blue);
             padding: 15px 30px;
             font-size: 1.2rem;
             border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -722,20 +620,20 @@
         }
 
         .form-submit-btn:hover {
-            background-color: var(--accent);
+            background-color: var(--momentum-cyan);
             color: white;
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-md);
         }
-        
+
         /* Footer */
         footer {
-            background-color: var(--dark);
+            background-color: var(--text-primary);
             color: white;
             padding: 30px 0;
             text-align: center;
         }
-        
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .benefits-grid {
@@ -754,15 +652,15 @@
             .hero-text, .hero-image {
                 flex: 100%;
             }
-            
+
             .hero-text {
                 margin-bottom: 40px;
             }
-            
+
             .process-steps:before {
                 display: none;
             }
-            
+
             .quote-text {
                 font-size: 1.5rem;
             }
@@ -770,7 +668,7 @@
             .wellness-text, .wellness-image {
                 flex: 100%;
             }
-            
+
             .wellness-text {
                 padding-right: 0;
                 margin-bottom: 40px;
@@ -784,73 +682,34 @@
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             .newsletter-input-group button {
                 width: 100%;
             }
-            
+
             .newsletter-content h2 {
                 font-size: 2rem;
             }
-            
+
             .newsletter-content p {
                 font-size: 1.1rem;
                 padding: 0 20px;
-            }
-
-            nav ul.main-menu {
-                position: fixed;
-                top: 140px;
-                right: -100%;
-                width: 70%;
-                height: 100vh;
-                background: white;
-                flex-direction: column;
-                gap: 0;
-                padding: 30px;
-                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-                transition: right 0.3s ease;
-                z-index: 999;
-            }
-            
-            nav ul.main-menu.active {
-                right: 0;
-            }
-            
-            nav ul.main-menu li {
-                margin: 20px 0;
-            }
-            
-            .mobile-menu-toggle {
-                display: flex;
-            }
-            
-            .mobile-menu-toggle.active span:nth-child(1) {
-                transform: translateY(9px) rotate(45deg);
-            }
-            
-            .mobile-menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .mobile-menu-toggle.active span:nth-child(3) {
-                transform: translateY(-9px) rotate(-45deg);
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="#" class="logo">
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="site-logo">
                 <img src="assets/images/ResetRxLogo_transparent.png" alt="ResetRx Logo">
             </a>
             <nav>
                 <ul class="main-menu">
                     <li><a href="#benefits" class="menu-link"><span>Benefits</span></a></li>
                     <li><a href="#how-it-works" class="menu-link"><span>How It Works</span></a></li>
-                    <li><a href="#contact" class="menu-link"><span>Contact Us</span></a></li>
+                    <li><a href="contact.html" class="menu-link"><span>Contact Us</span></a></li>
                 </ul>
                 <div class="mobile-menu-toggle">
                     <span></span>
@@ -869,7 +728,7 @@
                     <h1>ResetRx</h1>
                     <p class="tagline">Precision Health. Real Results.</p>
                     <div class="cta-buttons">
-                        <a href="#contact" class="btn btn-primary">Start Your Reset</a>
+                        <a href="contact.html" class="btn btn-primary">Start Your Reset</a>
                         <a href="#how-it-works" class="btn btn-outline">How It Works</a>
                     </div>
                 </div>
@@ -982,42 +841,6 @@
             <div class="quote-content">
                 <p class="quote-text">"We envision a world where everyone can extend their healthspan, one small daily improvement at a time."</p>
                 <p class="quote-author">— ResetRx Mission</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <p class="section-intro">Got questions? Reach out to ResetRx today.</p>
-            
-            <div class="contact-form-container">
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="contact-name" placeholder="Your name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="contact-email" placeholder="Your email address" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message/Comments</label>
-                        <textarea id="contact-message" rows="5" placeholder="How can we help you?" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="newsletter-interest">
-                            Yes, I'd like to receive health tips and updates from ResetRx
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="btn form-submit-btn">Send Message</button>
-                </form>
             </div>
         </div>
     </section>
