@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How ResetRx Works - Your Complete Health Journey | ResetRx</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover how ResetRx transforms your health through blood biomarker testing, AI-driven coaching, and personalized wellness plans. Your journey to better health starts here.">
+    <meta name="keywords" content="health app, biomarker testing, AI coaching, wellness plan, longevity, health journey">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.resetrx.life/process">
+    <meta property="og:title" content="How ResetRx Works - Your Complete Health Journey">
+    <meta property="og:description" content="Transform your health with ResetRx: blood biomarker testing, AI coaching, and personalized wellness plans for measurable results.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How ResetRx Works - Your Complete Health Journey">
+    <meta name="twitter:description" content="Transform your health with ResetRx: blood biomarker testing, AI coaching, and personalized wellness plans.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/styles/global.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Page-specific styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Process Flow Styles */
+        .process-hero {
+            background: linear-gradient(135deg, var(--azure-blue) 0%, var(--electric-purple) 100%);
+            padding: 180px 0 100px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .process-hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .process-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .process-hero .lead {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Process Steps */
+        .process-section {
+            padding: 100px 0;
+            background-color: var(--background);
+        }
+
+        .process-steps {
+            display: grid;
+            gap: 60px;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .process-step:nth-child(even) {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .process-step:nth-child(even) .step-content {
+            order: 2;
+        }
+
+        .process-step:nth-child(even) .step-visual {
+            order: 1;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--azure-blue), var(--electric-purple));
+            color: white;
+            border-radius: 50%;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-content h3 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .step-content .step-tagline {
+            font-size: 1.2rem;
+            color: var(--azure-blue);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .step-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .step-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .step-features li::before {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background-color: var(--performance-green);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .step-visual {
+            position: relative;
+            text-align: center;
+        }
+
+        .step-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            transition: transform 0.3s ease;
+        }
+
+        .step-visual:hover .step-image {
+            transform: scale(1.02);
+        }
+
+        /* Biomarkers Section */
+        .biomarkers-section {
+            background: linear-gradient(135deg, var(--green-bg) 0%, var(--azure-bg) 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .biomarkers-section h2 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+        }
+
+        .biomarkers-section .lead {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .biomarkers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .biomarker-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .biomarker-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .biomarker-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, var(--azure-blue), var(--electric-purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .biomarker-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .biomarker-card .metric {
+            color: var(--azure-blue);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .cta-buttons {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        /* Value Proposition */
+        .value-section {
+            background: linear-gradient(rgba(0, 119, 182, 0.95), rgba(124, 58, 237, 0.95)), 
+                        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') center/cover;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .value-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .value-section .lead {
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            opacity: 0.95;
+        }
+
+        .value-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .value-stat {
+            text-align: center;
+        }
+
+        .value-stat .number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--focus-orange);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .value-stat .label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: var(--background);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+        }
+
+        .cta-section .lead {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-highlight {
+            background: linear-gradient(135deg, var(--azure-blue), var(--electric-purple));
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px auto;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-highlight .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .pricing-highlight .period {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .pricing-highlight .features {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .pricing-highlight .features li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .process-footer {
+            background-color: var(--text-primary);
+            color: white;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .process-step {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .process-step:nth-child(even) {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step:nth-child(even) .step-content,
+            .process-step:nth-child(even) .step-visual {
+                order: unset;
+            }
+
+            .step-image {
+                height: 250px;
+            }
+
+            .biomarkers-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .value-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .pricing-highlight {
+                margin: 40px 20px;
+                padding: 30px 20px;
+            }
+
+            .cta-buttons {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="site-logo">
+                <img src="assets/images/ResetRxLogo_transparent.png" alt="ResetRx Logo">
+            </a>
+            <nav>
+                <ul class="main-menu">
+                    <li><a href="index.html" class="menu-link"><span>Home</span></a></li>
+                    <li><a href="index.html#benefits" class="menu-link"><span>Benefits</span></a></li>
+                    <li><a href="contact.html" class="menu-link"><span>Contact</span></a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="process-hero">
+        <div class="brand-container">
+            <div class="process-hero-content">
+                <h1>How ResetRx Works</h1>
+                <p class="lead">Transform your health through precision biomarker testing, AI-driven coaching, and personalized wellness plans. Your journey to better health and longevity starts here.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-primary">Start Your Journey</a>
+                    <a href="#process" class="btn btn-outline">See the Process</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Steps -->
+    <section class="process-section" id="process">
+        <div class="brand-container">
+            <div class="process-steps">
+                
+                <!-- Step 1: Purchase Plan -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <div class="step-number">1</div>
+                        <div class="step-tagline">Choose Your Plan</div>
+                        <h3>Purchase Your Annual Health Journey</h3>
+                        <p>Start your transformation with our comprehensive annual plan. Get immediate access to the ResetRx ecosystem and begin your personalized health journey.</p>
+                        <ul class="step-features">
+                            <li>12-month comprehensive health program</li>
+                            <li>Instant app access upon payment</li>
+                            <li>All blood tests included</li>
+                            <li>AI coaching & expert consultations</li>
+                            <li>Personalized wellness plans</li>
+                        </ul>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Secure online payment" class="step-image">
+                    </div>
+                </div>
+
+                <!-- Step 2: Download App -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <div class="step-number">2</div>
+                        <div class="step-tagline">Get Started Instantly</div>
+                        <h3>Download the ResetRx App</h3>
+                        <p>Download our beautifully designed app and begin your onboarding experience. Our intuitive interface makes health tracking simple and engaging.</p>
+                        <ul class="step-features">
+                            <li>Available on iOS and Android</li>
+                            <li>Seamless onboarding experience</li>
+                            <li>Secure health data protection</li>
+                            <li>Personalized dashboard setup</li>
+                            <li>Easy navigation and tracking</li>
+                        </ul>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mobile app download" class="step-image">
+                    </div>
+                </div>
+
+                <!-- Step 3: Blood Test Scheduling -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <div class="step-number">3</div>
+                        <div class="step-tagline">Get Your Baseline</div>
+                        <h3>Schedule Your Blood Tests</h3>
+                        <p>Through our app, easily schedule your initial blood tests with Quest Diagnostics. Choose between convenient at-home collection or visit a nearby lab.</p>
+                        <ul class="step-features">
+                            <li>Quest Diagnostics partnership</li>
+                            <li>At-home or lab collection options</li>
+                            <li>Flexible scheduling system</li>
+                            <li>Test preparation guidance</li>
+                            <li>All costs included in your plan</li>
+                        </ul>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Friendly doctor in scrubs smiling" class="step-image">
+                    </div>
+                </div>
+
+                <!-- Step 4: Lab Access Permission -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <div class="step-number">4</div>
+                        <div class="step-tagline">Secure Data Integration</div>
+                        <h3>Approve Lab Access</h3>
+                        <p>Grant ResetRx secure access to your lab results through our HIPAA-compliant system. Your data privacy and security are our top priorities.</p>
+                        <ul class="step-features">
+                            <li>HIPAA-compliant data handling</li>
+                            <li>Secure lab result integration</li>
+                            <li>Real-time result notifications</li>
+                            <li>Complete data ownership</li>
+                            <li>Easy permission management</li>
+                        </ul>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Secure data access" class="step-image">
+                    </div>
+                </div>
+
+                <!-- Step 5: Personalized Plan -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <div class="step-number">5</div>
+                        <div class="step-tagline">AI-Powered Personalization</div>
+                        <h3>Follow Your Custom Wellness Plan</h3>
+                        <p>Receive your personalized nutrition, movement, and mindset plan based on your unique biomarker profile and lifestyle factors.</p>
+                        <ul class="step-features">
+                            <li>Personalized nutrition guidance</li>
+                            <li>Custom movement protocols</li>
+                            <li>Mindset and stress management</li>
+                            <li>Daily actionable recommendations</li>
+                            <li>Progress tracking and adjustments</li>
+                        </ul>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Personalized wellness plan" class="step-image">
+                    </div>
+                </div>
+
+                <!-- Step 6: Progress Tracking -->
+                <div class="process-step">
+                    <div class="step-content">
+                        <div class="step-number">6</div>
+                        <div class="step-tagline">Measure Your Success</div>
+                        <h3>Schedule Progress Labs</h3>
+                        <p>Track your improvement with regular follow-up blood tests. See measurable changes in your key biomarkers and celebrate your health victories.</p>
+                        <ul class="step-features">
+                            <li>Quarterly progress testing</li>
+                            <li>Biomarker trend analysis</li>
+                            <li>Visual progress reports</li>
+                            <li>Plan adjustments based on results</li>
+                            <li>Expert consultation reviews</li>
+                        </ul>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Secure health data on tablet" class="step-image">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Biomarkers Focus -->
+    <section class="biomarkers-section">
+        <div class="brand-container">
+            <h2>The Science Behind Your Transformation</h2>
+            <p class="lead">ResetRx focuses on three clinically validated biomarkers that are strong predictors of all-cause mortality - one of the most comprehensive indicators of long-term health and longevity.</p>
+            
+            <div class="biomarkers-grid">
+                <div class="biomarker-card">
+                    <div class="biomarker-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>C-Reactive Protein</h3>
+                    <div class="metric">Inflammation Marker</div>
+                    <p>Measures systemic inflammation levels in your body. High CRP levels are linked to increased risk of heart disease, stroke, and other chronic conditions.</p>
+                </div>
+                
+                <div class="biomarker-card">
+                    <div class="biomarker-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>HbA1c</h3>
+                    <div class="metric">Blood Sugar Control</div>
+                    <p>Indicates your average blood sugar levels over the past 2-3 months. Critical for preventing diabetes and metabolic dysfunction.</p>
+                </div>
+                
+                <div class="biomarker-card">
+                    <div class="biomarker-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Total Cholesterol</h3>
+                    <div class="metric">Cardiovascular Health</div>
+                    <p>Essential for assessing cardiovascular risk and overall heart health. Proper cholesterol levels support longevity and vitality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="value-section">
+        <div class="brand-container">
+            <h2>Transform Your Health. Measurably.</h2>
+            <p class="lead">ResetRx empowers you to improve your health by combining blood biomarker testing, adaptive wellness plans, and AI-driven coaching into a personalized and measurable experience.</p>
+            
+            <div class="value-stats">
+                <div class="value-stat">
+                    <span class="number">365</span>
+                    <span class="label">Days of Personalized Coaching</span>
+                </div>
+                <div class="value-stat">
+                    <span class="number">2</span>
+                    <span class="label">Comprehensive Blood Panels</span>
+                </div>
+                <div class="value-stat">
+                    <span class="number">24/7</span>
+                    <span class="label">AI-Powered Support</span>
+                </div>
+                <div class="value-stat">
+                    <span class="number">∞</span>
+                    <span class="label">Expert Consultations</span>
+                </div>
+            </div>
+            
+            <p style="font-size: 1.4rem; margin-top: 40px; font-weight: 600;">You will get a comprehensive health and wellness plan, together with consultations with wellness professionals that could help you live longer.</p>
+            <p style="font-size: 1.2rem; color: var(--focus-orange); font-weight: 600;">How can you turn this down?</p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="brand-container">
+            <h2>Ready to Start Your Health Transformation?</h2>
+            <p class="lead">Join ResetRx today and begin your journey to better health, increased longevity, and measurable wellness improvements.</p>
+            
+            <div class="pricing-highlight">
+                <div class="price">$300</div>
+                <div class="period">Complete Annual Program</div>
+                <ul class="step-features features">
+                    <li>Full-year app access and coaching</li>
+                    <li>2 comprehensive blood test panels</li>
+                    <li>Personalized nutrition, movement & mindset plans</li>
+                    <li>Unlimited AI-driven coaching</li>
+                    <li>Expert wellness consultations</li>
+                    <li>Progress tracking and plan adjustments</li>
+                    <li>Quest Diagnostics partnership</li>
+                    <li>HIPAA-compliant data security</li>
+                </ul>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 40px;">Start Your Journey Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="process-footer">
+        <div class="brand-container">
+            <p>&copy; 2025 ResetRx. All rights reserved. | Transform your health. Measurably.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.main-menu').classList.toggle('active');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetElement = document.querySelector(this.getAttribute('href'));
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
