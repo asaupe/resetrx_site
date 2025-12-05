@@ -1,0 +1,209 @@
+{
+    "title": "PROGRAM 3: MINDSET MASTERY",
+    "subtitle": "Weeks 1-4: Cognitive Reframing",
+    "subtitleDescription": "This advanced mindfulness program teaches you to identify and reshape thought patterns that limit your potential. You'll learn evidence-based cognitive restructuring techniques to build resilience, emotional regulation, and a growth-oriented mindset.",
+    "video": "Introduction to Cognitive Reframing",
+    "videoDescription": "Discover how your thoughts create your reality and learn practical techniques to identify cognitive distortions and reframe limiting beliefs into empowering perspectives.",
+    "description": "Moving beyond basic mindfulness, this program equips you with cognitive tools used by top performers and therapists. You'll learn to catch negative thought patterns, challenge them, and deliberately create more helpful narratives. This is mental fitness training for building unshakeable confidence and emotional resilience.",
+    "sections": [
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Identify your top 3 cognitive distortions",
+                "Master the ABCDE reframing technique",
+                "Build daily thought awareness practice",
+                "Reduce negative self-talk by 50%"
+            ]
+        },
+        {
+            "title": "Week 1-2: Thought Pattern Recognition",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🧠",
+                    "text": "The 10 Common Cognitive Distortions:",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "1. All-or-Nothing Thinking:",
+                            "children": [
+                                "Example: \"I ate one cookie, my diet is ruined\"",
+                                "Reality: One choice doesn't define the day",
+                                "Reframe: \"One cookie is just one choice. Next meal, I'll choose aligned with my goals\""
+                            ]
+                        },
+                        {
+                            "text": "2. Catastrophizing:",
+                            "children": [
+                                "Example: \"I made a mistake, I'll definitely get fired\"",
+                                "Reality: Small mistakes rarely lead to worst outcomes",
+                                "Reframe: \"Everyone makes mistakes. What can I learn from this?\""
+                            ]
+                        },
+                        {
+                            "text": "3. Mind Reading:",
+                            "children": [
+                                "Example: \"They didn't smile, they must hate me\"",
+                                "Reality: You can't know what others think",
+                                "Reframe: \"They might be distracted. I'll focus on what I can control\""
+                            ]
+                        },
+                        {
+                            "text": "4. Should Statements:",
+                            "children": [
+                                "Example: \"I should be further along by now\"",
+                                "Reality: 'Should' creates unnecessary guilt",
+                                "Reframe: \"I'm exactly where I need to be. I'm making progress\""
+                            ]
+                        },
+                        {
+                            "text": "5. Overgeneralization:",
+                            "children": [
+                                "Example: \"I failed once, I always fail\"",
+                                "Reality: One instance isn't a pattern",
+                                "Reframe: \"This didn't work. What will I try differently next time?\""
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "📝",
+                    "text": "Daily Thought Tracking Practice:",
+                    "childIcon": "•",
+                    "children": [
+                        "Set 3 phone alarms throughout day (10 AM, 2 PM, 7 PM)",
+                        "When alarm goes off, pause and notice current thought",
+                        {
+                            "text": "Journal entry format:",
+                            "children": [
+                                "Situation: What just happened?",
+                                "Automatic thought: First thought that came to mind",
+                                "Emotion: How did that thought make you feel? (1-10)",
+                                "Distortion: Which cognitive distortion is this?",
+                                "Evidence: Is this thought 100% true? What evidence contradicts it?"
+                            ]
+                        },
+                        "Do this for 10-14 days to identify your patterns"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 3-4: Active Reframing Practice",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🔄",
+                    "text": "The ABCDE Reframing Method:",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "A - Activating Event:",
+                            "children": [
+                                "What happened? (Just facts, no interpretation)",
+                                "Example: \"My boss gave critical feedback in meeting\""
+                            ]
+                        },
+                        {
+                            "text": "B - Belief (Automatic Thought):",
+                            "children": [
+                                "What did you immediately think?",
+                                "Example: \"I'm terrible at my job. Everyone thinks I'm incompetent\""
+                            ]
+                        },
+                        {
+                            "text": "C - Consequences (Emotions/Actions):",
+                            "children": [
+                                "How did that belief make you feel/act?",
+                                "Example: \"Felt anxious (8/10), avoided boss rest of day\""
+                            ]
+                        },
+                        {
+                            "text": "D - Dispute the Belief:",
+                            "children": [
+                                "Question: Is this thought 100% true?",
+                                "Evidence against: \"Boss also praised my project last week\"",
+                                "Alternative: \"Boss is helping me improve specific skills\"",
+                                "Worst case: \"Even if I'm not perfect, I'm learning and growing\""
+                            ]
+                        },
+                        {
+                            "text": "E - Energize with New Belief:",
+                            "children": [
+                                "New thought: \"Feedback is data. This shows my boss cares about my development\"",
+                                "New feeling: Curious (3/10 anxiety), motivated",
+                                "New action: Ask boss for specific improvement steps"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "💪",
+                    "text": "Growth Mindset Training:",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Fixed mindset vs Growth mindset:",
+                            "children": [
+                                "Fixed: \"I'm not good at this\" → Growth: \"I'm not good at this YET\"",
+                                "Fixed: \"This is too hard\" → Growth: \"This will take effort and strategy\"",
+                                "Fixed: \"I failed\" → Growth: \"I learned what doesn't work\"",
+                                "Fixed: \"They're naturally talented\" → Growth: \"They've practiced more than me\""
+                            ]
+                        },
+                        "Practice: Add 'yet' to limiting thoughts for one week",
+                        "Notice: How does this small word shift change your energy?"
+                    ]
+                },
+                {
+                    "icon": "🎭",
+                    "text": "Perspective-Taking Exercise:",
+                    "childIcon": "•",
+                    "children": [
+                        "When experiencing strong negative thought:",
+                        {
+                            "text": "Ask these 3 questions:",
+                            "children": [
+                                "1. What would I tell my best friend in this situation?",
+                                "2. How will I view this in 5 years?",
+                                "3. What opportunity might be hidden here?"
+                            ]
+                        },
+                        "Write answers in journal",
+                        "Notice: You're much kinder to others than yourself",
+                        "Practice: Treat yourself like you'd treat a good friend"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Daily Tracking Goals for Weeks 1-4",
+            "icon": "📊",
+            "defaultIcon": "✓",
+            "items": [
+                "Complete thought tracking 3x daily for first 2 weeks",
+                "Identify your top 3 personal cognitive distortions",
+                "Practice ABCDE method on 1 challenging thought per day",
+                "Journal wins: Note moments you successfully reframed",
+                "Track mood trend: Is average daily mood improving?"
+            ]
+        },
+        {
+            "title": "Success Markers",
+            "icon": "🏆",
+            "defaultIcon": "★",
+            "items": [
+                "Can catch cognitive distortions in real-time",
+                "Automatically add 'yet' to limiting beliefs",
+                "Reduced time dwelling on negative thoughts (spiral stops faster)",
+                "Feel more in control of emotional responses",
+                "Can reframe criticism into actionable feedback"
+            ]
+        }
+    ],
+    "closingNote": "<strong>The Power of Reframing:</strong> Your thoughts aren't facts - they're interpretations. The same event can be viewed as a disaster or an opportunity depending on your mental framework. Elite performers, successful entrepreneurs, and resilient people all share one trait: they've trained their minds to find empowering interpretations. This isn't toxic positivity - it's strategic optimism. You're not ignoring reality; you're choosing the most useful way to interpret it. Your brain is your most powerful tool. You're learning to use it deliberately."
+}

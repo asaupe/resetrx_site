@@ -1,25 +1,150 @@
 {
-    "title": "Mindfulness Foundations - Week 1",
-    "subtitle": "Introduction to present moment awareness",
-    "video": "What is Mindfulness?",
-    "videoDescription": "Discover the science and practice of mindfulness meditation.",
-    "description": "Welcome to mindfulness training! We'll start with fundamental awareness practices and short meditations to build your mental fitness foundation.",
-    "objectives": [
-        "Understand mindfulness principles and benefits",
-        "Learn basic breathing techniques",
-        "Practice present moment awareness",
-        "Establish daily meditation habit (5 minutes)"
+    "title": "PROGRAM 1: STRESS FOUNDATION",
+    "subtitle": "Weeks 1-4: Emergency Stress Relief",
+    "subtitleDescription": "The first month provides immediate stress relief tools that work in under 5 minutes. You'll learn breathing techniques that activate the parasympathetic nervous system and create simple anchors of calm in your day.",
+    "video": "Introduction to Emergency Breathing",
+    "videoDescription": "Learn powerful breathing techniques that activate your body's natural relaxation response in just 2-3 minutes. These tools work anywhere, anytime - no equipment needed.",
+    "description": "This 12-week program is designed for those experiencing high stress (7-10/10) who need immediate, practical tools for managing daily overwhelm. Starting with just 5 minutes of simple breathing exercises, it gradually builds a toolkit of stress management techniques that can be used anywhere, anytime. The program focuses on quick wins and immediate relief rather than complex practices, making it accessible even during crisis periods.",
+    "sections": [
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Master 2-3 breathing techniques",
+                "Establish twice-daily practice (morning and evening)",
+                "Reduce peak stress moments by 20%",
+                "Create phone reminders for practice"
+            ]
+        },
+        {
+            "title": "Week 1-2: Basic Breathing",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🌅",
+                    "text": "Morning practice (5 minutes upon waking):",
+                    "childIcon": "•",
+                    "children": [
+                        "Still in bed, before checking phone",
+                        {
+                            "text": "Box Breathing Technique:",
+                            "children": [
+                                "Inhale for 4 counts",
+                                "Hold for 4 counts",
+                                "Exhale for 4 counts",
+                                "Hold empty for 4 counts",
+                                "Repeat 5-8 cycles"
+                            ]
+                        },
+                        "Set phone timer for 5 minutes",
+                        "Mark \"done\" on tracker"
+                    ]
+                },
+                {
+                    "icon": "🌙",
+                    "text": "Evening practice (5 minutes before bed):",
+                    "childIcon": "•",
+                    "children": [
+                        "After putting phone away",
+                        {
+                            "text": "4-7-8 Breathing Technique:",
+                            "children": [
+                                "Inhale through nose for 4 counts",
+                                "Hold for 7 counts",
+                                "Exhale through mouth for 8 counts",
+                                "Repeat 4 cycles",
+                                "Notice difference in body tension"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "🚨",
+                    "text": "Emergency technique (as needed):",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Three Deep Breaths:",
+                            "children": [
+                                "When stress spikes during day",
+                                "Inhale fully, exhale completely",
+                                "Count: \"One and calm, two and calm, three and calm\"",
+                                "Can do anywhere (bathroom, car, meeting)"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 3-4: Adding Body Awareness",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🌅",
+                    "text": "Morning practice expansion:",
+                    "childIcon": "•",
+                    "children": [
+                        "Continue 5 minutes box breathing",
+                        {
+                            "text": "Add 30-second body scan:",
+                            "children": [
+                                "Notice tension in shoulders",
+                                "Notice jaw clenching",
+                                "Notice stomach tightness",
+                                "Consciously relax each area"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "☀️",
+                    "text": "Afternoon check-in (2 minutes):",
+                    "childIcon": "•",
+                    "children": [
+                        "Set phone alarm for 2 PM",
+                        "Stop whatever you're doing",
+                        "Take 5 deep breaths",
+                        "Rate current stress level",
+                        "Choose: continue or take 5-minute break"
+                    ]
+                },
+                {
+                    "icon": "🌙",
+                    "text": "Progressive evening routine:",
+                    "childIcon": "•",
+                    "children": [
+                        "4-7-8 breathing (4 cycles)",
+                        "Plus gentle neck rolls",
+                        "Plus shoulder shrugs and releases",
+                        "Total 5-7 minutes"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Daily Tracking Goals for Weeks 1-4",
+            "icon": "📊",
+            "defaultIcon": "✓",
+            "items": [
+                "Practice: \"Yes\" at least 10 out of 14 sessions per week",
+                "Stress: Look for 1-point reduction in evening ratings",
+                "Note which technique feels most effective"
+            ]
+        },
+        {
+            "title": "Success Markers",
+            "icon": "🏆",
+            "defaultIcon": "★",
+            "items": [
+                "Can do box breathing without counting",
+                "Remember to breathe during stress",
+                "Evening stress lower than morning"
+            ]
+        }
     ],
-    "activities": [
-        "5-minute guided meditations daily",
-        "Mindful breathing exercises (3x per day)",
-        "Body scan practices before bed",
-        "Mindful walking (10 minutes, 3x per week)"
-    ],
-    "keyPoints": [
-        "Mindfulness is a skill that improves with practice",
-        "You can't do meditation 'wrong'",
-        "Notice thoughts without judgment",
-        "Even 5 minutes daily makes a difference"
-    ]
+    "closingNote": "<strong>Remember:</strong> These breathing techniques aren't just relaxation - they're emergency tools that physically change your nervous system. Box Breathing is used by Navy SEALs to stay calm under pressure. The 4-7-8 technique was developed by a Harvard-trained physician specifically to trigger the relaxation response. You're learning real, science-backed tools that work in minutes."
 }

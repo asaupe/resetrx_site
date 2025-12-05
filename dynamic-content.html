@@ -24,7 +24,7 @@
             font-size: 28px;
             font-weight: 700;
             color: #1a1a1a;
-            margin-bottom: 8px;
+            margin-bottom: 24px;
             line-height: 1.3;
         }
 
@@ -37,10 +37,18 @@
         }
 
         h3 {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 600;
             color: #333;
             margin: 24px 0 12px;
+            line-height: 1.4;
+        }
+
+        h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: #555;
+            margin: 16px 0 8px;
             line-height: 1.4;
         }
 
@@ -52,10 +60,23 @@
         }
 
         .subtitle {
-            font-size: 19px;
-            color: #666;
+            font-size: 22px;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            line-height: 1.4;
+            font-weight: 700;
+            border-left: 4px solid #007AFF;
+            padding-left: 16px;
+        }
+
+        .subtitle-description {
+            font-size: 17px;
+            color: #555;
             margin-bottom: 24px;
-            line-height: 1.5;
+            line-height: 1.6;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
 
         /* Parameter Display */
@@ -122,37 +143,103 @@
             font-style: italic;
         }
 
-        /* Lists optimized for mobile */
-        ul, ol {
-            margin: 16px 0 24px 0;
-            padding-left: 0;
-            list-style: none;
+        /* Custom nested list styles */
+        .content-section {
+            margin: 32px 0;
         }
 
-        li {
+        .section-content > ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 16px 0;
+        }
+
+        /* Level 1 items - main points */
+        .section-content > ul > li {
             font-size: 17px;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            padding-left: 36px;
+            position: relative;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .section-content > ul > li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 20px;
+        }
+
+        /* Level 2 items - sub-points */
+        .section-content ul ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 8px 0 8px 36px;
+        }
+
+        .section-content ul ul > li {
+            font-size: 16px;
             color: #4a4a4a;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             padding-left: 32px;
             position: relative;
             line-height: 1.5;
+            font-weight: 400;
         }
 
-        li::before {
-            content: "✓";
+        .section-content ul ul > li::before {
+            content: attr(data-icon);
             position: absolute;
             left: 0;
-            top: 0;
-            width: 22px;
-            height: 22px;
-            background: #34C759;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            top: 2px;
+            font-size: 16px;
+        }
+
+        /* Level 3 items - detail points */
+        .section-content ul ul ul {
+            margin: 6px 0 6px 28px;
+        }
+
+        .section-content ul ul ul > li {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 6px;
+            padding-left: 28px;
+            position: relative;
+            font-weight: 400;
+        }
+
+        .section-content ul ul ul > li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 0;
+            top: 2px;
             font-size: 14px;
-            font-weight: bold;
+        }
+
+        /* Level 4 items - fine details */
+        .section-content ul ul ul ul {
+            margin: 4px 0 4px 24px;
+        }
+
+        .section-content ul ul ul ul > li {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 4px;
+            padding-left: 24px;
+            position: relative;
+            font-weight: 400;
+        }
+
+        .section-content ul ul ul ul > li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 12px;
         }
 
         /* Section dividers */
@@ -261,8 +348,20 @@
                 font-size: 17px;
             }
 
-            p, li {
+            p {
                 font-size: 16px;
+            }
+
+            .section-content > ul > li {
+                font-size: 16px;
+            }
+
+            .section-content ul ul > li {
+                font-size: 15px;
+            }
+
+            .section-content ul ul ul > li {
+                font-size: 14px;
             }
         }
     </style>
@@ -276,14 +375,75 @@
     </div>
 
     <script>
-        // Get URL parameters
+        // Parse plan parameter into program, level, module
+        // Parse plan parameter into program, level, module
+        function parsePlanParameter(planString) {
+            if (!planString) return null;
+            
+            // Plan format: "Mindfulness_1 Weeks 1-4" or "Exercise_2 Weeks 5-8"
+            // Program name mapping (case insensitive)
+            const programMap = {
+                'mindfulness': 'Mindfulness',
+                'mindset': 'Mindfulness',
+                'exercise': 'Movement',
+                'movement': 'Movement',
+                'sleep': 'Sleep'
+            };
+            
+            // Week range to module mapping
+            const weekToModuleMap = {
+                '1-4': 1,
+                '5-8': 2,
+                '9-12': 3,
+                '13': 4,
+                '13+': 4
+            };
+            
+            // Try to match pattern: ProgramName_LevelNumber Weeks X-Y
+            const match = planString.match(/^([a-zA-Z]+)_(\d+)\s*(?:Weeks?\s*([\d\-+]+))?/i);
+            
+            if (match) {
+                const programKey = match[1].toLowerCase();
+                const levelNum = parseInt(match[2]);
+                const weekRange = match[3] || '1-4'; // Default to weeks 1-4 if not specified
+                
+                const program = programMap[programKey];
+                const module = weekToModuleMap[weekRange];
+                
+                if (program && levelNum >= 1 && levelNum <= 4 && module) {
+                    return {
+                        program: program,
+                        level: levelNum,
+                        module: module,
+                        planName: planString
+                    };
+                }
+            }
+            
+            return null;
+        }
+
+        // Get URL parameters (supports both old and new format)
         function getURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
+            
+            // Check for new plan parameter first
+            const plan = urlParams.get('plan');
+            if (plan) {
+                const parsed = parsePlanParameter(plan);
+                if (parsed) {
+                    parsed.user_id = urlParams.get('user_id') || 'guest';
+                    return parsed;
+                }
+            }
+            
+            // Fall back to old parameter format
             return {
                 program: urlParams.get('program'),
                 level: parseInt(urlParams.get('level')),
                 module: parseInt(urlParams.get('module')),
-                user_id: urlParams.get('user_id') || 'guest'
+                user_id: urlParams.get('user_id') || 'guest',
+                planName: null
             };
         }
 
@@ -308,12 +468,70 @@
             return { valid: true };
         }
 
+        // Recursively generate nested list items with custom icons
+        function generateListItems(items, icon = '•', level = 1) {
+            if (!items || items.length === 0) return '';
+            
+            let html = '<ul>';
+            
+            items.forEach(item => {
+                if (typeof item === 'string') {
+                    // Simple string item
+                    html += `<li data-icon="${icon}">${item}</li>`;
+                } else if (typeof item === 'object') {
+                    // Object with text and possible children
+                    const itemIcon = item.icon || icon;
+                    const itemText = item.text || '';
+                    const children = item.children || [];
+                    
+                    html += `<li data-icon="${itemIcon}">${itemText}`;
+                    
+                    if (children.length > 0) {
+                        // Recursively generate children with their icon or inherit parent's
+                        const childIcon = item.childIcon || itemIcon;
+                        html += generateListItems(children, childIcon, level + 1);
+                    }
+                    
+                    html += '</li>';
+                }
+            });
+            
+            html += '</ul>';
+            return html;
+        }
+
+        // Generate content sections
+        function generateContentSections(sections) {
+            if (!sections || sections.length === 0) return '';
+            
+            let html = '';
+            
+            sections.forEach(section => {
+                const sectionIcon = section.icon || '📋';
+                html += `
+                    <div class="content-section">
+                        <h2>${sectionIcon} ${section.title}</h2>
+                        ${section.description ? `<p>${section.description}</p>` : ''}
+                        <div class="section-content">
+                            ${generateListItems(section.items, section.defaultIcon || '•')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+
         // Generate content HTML from data
         function generateContent(params, data) {
-            return `
+            const displayPlan = params.planName || `${params.program} Level ${params.level}`;
+            
+            const content = `
                 <div class="parameter-info">
                     <h3>📊 Current Session</h3>
                     <div class="param-grid">
+                        <span class="param-label">Plan:</span>
+                        <span class="param-value">${displayPlan}</span>
                         <span class="param-label">Program:</span>
                         <span class="param-value">${params.program}</span>
                         <span class="param-label">Level:</span>
@@ -326,7 +544,6 @@
                 </div>
 
                 <h1>${data.title}</h1>
-                <p class="subtitle">${data.subtitle}</p>
 
                 <div class="video-section">
                     <h2>🎥 Video Content</h2>
@@ -342,35 +559,24 @@
                 <div class="section">
                     <h2>📖 Overview</h2>
                     <p>${data.description}</p>
+                    ${data.subtitle ? `
+                        <div class="subtitle">${data.subtitle}</div>
+                        ${data.subtitleDescription ? `
+                            <div class="subtitle-description">${data.subtitleDescription}</div>
+                        ` : ''}
+                    ` : ''}
                 </div>
 
-                <div class="section">
-                    <h2>🎯 Learning Objectives</h2>
-                    <ul>
-                        ${data.objectives.map(obj => `<li>${obj}</li>`).join('')}
-                    </ul>
-                </div>
+                ${data.sections ? generateContentSections(data.sections) : ''}
 
-                <div class="section">
-                    <h2>✅ Weekly Activities</h2>
-                    <ul>
-                        ${data.activities.map(activity => `<li>${activity}</li>`).join('')}
-                    </ul>
-                </div>
-
-                ${data.keyPoints ? `
-                <div class="section">
-                    <h2>💡 Key Takeaways</h2>
-                    <ul>
-                        ${data.keyPoints.map(point => `<li>${point}</li>`).join('')}
-                    </ul>
+                ${data.closingNote ? `
+                <div class="emphasis-box">
+                    <p>${data.closingNote}</p>
                 </div>
                 ` : ''}
-
-                <div class="emphasis-box">
-                    <p><strong>Remember:</strong> Progress over perfection. Focus on consistency and celebrate small wins along the way!</p>
-                </div>
             `;
+            
+            return content;
         }
 
         // Generate error content
@@ -383,18 +589,25 @@
                     
                     <div class="error-details">
                         <h4>Request Parameters:</h4>
+                        <p><strong>Plan:</strong> ${params.planName || 'Not provided'}</p>
                         <p><strong>Program:</strong> ${params.program || 'Not provided'}</p>
                         <p><strong>Level:</strong> ${params.level || 'Not provided'}</p>
-                        <p><strong>Module:</strong> ${params.module || 'Not provided'}</p>
                         <p><strong>User ID:</strong> ${params.user_id || 'Not provided'}</p>
                     </div>
 
                     <div class="error-details" style="background: #e3f2fd; border-color: #2196F3; margin-top: 16px;">
-                        <h4>Valid Parameters:</h4>
-                        <p><strong>program:</strong> Movement, Mindfulness, Sleep</p>
-                        <p><strong>level:</strong> 1, 2, 3, 4</p>
-                        <p><strong>module:</strong> 1, 2, 3, 4</p>
-                        <p><strong>user_id:</strong> Any string (optional)</p>
+                        <h4>Valid Plan Formats:</h4>
+                        <p><strong>New format:</strong> ?plan=Mindfulness_1 (or Exercise_2, Sleep_3, etc.)</p>
+                        <p><strong>Old format:</strong> ?program=Mindfulness&level=1&module=1</p>
+                        <p><strong>Programs:</strong> Mindfulness, Exercise/Movement, Sleep</p>
+                        <p><strong>Levels:</strong> 1, 2, 3, 4</p>
+                    </div>
+
+                    <div class="error-details" style="margin-top: 16px;">
+                        <h4>Example URLs:</h4>
+                        <p><strong>?plan=Mindfulness_1</strong> - Mindfulness Level 1</p>
+                        <p><strong>?plan=Exercise_2</strong> - Exercise/Movement Level 2</p>
+                        <p><strong>?plan=Sleep_3</strong> - Sleep Level 3</p>
                     </div>
                 </div>
             `;
@@ -415,21 +628,26 @@
                 // Construct file path: content/Movement-1-1.json
                 const contentFile = `content/${params.program}-${params.level}-${params.module}.json`;
                 
+                console.log('Loading content file:', contentFile);
+                console.log('Parsed parameters:', params);
+                
                 // Fetch the content file
                 const response = await fetch(contentFile);
                 
                 if (!response.ok) {
-                    throw new Error('Content file not found');
+                    throw new Error(`Content file not found: ${contentFile}`);
                 }
 
                 const data = await response.json();
+                console.log('Content loaded successfully:', data);
+                
                 container.innerHTML = generateContent(params, data);
 
             } catch (error) {
                 console.error('Error loading content:', error);
                 container.innerHTML = generateErrorPage(
                     params, 
-                    `Content not yet available for ${params.program} Level ${params.level}, Module ${params.module}`
+                    `Content not yet available for ${params.program} Level ${params.level}`
                 );
             }
         }

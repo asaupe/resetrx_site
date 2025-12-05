@@ -1,0 +1,214 @@
+{
+    "title": "PROGRAM 3: EXERCISE PERFORMANCE",
+    "subtitle": "Weeks 1-4: Functional Fitness Foundation",
+    "subtitleDescription": "This program builds real-world strength and endurance through functional movement patterns. You'll learn compound exercises, proper form, and progressive overload principles to develop balanced, sustainable fitness that improves daily life.",
+    "video": "Introduction to Functional Training",
+    "videoDescription": "Learn the fundamental movement patterns that build true functional strength: squat, hinge, push, pull, carry, and rotate. These movements translate directly to real-life activities and athletic performance.",
+    "description": "Moving beyond basic activity, this program introduces structured training with focus on functional movement patterns. You'll build strength, endurance, and mobility through exercises that improve how you move in daily life. Perfect for those ready to take their fitness to the next level with a smart, sustainable approach.",
+    "sections": [
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Master 6 fundamental movement patterns with proper form",
+                "Establish 3x weekly strength training routine",
+                "Increase base strength by 25-30%",
+                "Build 30-minute continuous cardio endurance"
+            ]
+        },
+        {
+            "title": "Week 9-10: Movement Pattern Mastery",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🏋️",
+                    "text": "The 6 Fundamental Patterns (Practice 3x per week):",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "1. Squat Pattern:",
+                            "children": [
+                                "Bodyweight squat: 3 sets × 12 reps",
+                                "Focus: Keep chest up, weight in heels, knees track over toes",
+                                "Progression: Goblet squat with weight",
+                                "Daily benefit: Sitting/standing, picking up objects"
+                            ]
+                        },
+                        {
+                            "text": "2. Hinge Pattern:",
+                            "children": [
+                                "Romanian deadlift (light weight): 3 sets × 10 reps",
+                                "Focus: Hip hinge, flat back, feel hamstrings",
+                                "Alternative: Glute bridge if back issues",
+                                "Daily benefit: Bending over, lifting safely"
+                            ]
+                        },
+                        {
+                            "text": "3. Push Pattern:",
+                            "children": [
+                                "Push-ups (modified if needed): 3 sets × 8-12 reps",
+                                "Focus: Straight line from head to heels, elbows 45°",
+                                "Scale: Wall push-ups → incline → floor → decline",
+                                "Daily benefit: Pushing doors, lifting yourself up"
+                            ]
+                        },
+                        {
+                            "text": "4. Pull Pattern:",
+                            "children": [
+                                "Bent-over row: 3 sets × 10 reps",
+                                "Focus: Pull elbows back, squeeze shoulder blades",
+                                "Equipment: Dumbbells, resistance band, or water jugs",
+                                "Daily benefit: Pulling doors, carrying groceries"
+                            ]
+                        },
+                        {
+                            "text": "5. Carry Pattern:",
+                            "children": [
+                                "Farmer's carry: 3 sets × 30-60 seconds",
+                                "Focus: Stand tall, shoulders back, walk with weight",
+                                "Equipment: Dumbbells, kettlebells, or heavy bags",
+                                "Daily benefit: Carrying groceries, luggage, children"
+                            ]
+                        },
+                        {
+                            "text": "6. Rotation Pattern:",
+                            "children": [
+                                "Medicine ball chop: 3 sets × 10 reps each side",
+                                "Focus: Rotate from core, keep arms extended",
+                                "Alternative: Woodchop with resistance band",
+                                "Daily benefit: Reaching, twisting, sports movements"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "📋",
+                    "text": "Week 1-2 Workout Schedule:",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Day 1 - Lower Body Focus:",
+                            "children": [
+                                "Warm-up: 5 min light cardio",
+                                "Squat pattern: 3 sets",
+                                "Hinge pattern: 3 sets",
+                                "Carry pattern: 3 sets",
+                                "Cool-down: 5 min stretch"
+                            ]
+                        },
+                        {
+                            "text": "Day 2 - Upper Body Focus:",
+                            "children": [
+                                "Warm-up: Arm circles, shoulder rolls",
+                                "Push pattern: 3 sets",
+                                "Pull pattern: 3 sets",
+                                "Rotation pattern: 3 sets",
+                                "Cool-down: Upper body stretch"
+                            ]
+                        },
+                        {
+                            "text": "Day 3 - Full Body + Cardio:",
+                            "children": [
+                                "Warm-up: Dynamic movement",
+                                "All 6 patterns: 2 sets each",
+                                "20 min cardio (walk, bike, swim)",
+                                "Cool-down: Full body stretch"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 11-12: Progressive Overload & Endurance",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "📈",
+                    "text": "Progressive overload principles:",
+                    "childIcon": "•",
+                    "children": [
+                        "Increase reps: Add 1-2 reps per set each week",
+                        "Add weight: 5-10% increase when form is perfect",
+                        "Reduce rest: Decrease rest time between sets by 15 seconds",
+                        "Increase tempo: Slow down eccentric (lowering) phase to 3 seconds",
+                        "Track everything: Log weights, reps, and how it felt"
+                    ]
+                },
+                {
+                    "icon": "🏃",
+                    "text": "Cardio progression:",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Week 3 target: 25 minutes continuous",
+                            "children": [
+                                "Choose: Walking, jogging, cycling, rowing, or swimming",
+                                "Intensity: Can hold conversation but slightly breathless",
+                                "Frequency: 3-4 times per week",
+                                "Heart rate: 60-70% of max (220 minus your age)"
+                            ]
+                        },
+                        {
+                            "text": "Week 4 target: 30 minutes continuous",
+                            "children": [
+                                "Same activities, longer duration",
+                                "Add 1 interval session: 30 sec hard, 90 sec easy × 8 rounds",
+                                "Track distance covered to measure progress",
+                                "Notice: Improved recovery, easier breathing"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "🔄",
+                    "text": "Recovery protocols:",
+                    "childIcon": "•",
+                    "children": [
+                        "Active recovery: Light walk or yoga on rest days",
+                        "Sleep: 7-9 hours for muscle repair",
+                        "Nutrition: Protein within 2 hours post-workout",
+                        {
+                            "text": "Foam rolling routine (10 min post-workout):",
+                            "children": [
+                                "Quads: 60 seconds each leg",
+                                "Hamstrings: 60 seconds each leg",
+                                "Calves: 45 seconds each leg",
+                                "Upper back: 60 seconds",
+                                "Glutes: 60 seconds each side"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Daily Tracking Goals for Weeks 1-4",
+            "icon": "📊",
+            "defaultIcon": "✓",
+            "items": [
+                "Log all workouts: exercises, sets, reps, weight used",
+                "Rate energy level before and after (1-10 scale)",
+                "Note any form issues or pain (address immediately)",
+                "Track cardio: duration, distance, heart rate",
+                "Weekly progress photos (optional but motivating)"
+            ]
+        },
+        {
+            "title": "Success Markers",
+            "icon": "🏆",
+            "defaultIcon": "★",
+            "items": [
+                "Can perform all 6 movement patterns with excellent form",
+                "Completed 12 strength workouts (3 per week × 4 weeks)",
+                "Increased weight or reps on at least 4 exercises",
+                "Can complete 30 minutes continuous cardio comfortably",
+                "Feel stronger in daily activities (stairs, carrying things)"
+            ]
+        }
+    ],
+    "closingNote": "<strong>Functional Fitness Philosophy:</strong> These 6 movement patterns aren't gym exercises - they're fundamental human movements you use every day. Squatting is sitting down and standing up. Hinging is picking something off the floor safely. Pushing and pulling open doors and carry groceries. By strengthening these patterns, you're not just building muscle - you're building a body that moves better, feels better, and handles life better. This is fitness with purpose."
+}
