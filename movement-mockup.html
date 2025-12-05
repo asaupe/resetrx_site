@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement App Mockup - ResetRx</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 25px;
+            padding: 2px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #f8f9fa;
+            border-radius: 23px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 50px 20px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .status-bar {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .header-icons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+            background: #0ea5e9;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            color: #1f2937;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            color: #0ea5e9;
+            border-bottom-color: #0ea5e9;
+        }
+
+        .tab:hover {
+            color: #0ea5e9;
+        }
+
+        /* Goals Section */
+        .goals-section {
+            padding: 20px;
+            background: white;
+            margin-bottom: 10px;
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .goal-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.2s ease;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .goal-card.excellent {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .goal-card.good {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .goal-card.needs-attention {
+            border-color: #f97316;
+            background: #fff7ed;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .goal-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+        }
+
+        .excellent .goal-icon {
+            background: #10b981;
+        }
+
+        .good .goal-icon {
+            background: #f59e0b;
+        }
+
+        .needs-attention .goal-icon {
+            background: #f97316;
+        }
+
+        .goal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .goal-progress {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .goal-target {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .status-text {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .excellent .status-text {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .good .status-text {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .needs-attention .status-text {
+            background: #fed7aa;
+            color: #9a3412;
+        }
+
+        /* Week Tabs */
+        .week-tabs {
+            display: flex;
+            padding: 0 20px;
+            background: white;
+            overflow-x: auto;
+            gap: 10px;
+            padding-bottom: 15px;
+        }
+
+        .week-tab {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .week-tab.active {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .week-tab:hover:not(.active) {
+            background: #e2e8f0;
+        }
+
+        /* Daily Plan */
+        .daily-plan {
+            padding: 20px;
+            height: 350px;
+            overflow-y: auto;
+        }
+
+        .date-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .activity-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        .activity-item:hover {
+            transform: translateX(5px);
+        }
+
+        .activity-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-type {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .activity-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 4px 0;
+        }
+
+        .activity-duration {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .complete-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #d1d5db;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .complete-btn:hover {
+            border-color: #10b981;
+        }
+
+        .complete-btn.completed {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 25px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #6b7280;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active .nav-icon {
+            color: #0ea5e9;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item.active .nav-label {
+            color: #0ea5e9;
+        }
+
+        /* Phone Details */
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: #000;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="phone-screen">
+            <!-- Header -->
+            <div class="header">
+                <div class="status-bar">
+                    <span>17:40 📶</span>
+                    <div class="status-right">
+                        <span>••• 5G 🔋</span>
+                    </div>
+                </div>
+                <div class="header-icons">
+                    <div class="icon">📋</div>
+                    <div class="icon">👤</div>
+                </div>
+                <h1 class="title">Movement</h1>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('plan')">Today's Plan</div>
+                <div class="tab" onclick="switchTab('progress')">Progress</div>
+            </div>
+
+            <!-- Goals Section -->
+            <div class="goals-section">
+                <div class="goals-grid">
+                    <div class="goal-card excellent">
+                        <div class="goal-header">
+                            <div class="goal-icon">👟</div>
+                        </div>
+                        <div class="goal-title">Daily Steps</div>
+                        <div class="goal-progress">8,247</div>
+                        <div class="goal-target">Goal: 7,000 steps</div>
+                        <div class="status-text">Crushing it! 🎉</div>
+                    </div>
+                    
+                    <div class="goal-card needs-attention">
+                        <div class="goal-header">
+                            <div class="goal-icon">💪</div>
+                        </div>
+                        <div class="goal-title">Exercise Time</div>
+                        <div class="goal-progress">12 min</div>
+                        <div class="goal-target">Goal: 25 minutes</div>
+                        <div class="status-text">Let's get moving! 🚀</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Week Navigation -->
+            <div class="week-tabs">
+                <button class="week-tab" onclick="switchWeek(1)">Week 1</button>
+                <button class="week-tab active" onclick="switchWeek(2)">Week 2</button>
+                <button class="week-tab" onclick="switchWeek(3)">Week 3</button>
+                <button class="week-tab" onclick="switchWeek(4)">Week 4</button>
+            </div>
+
+            <!-- Daily Plan -->
+            <div class="daily-plan">
+                <div class="date-header">2025 NOVEMBER 2, SATURDAY</div>
+                
+                <div class="activity-item" onclick="toggleComplete(this)">
+                    <div class="activity-image">🚶‍♂️</div>
+                    <div class="activity-content">
+                        <div class="activity-type">MOVEMENT DAY</div>
+                        <div class="activity-name">Foundation Walking</div>
+                        <div class="activity-duration">15 MINUTES • EASY PACE</div>
+                    </div>
+                    <div class="complete-btn">✓</div>
+                </div>
+
+                <div class="activity-item" onclick="toggleComplete(this)">
+                    <div class="activity-image">🧘‍♀️</div>
+                    <div class="activity-content">
+                        <div class="activity-type">COOL DOWN</div>
+                        <div class="activity-name">Gentle Stretching</div>
+                        <div class="activity-duration">5 MINUTES • OPTIONAL</div>
+                    </div>
+                    <div class="complete-btn completed">✓</div>
+                </div>
+
+                <div class="date-header">2025 NOVEMBER 3, SUNDAY</div>
+                
+                <div class="activity-item" onclick="toggleComplete(this)">
+                    <div class="activity-image">🛋️</div>
+                    <div class="activity-content">
+                        <div class="activity-type">REST DAY</div>
+                        <div class="activity-name">Active Recovery</div>
+                        <div class="activity-duration">LIGHT STRETCHING OR CASUAL STROLL</div>
+                    </div>
+                    <div class="complete-btn">✓</div>
+                </div>
+
+                <div class="date-header">2025 NOVEMBER 4, MONDAY</div>
+                
+                <div class="activity-item" onclick="toggleComplete(this)">
+                    <div class="activity-image">🚶‍♀️</div>
+                    <div class="activity-content">
+                        <div class="activity-type">MOVEMENT DAY</div>
+                        <div class="activity-name">Brisk Walking</div>
+                        <div class="activity-duration">20 MINUTES • CONVERSATION PACE</div>
+                    </div>
+                    <div class="complete-btn">✓</div>
+                </div>
+
+                <div class="activity-item" onclick="toggleComplete(this)">
+                    <div class="activity-image">💧</div>
+                    <div class="activity-content">
+                        <div class="activity-type">HYDRATION</div>
+                        <div class="activity-name">Post-Workout Water</div>
+                        <div class="activity-duration">16 OZ WITHIN 30 MINUTES</div>
+                    </div>
+                    <div class="complete-btn">✓</div>
+                </div>
+
+                <div class="date-header">2025 NOVEMBER 5, TUESDAY</div>
+                
+                <div class="activity-item" onclick="toggleComplete(this)">
+                    <div class="activity-image">🛋️</div>
+                    <div class="activity-content">
+                        <div class="activity-type">REST DAY</div>
+                        <div class="activity-name">Movement Snacks</div>
+                        <div class="activity-duration">5-MINUTE BREAKS • 2X TODAY</div>
+                    </div>
+                    <div class="complete-btn">✓</div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="switchNav('nutrition')">
+                    <div class="nav-icon">🍽️</div>
+                    <div class="nav-label">Nutrition</div>
+                </div>
+                <div class="nav-item" onclick="switchNav('wellness')">
+                    <div class="nav-icon">🏥</div>
+                    <div class="nav-label">Wellness</div>
+                </div>
+                <div class="nav-item" onclick="switchNav('ai')">
+                    <div class="nav-icon">🤖</div>
+                    <div class="nav-label">AI</div>
+                </div>
+                <div class="nav-item" onclick="switchNav('dashboard')">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-label">Dashboard</div>
+                </div>
+                <div class="nav-item active" onclick="switchNav('movement')">
+                    <div class="nav-icon">🏃‍♂️</div>
+                    <div class="nav-label">Movement</div>
+                </div>
+            </div>
+
+            <!-- Home Indicator -->
+            <div class="home-indicator"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleComplete(item) {
+            const btn = item.querySelector('.complete-btn');
+            btn.classList.toggle('completed');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function switchWeek(week) {
+            document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function switchNav(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+        }
+    </script>
+</body>
+</html>
