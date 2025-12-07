@@ -2,262 +2,396 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ResetRx Content</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: transparent;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Typography optimized for mobile reading */
+        /* Container optimized for mobile */
+        .page-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .content-wrapper {
+            padding: 20px 16px;
+        }
+
+        /* Hero Header - optimized for mobile */
+        .hero-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 32px 20px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .program-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+        }
+
         h1 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 24px;
-            line-height: 1.3;
-        }
-
-        h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin: 32px 0 16px;
-            line-height: 1.3;
-        }
-
-        h3 {
-            font-size: 19px;
-            font-weight: 600;
-            color: #333;
-            margin: 24px 0 12px;
-            line-height: 1.4;
-        }
-
-        h4 {
-            font-size: 17px;
-            font-weight: 600;
-            color: #555;
-            margin: 16px 0 8px;
-            line-height: 1.4;
-        }
-
-        p {
-            font-size: 17px;
-            color: #4a4a4a;
-            margin-bottom: 16px;
-            line-height: 1.6;
+            line-height: 1.2;
+            margin-bottom: 14px;
         }
 
         .subtitle {
-            font-size: 22px;
-            color: #1a1a1a;
-            margin-bottom: 16px;
-            line-height: 1.4;
-            font-weight: 700;
-            border-left: 4px solid #007AFF;
-            padding-left: 16px;
+            font-size: 17px;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 10px;
         }
 
         .subtitle-description {
-            font-size: 17px;
-            color: #555;
-            margin-bottom: 24px;
-            line-height: 1.6;
+            font-size: 14px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        /* Stats Card - mobile optimized */
+        .stats-card {
+            background: white;
+            border-radius: 16px;
             padding: 16px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            margin: -24px 16px 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            position: relative;
+            z-index: 2;
         }
 
-        /* Parameter Display */
-        .parameter-info {
-            background: #f8f9fa;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            border-left: 4px solid #007AFF;
-        }
-
-        .parameter-info h3 {
-            font-size: 16px;
-            color: #007AFF;
-            margin: 0 0 12px 0;
-        }
-
-        .param-grid {
+        .stats-grid {
             display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 8px 16px;
-            font-size: 15px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            text-align: center;
         }
 
-        .param-label {
-            font-weight: 600;
+        .stat-item {
+            padding: 10px 6px;
+        }
+
+        .stat-label {
+            font-size: 11px;
             color: #666;
-        }
-
-        .param-value {
-            color: #007AFF;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
             font-weight: 600;
         }
 
-        /* Video Section */
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* Video Section - mobile optimized */
         .video-section {
-            margin: 32px 0;
+            margin: 24px 0;
+            background: #f8f9fa;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .video-placeholder {
-            background: linear-gradient(135deg, #007AFF, #5856D6);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 48px 24px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 16px;
+            position: relative;
+            min-height: 200px;
         }
 
-        .video-placeholder h3 {
-            color: white;
-            font-size: 20px;
-            margin: 0 0 8px 0;
+        .play-button {
+            width: 70px;
+            height: 70px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: transform 0.2s;
+            touch-action: manipulation;
         }
 
-        .video-placeholder p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 15px;
-            margin: 0;
+        .play-button:active {
+            transform: scale(0.95);
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .video-info {
+            padding: 16px;
+        }
+
+        .video-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .video-meta {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
         }
 
         .video-description {
-            font-size: 16px;
-            color: #666;
-            font-style: italic;
-        }
-
-        /* Custom nested list styles */
-        .content-section {
-            margin: 32px 0;
-        }
-
-        .section-content > ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 16px 0;
-        }
-
-        /* Level 1 items - main points */
-        .section-content > ul > li {
-            font-size: 17px;
-            color: #1a1a1a;
-            margin-bottom: 16px;
-            padding-left: 36px;
-            position: relative;
+            font-size: 14px;
+            color: #555;
             line-height: 1.5;
-            font-weight: 500;
         }
 
-        .section-content > ul > li::before {
-            content: attr(data-icon);
-            position: absolute;
-            left: 0;
-            top: 2px;
+        /* Overview Section */
+        .overview-section {
+            margin: 24px 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .section-title {
             font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
         }
 
-        /* Level 2 items - sub-points */
-        .section-content ul ul {
+        .overview-text {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Content Cards - mobile optimized */
+        .content-card {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 18px 16px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .content-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-icon {
+            font-size: 22px;
+        }
+
+        /* List Styles - touch-friendly */
+        .content-list {
             list-style: none;
-            padding-left: 0;
-            margin: 8px 0 8px 36px;
+            padding: 0;
+            margin: 0;
         }
 
-        .section-content ul ul > li {
-            font-size: 16px;
-            color: #4a4a4a;
-            margin-bottom: 8px;
-            padding-left: 32px;
+        .content-list > li {
+            position: relative;
+            padding: 10px 0 10px 32px;
+            font-size: 15px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+
+        .content-list > li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 22px;
+            height: 22px;
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        /* Nested Lists - mobile spacing */
+        .content-list ul {
+            list-style: none;
+            padding: 6px 0 6px 32px;
+            margin: 0;
+        }
+
+        .content-list ul li {
+            padding: 5px 0 5px 24px;
+            font-size: 14px;
+            color: #555;
             position: relative;
             line-height: 1.5;
-            font-weight: 400;
         }
 
-        .section-content ul ul > li::before {
+        .content-list ul li::before {
             content: attr(data-icon);
             position: absolute;
             left: 0;
-            top: 2px;
-            font-size: 16px;
-        }
-
-        /* Level 3 items - detail points */
-        .section-content ul ul ul {
-            margin: 6px 0 6px 28px;
-        }
-
-        .section-content ul ul ul > li {
+            top: 5px;
             font-size: 15px;
-            color: #666;
-            margin-bottom: 6px;
-            padding-left: 28px;
-            position: relative;
-            font-weight: 400;
         }
 
-        .section-content ul ul ul > li::before {
-            content: attr(data-icon);
-            position: absolute;
-            left: 0;
-            top: 2px;
-            font-size: 14px;
-        }
-
-        /* Level 4 items - fine details */
-        .section-content ul ul ul ul {
-            margin: 4px 0 4px 24px;
-        }
-
-        .section-content ul ul ul ul > li {
-            font-size: 14px;
-            color: #777;
-            margin-bottom: 4px;
+        .content-list ul ul {
             padding-left: 24px;
-            position: relative;
-            font-weight: 400;
         }
 
-        .section-content ul ul ul ul > li::before {
-            content: attr(data-icon);
-            position: absolute;
-            left: 0;
-            top: 2px;
+        .content-list ul ul li {
+            font-size: 13px;
+            color: #666;
+            padding: 4px 0 4px 22px;
+        }
+
+        .content-list ul ul li::before {
+            font-size: 13px;
+            top: 4px;
+        }
+
+        .content-list ul ul ul {
+            padding-left: 20px;
+        }
+
+        .content-list ul ul ul li {
             font-size: 12px;
+            color: #777;
+            padding: 3px 0 3px 20px;
         }
 
-        /* Section dividers */
-        .section {
-            margin: 40px 0;
+        .content-list ul ul ul li::before {
+            font-size: 12px;
+            top: 3px;
         }
 
-        hr {
-            border: none;
-            border-top: 1px solid #e5e5e5;
-            margin: 32px 0;
+        /* Success Card - mobile optimized */
+        .success-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 18px 16px;
+            margin: 24px 0;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
-        /* Loading state */
-        .loading {
+        .success-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .success-card .content-list > li::before {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        .success-card .content-list > li {
+            color: white;
+        }
+
+        /* Closing Note - mobile optimized */
+        .closing-note {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 24px 0;
+        }
+
+        .closing-note p {
+            font-size: 14px;
+            color: #1565c0;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Loading & Error States */
+        .loading, .error-content {
             text-align: center;
             padding: 60px 20px;
-            color: #666;
         }
 
         .loading-spinner {
@@ -270,118 +404,147 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Error styling */
-        .error-content {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
+        /* Error Styling */
         .error-icon {
             font-size: 64px;
             margin-bottom: 16px;
         }
 
         .error-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
             color: #FF3B30;
             margin-bottom: 12px;
         }
 
         .error-message {
-            font-size: 17px;
+            font-size: 16px;
             color: #666;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         .error-details {
             background: #fff3cd;
             border: 1px solid #ffc107;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 16px;
             text-align: left;
-            margin-top: 24px;
+            margin: 20px 16px;
         }
 
         .error-details h4 {
-            font-size: 16px;
+            font-size: 15px;
             color: #856404;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .error-details p {
-            font-size: 15px;
+            font-size: 14px;
             color: #856404;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            line-height: 1.5;
         }
 
-        /* Emphasis boxes */
-        .emphasis-box {
-            background: #e3f2fd;
-            border-left: 4px solid #2196F3;
-            padding: 16px;
-            margin: 24px 0;
-            border-radius: 8px;
+        /* Smooth scrolling on mobile */
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .emphasis-box p {
-            font-size: 16px;
-            color: #1565c0;
-            margin: 0;
+        /* Prevent text size adjustment on orientation change */
+        html {
+            -webkit-text-size-adjust: 100%;
         }
 
-        /* Mobile optimizations */
-        @media (max-width: 400px) {
-            body {
-                padding: 16px;
-            }
+        /* Better touch targets (minimum 44x44px) */
+        button, .play-button {
+            min-width: 44px;
+            min-height: 44px;
+        }
 
+        /* Small phone optimizations */
+        @media (max-width: 375px) {
             h1 {
                 font-size: 24px;
             }
 
-            h2 {
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .stat-value {
                 font-size: 20px;
             }
 
-            h3 {
-                font-size: 17px;
-            }
-
-            p {
-                font-size: 16px;
-            }
-
-            .section-content > ul > li {
-                font-size: 16px;
-            }
-
-            .section-content ul ul > li {
-                font-size: 15px;
-            }
-
-            .section-content ul ul ul > li {
+            .content-list > li {
                 font-size: 14px;
+            }
+
+            .content-list ul li {
+                font-size: 13px;
+            }
+        }
+
+        /* Very small phones */
+        @media (max-width: 320px) {
+            .content-wrapper {
+                padding: 16px 12px;
+            }
+
+            .stats-grid {
+                gap: 8px;
+            }
+
+            .stat-label {
+                font-size: 10px;
+            }
+
+            .stat-value {
+                font-size: 18px;
+            }
+        }
+
+        /* Safe area handling for notched devices */
+        @supports (padding: max(0px)) {
+            .hero-header {
+                padding-top: max(32px, env(safe-area-inset-top));
+            }
+
+            .content-wrapper {
+                padding-left: max(16px, env(safe-area-inset-left));
+                padding-right: max(16px, env(safe-area-inset-right));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
             }
         }
     </style>
 </head>
 <body>
-    <div id="contentContainer">
-        <div class="loading">
-            <div class="loading-spinner">⏳</div>
-            <p>Loading content...</p>
+    <div class="page-container">
+        <div id="contentContainer">
+            <div class="loading">
+                <div class="loading-spinner">⏳</div>
+                <p>Loading content...</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Parse plan parameter into program, level, module
+        // Convert level number to fun label
+        function getLevelLabel(level) {
+            const labels = {
+                1: 'Just Starting',
+                2: 'Making Moves',
+                3: 'Master',
+                4: 'Super Master'
+            };
+            return labels[level] || `Level ${level}`;
+        }
+
         // Parse plan parameter into program, level, module
         function parsePlanParameter(planString) {
             if (!planString) return null;
             
-            // Plan format: "Mindfulness_1 Weeks 1-4" or "Exercise_2 Weeks 5-8"
-            // Program name mapping (case insensitive)
             const programMap = {
                 'mindfulness': 'Mindfulness',
                 'mindset': 'Mindfulness',
@@ -390,7 +553,6 @@
                 'sleep': 'Sleep'
             };
             
-            // Week range to module mapping
             const weekToModuleMap = {
                 '1-4': 1,
                 '5-8': 2,
@@ -399,13 +561,12 @@
                 '13+': 4
             };
             
-            // Try to match pattern: ProgramName_LevelNumber Weeks X-Y
             const match = planString.match(/^([a-zA-Z]+)_(\d+)\s*(?:Weeks?\s*([\d\-+]+))?/i);
             
             if (match) {
                 const programKey = match[1].toLowerCase();
                 const levelNum = parseInt(match[2]);
-                const weekRange = match[3] || '1-4'; // Default to weeks 1-4 if not specified
+                const weekRange = match[3] || '1-4';
                 
                 const program = programMap[programKey];
                 const module = weekToModuleMap[weekRange];
@@ -423,11 +584,9 @@
             return null;
         }
 
-        // Get URL parameters (supports both old and new format)
         function getURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             
-            // Check for new plan parameter first
             const plan = urlParams.get('plan');
             if (plan) {
                 const parsed = parsePlanParameter(plan);
@@ -437,7 +596,6 @@
                 }
             }
             
-            // Fall back to old parameter format
             return {
                 program: urlParams.get('program'),
                 level: parseInt(urlParams.get('level')),
@@ -447,7 +605,6 @@
             };
         }
 
-        // Validate parameters
         function validateParameters(params) {
             const validPrograms = ['Movement', 'Mindfulness', 'Sleep'];
             const validLevels = [1, 2, 3, 4];
@@ -468,18 +625,15 @@
             return { valid: true };
         }
 
-        // Recursively generate nested list items with custom icons
         function generateListItems(items, icon = '•', level = 1) {
             if (!items || items.length === 0) return '';
             
-            let html = '<ul>';
+            let html = '<ul class="content-list">';
             
             items.forEach(item => {
                 if (typeof item === 'string') {
-                    // Simple string item
                     html += `<li data-icon="${icon}">${item}</li>`;
                 } else if (typeof item === 'object') {
-                    // Object with text and possible children
                     const itemIcon = item.icon || icon;
                     const itemText = item.text || '';
                     const children = item.children || [];
@@ -487,7 +641,6 @@
                     html += `<li data-icon="${itemIcon}">${itemText}`;
                     
                     if (children.length > 0) {
-                        // Recursively generate children with their icon or inherit parent's
                         const childIcon = item.childIcon || itemIcon;
                         html += generateListItems(children, childIcon, level + 1);
                     }
@@ -500,7 +653,6 @@
             return html;
         }
 
-        // Generate content sections
         function generateContentSections(sections) {
             if (!sections || sections.length === 0) return '';
             
@@ -508,13 +660,17 @@
             
             sections.forEach(section => {
                 const sectionIcon = section.icon || '📋';
+                const isSuccess = section.title.includes('Success');
+                const cardClass = isSuccess ? 'success-card' : 'content-card';
+                
                 html += `
-                    <div class="content-section">
-                        <h2>${sectionIcon} ${section.title}</h2>
-                        ${section.description ? `<p>${section.description}</p>` : ''}
-                        <div class="section-content">
-                            ${generateListItems(section.items, section.defaultIcon || '•')}
-                        </div>
+                    <div class="${cardClass}">
+                        <h3>
+                            <span class="card-icon">${sectionIcon}</span>
+                            ${section.title}
+                        </h3>
+                        ${section.description ? `<p style="margin-bottom: 16px; color: ${isSuccess ? 'rgba(255,255,255,0.9)' : '#555'}; font-size: 14px;">${section.description}</p>` : ''}
+                        ${generateListItems(section.items, section.defaultIcon || '•')}
                     </div>
                 `;
             });
@@ -522,98 +678,102 @@
             return html;
         }
 
-        // Generate content HTML from data
         function generateContent(params, data) {
             const displayPlan = params.planName || `${params.program} Level ${params.level}`;
+            const levelLabel = getLevelLabel(params.level);
+            
+            // Extract module name from subtitle (e.g., "Weeks 1-4: Movement Habit Formation" -> "Movement Habit Formation")
+            let moduleName = data.subtitle || '';
+            if (moduleName.includes(':')) {
+                moduleName = moduleName.split(':')[1].trim();
+            }
             
             const content = `
-                <div class="parameter-info">
-                    <h3>📊 Current Session</h3>
-                    <div class="param-grid">
-                        <span class="param-label">Plan:</span>
-                        <span class="param-value">${displayPlan}</span>
-                        <span class="param-label">Program:</span>
-                        <span class="param-value">${params.program}</span>
-                        <span class="param-label">Level:</span>
-                        <span class="param-value">${params.level}</span>
-                        <span class="param-label">Module:</span>
-                        <span class="param-value">${params.module}</span>
-                        <span class="param-label">User:</span>
-                        <span class="param-value">${params.user_id}</span>
+                <div class="hero-header">
+                    <div class="hero-content">
+                        <div class="program-badge">${params.program.toUpperCase()}</div>
+                        <h1>${data.title}</h1>
+                        <div class="subtitle">${data.subtitle || ''}</div>
+                        <div class="subtitle-description">${data.subtitleDescription || ''}</div>
                     </div>
                 </div>
 
-                <h1>${data.title}</h1>
-
-                <div class="video-section">
-                    <h2>🎥 Video Content</h2>
-                    <div class="video-placeholder">
-                        <h3>${data.video}</h3>
-                        <p>${params.program} • Level ${params.level} • Module ${params.module}</p>
+                <div class="stats-card">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Level</div>
+                            <div class="stat-value" style="font-size: 16px; line-height: 1.2;">${levelLabel}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Module</div>
+                            <div class="stat-value" style="font-size: 16px; line-height: 1.2;">${moduleName || `Module ${params.module}`}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Weeks</div>
+                            <div class="stat-value">${(params.module - 1) * 4 + 1}-${params.module * 4}</div>
+                        </div>
                     </div>
-                    <p class="video-description">${data.videoDescription}</p>
                 </div>
 
-                <hr>
+                <div class="content-wrapper">
+                    <div class="video-section">
+                        <div class="video-placeholder">
+                            <div class="play-button"></div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">${data.video}</div>
+                            <div class="video-meta">${params.program} • ${levelLabel} • Module ${params.module}</div>
+                            <div class="video-description">${data.videoDescription}</div>
+                        </div>
+                    </div>
 
-                <div class="section">
-                    <h2>📖 Overview</h2>
-                    <p>${data.description}</p>
-                    ${data.subtitle ? `
-                        <div class="subtitle">${data.subtitle}</div>
-                        ${data.subtitleDescription ? `
-                            <div class="subtitle-description">${data.subtitleDescription}</div>
-                        ` : ''}
+                    <div class="overview-section">
+                        <div class="section-header">
+                            <div class="section-icon">📖</div>
+                            <h2 class="section-title">Overview</h2>
+                        </div>
+                        <div class="overview-text">${data.description}</div>
+                    </div>
+
+                    ${data.sections ? generateContentSections(data.sections) : ''}
+
+                    ${data.closingNote ? `
+                    <div class="closing-note">
+                        <p>${data.closingNote}</p>
+                    </div>
                     ` : ''}
                 </div>
-
-                ${data.sections ? generateContentSections(data.sections) : ''}
-
-                ${data.closingNote ? `
-                <div class="emphasis-box">
-                    <p>${data.closingNote}</p>
-                </div>
-                ` : ''}
             `;
             
             return content;
         }
 
-        // Generate error content
         function generateErrorPage(params, errorMessage) {
             return `
-                <div class="error-content">
-                    <div class="error-icon">⚠️</div>
-                    <h1 class="error-title">Content Not Found</h1>
-                    <p class="error-message">${errorMessage}</p>
-                    
-                    <div class="error-details">
-                        <h4>Request Parameters:</h4>
-                        <p><strong>Plan:</strong> ${params.planName || 'Not provided'}</p>
-                        <p><strong>Program:</strong> ${params.program || 'Not provided'}</p>
-                        <p><strong>Level:</strong> ${params.level || 'Not provided'}</p>
-                        <p><strong>User ID:</strong> ${params.user_id || 'Not provided'}</p>
-                    </div>
+                <div class="content-wrapper">
+                    <div class="error-content">
+                        <div class="error-icon">⚠️</div>
+                        <h1 class="error-title">Content Not Found</h1>
+                        <p class="error-message">${errorMessage}</p>
+                        
+                        <div class="error-details">
+                            <h4>Request Parameters:</h4>
+                            <p><strong>Plan:</strong> ${params.planName || 'Not provided'}</p>
+                            <p><strong>Program:</strong> ${params.program || 'Not provided'}</p>
+                            <p><strong>Level:</strong> ${params.level || 'Not provided'}</p>
+                            <p><strong>Module:</strong> ${params.module || 'Not provided'}</p>
+                        </div>
 
-                    <div class="error-details" style="background: #e3f2fd; border-color: #2196F3; margin-top: 16px;">
-                        <h4>Valid Plan Formats:</h4>
-                        <p><strong>New format:</strong> ?plan=Mindfulness_1 (or Exercise_2, Sleep_3, etc.)</p>
-                        <p><strong>Old format:</strong> ?program=Mindfulness&level=1&module=1</p>
-                        <p><strong>Programs:</strong> Mindfulness, Exercise/Movement, Sleep</p>
-                        <p><strong>Levels:</strong> 1, 2, 3, 4</p>
-                    </div>
-
-                    <div class="error-details" style="margin-top: 16px;">
-                        <h4>Example URLs:</h4>
-                        <p><strong>?plan=Mindfulness_1</strong> - Mindfulness Level 1</p>
-                        <p><strong>?plan=Exercise_2</strong> - Exercise/Movement Level 2</p>
-                        <p><strong>?plan=Sleep_3</strong> - Sleep Level 3</p>
+                        <div class="error-details" style="background: #e3f2fd; border-color: #2196F3; margin-top: 16px;">
+                            <h4>Valid Plan Formats:</h4>
+                            <p><strong>Format:</strong> ?plan=Program_Level Weeks X-Y</p>
+                            <p><strong>Example:</strong> ?plan=Mindset_1 Weeks 1-4</p>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-        // Load content from external file
         async function loadContent() {
             const params = getURLParameters();
             const validation = validateParameters(params);
@@ -625,13 +785,11 @@
             }
 
             try {
-                // Construct file path: content/Movement-1-1.json
                 const contentFile = `content/${params.program}-${params.level}-${params.module}.json`;
                 
                 console.log('Loading content file:', contentFile);
                 console.log('Parsed parameters:', params);
                 
-                // Fetch the content file
                 const response = await fetch(contentFile);
                 
                 if (!response.ok) {
@@ -647,12 +805,11 @@
                 console.error('Error loading content:', error);
                 container.innerHTML = generateErrorPage(
                     params, 
-                    `Content not yet available for ${params.program} Level ${params.level}`
+                    `Content not yet available for ${params.program} Level ${params.level}, Module ${params.module}`
                 );
             }
         }
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', loadContent);
     </script>
 </body>

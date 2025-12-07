@@ -1,0 +1,80 @@
+{
+    "title": "PROGRAM 1: FOUNDATION BUILDER",
+    "subtitle": "Weeks 1-4: Movement Habit Formation",
+    "subtitleDescription": "These first four weeks focus on establishing the habit of regular movement without any pressure for intensity or perfection. The goal is simply to show up consistently and let your body remember how good it feels to move.",
+    "video": "Introduction to Functional Training",
+    "videoDescription": "Learn the fundamental movement patterns that build true functional strength: squat, hinge, push, pull, carry, and rotate. These movements translate directly to real-life activities and athletic performance.",
+    "description":"This program takes a gentle, progressive approach to establishing sustainable exercise habits. Starting with just 20 minutes of easy walking three times per week, it gradually builds both duration and frequency over 12 weeks. The focus is on creating consistency without overwhelming the body or mind. Strength training is intentionally delayed until week 9, allowing your cardiovascular system and movement patterns to adapt first.",
+    "sections": [
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Complete 12 exercise sessions over 4 weeks  ",
+                "Establish a consistent exercise schedule",
+                "Learn to prioritize movement in your daily routine",
+                "Begin increasing daily activity levels"
+            ]
+        },
+        {
+            "title": "Week 1-4: Forming a Movement Habit",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🏃",
+                    "text": "Exercise 3x per week: 20 minutes per session",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Options:",
+                            "children": [
+                                "Easy walk outdoors or treadmill",
+                                "Easy swimming or water walking",
+                                "Easy cycling on a bike or stationary bike",
+                                "Elliptical on easy setting"
+                            ]
+                        },
+                        "Pace guide: You should be able to hold a conversation easily while exercising"
+                    ]
+                },
+                {
+                    "icon": "👟",
+                    "text": "Daily Step Target: 5,000 steps per day",
+                    "childIcon": "•",
+                    "children": []
+                },
+                {
+                    "icon": "🧘",
+                    "text": "On non-exercise days: Complete 10-15 minutes of gentle stretching",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Example stretches:",
+                            "children": [
+                                "Neck rolls",
+                                "Shoulder shrugs",
+                                "Arm circles",
+                                "Gentle torso twists",
+                                "Seated forward fold",
+                                "Calf stretches against wall",
+                                "Quad stretches holding a chair"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Bonus Activities",
+            "icon": "💪",
+            "defaultIcon": "★",
+            "items": [
+                "Begin increasing daily activity levels",
+                "Begin thinking about when you'll add strength training"
+            ]
+        }
+    ],
+    "closingNote": "<strong>Functional Fitness Philosophy:</strong> These 6 movement patterns aren't gym exercises - they're fundamental human movements you use every day. Squatting is sitting down and standing up. Hinging is picking something off the floor safely. Pushing and pulling open doors and carry groceries. By strengthening these patterns, you're not just building muscle - you're building a body that moves better, feels better, and handles life better. This is fitness with purpose."
+}

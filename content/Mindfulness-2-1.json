@@ -1,0 +1,138 @@
+{
+    "title": "PROGRAM 2: MINDFUL LIVING",
+    "subtitle": "Weeks 1-4: Establishing Formal Practice",
+    "subtitleDescription": "This program is for those with moderate stress (4-7/10) who are ready to move beyond crisis management to building a mindful lifestyle. Over 12 weeks, you'll develop a consistent meditation practice, learn to bring mindfulness to daily activities, and create mental space between stressors and your reactions. The program balances formal practice with practical application.",
+    "video": "Introduction to Emergency Breathing",
+    "videoDescription": "Learn powerful breathing techniques that activate your body's natural relaxation response in just 2-3 minutes. These tools work anywhere, anytime - no equipment needed.",
+    "description": "This phase establishes a solid daily meditation practice and introduces the concept of mindful awareness. You'll explore different meditation styles to find what resonates with you.",
+    "sections": [
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Establish 15-20 minute daily meditation practice",
+                "Reduce stress levels from 5-7 to 3-5 out of 10",
+                "Develop mindful awareness throughout day",
+                "Learn emotional regulation techniques",
+                "Build resilience to future stressors"
+            ]
+        },
+        {
+            "title": "Week 1-2: Foundation Meditation",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🌅",
+                    "text": "Morning practice (10-12 minutes):",
+                    "childIcon": "•",
+                    "children": [
+                        "Choose consistent time (before breakfast ideal)",
+                        {
+                            "text": "Create meditation space:",
+                            "children": [
+                                "Quiet corner with cushion or chair",
+                                "Away from work area",
+                                "Phone on airplane mode"
+                            ]
+                        },
+                        {
+                            "text": "Basic mindfulness meditation:",
+                            "children": [
+                                "Sit comfortably, eyes closed or soft gaze",
+                                "Focus on breath at nose or belly",
+                                "When mind wanders, note \"thinking\"",
+                                "Return to breath without judgment",
+                                "Use timer with gentle bell"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "🌙",
+                    "text": "Evening check-in (5 minutes):",
+                    "childIcon": "•",
+                    "children": [
+                        "Brief breathing practice",
+                        "Reflect on day without judgment",
+                        "Set intention for restful evening"
+                    ]
+                },
+                {
+                    "icon": "📅",
+                    "text": "Weekend exploration:",
+                    "childIcon": "•",
+                    "children": [
+                        "Try one guided meditation",
+                        "15-20 minutes on Saturday or Sunday",
+                        "Notice difference from self-guided"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 3-4: Finding Your Style",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🌅",
+                    "text": "Extend morning practice (15 minutes):",
+                    "childIcon": "•",
+                    "children": [
+                        "2 minutes settling",
+                        "11 minutes meditation",
+                        "2 minutes gentle return"
+                    ]
+                },
+                {
+                    "icon": "🧘",
+                    "text": "Try different techniques (one per week):",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Week 3 Focus meditation:",
+                            "children": [
+                                "Single-pointed focus on breath",
+                                "Or candle flame (eyes open)",
+                                "Or repeated word/phrase",
+                                "Builds concentration"
+                            ]
+                        },
+                        {
+                            "text": "Week 4 Open awareness:",
+                            "children": [
+                                "Notice all sensations",
+                                "Sounds, feelings, thoughts",
+                                "No specific focus",
+                                "Builds general awareness"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Daily Tracking Goals for Weeks 1-4",
+            "icon": "📊",
+            "defaultIcon": "✓",
+            "items": [
+                "Log formal practice daily",
+                "Rate stress levels morning/evening",
+                "Note mindful moments during day"
+            ]
+        },
+        {
+            "title": "Success Markers",
+            "icon": "🏆",
+            "defaultIcon": "★",
+            "items": [
+                "Can sit for 15 minutes without fidgeting",
+                "Notice when mind wanders quicker",
+                "Feel calmer after practice"
+            ]
+        }
+    ],
+    "closingNote": "<strong>Remember:</strong> These breathing techniques aren't just relaxation - they're emergency tools that physically change your nervous system. Box Breathing is used by Navy SEALs to stay calm under pressure. The 4-7-8 technique was developed by a Harvard-trained physician specifically to trigger the relaxation response. You're learning real, science-backed tools that work in minutes."
+}

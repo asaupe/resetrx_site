@@ -1,0 +1,119 @@
+{
+    "title": "PROGRAM 3: FITNESS FOCUSED",
+    "subtitle": "Weeks 1-4: Structure Building",
+    "subtitleDescription": "This phase introduces structured training splits and establishes the rhythm of serious training. Week 4 is your first deload week, teaching you the importance of planned recovery.",
+    "video": "Introduction to Functional Training",
+    "videoDescription": "Learn the fundamental movement patterns that build true functional strength: squat, hinge, push, pull, carry, and rotate. These movements translate directly to real-life activities and athletic performance.",
+    "description": "This advanced 12-week program implements proper periodization with built-in deload weeks every fourth week. It uses structured strength training splits, combines steady-state and interval cardio, and includes active recovery. This is where your exercise shifts from general health to specific fitness improvements, preparing you for ongoing advancement in the months to follow.",
+    "sections": [
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Can complete 30 minutes continuous cardio comfortably",
+                "Establish baseline strength numbers",
+                "Build aerobic base with longer cardio sessions",
+                "Learn to track progressive overload"
+            ]
+        },
+        {
+            "title": "Week 1-4: Structure Building",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "💪",
+                    "text": "Daily Step Target: 8,000 steps per day",
+                    "childIcon": "•",
+                    "children": [
+                        "Week 4 Deload: maintain 8,000 steps"
+                    ]
+                },
+                {
+                    "icon": "📅",
+                    "text": "Monday - Moderate Cardio: 40 minutes",
+                    "childIcon": "•",
+                    "children": [
+                        "Zone 2 heart rate (conversational pace)",
+                        "Options: Running, cycling, rowing, swimming",
+                        "Track distance or average pace"
+                    ]
+                },
+                {
+                    "icon": "🏋️",
+                    "text": "Tuesday - Upper Body Strength: 35-40 minutes",
+                    "childIcon": "•",
+                    "children": [
+                        "Bench press or push-ups (4 sets x 8-10)",
+                        "Bent-over rows (4 sets x 8-10)",
+                        "Overhead press (3 sets x 8-10)",
+                        "Pull-ups or lat pulldowns (3 sets x 8-12)",
+                        "Bicep curls (3 sets x 12)",
+                        "Tricep extensions (3 sets x 12)"
+                    ]
+                },
+                {
+                    "icon": "⚡",
+                    "text": "Wednesday - Interval Cardio: 25-30 minutes",
+                    "childIcon": "•",
+                    "children": [
+                        "5 minute warm-up",
+                        "6-8 rounds: 1 minute hard, 2 minutes easy",
+                        "5 minute cool-down"
+                    ]
+                },
+                {
+                    "icon": "🦵",
+                    "text": "Thursday - Lower Body Strength: 35-40 minutes",
+                    "childIcon": "•",
+                    "children": [
+                        "Squats (4 sets x 8-10)",
+                        "Romanian deadlifts (4 sets x 8-10)",
+                        "Leg press or lunges (3 sets x 10-12)",
+                        "Leg curls (3 sets x 12)",
+                        "Calf raises (3 sets x 15)",
+                        "Core circuit (10 minutes)"
+                    ]
+                },
+                {
+                    "icon": "🏃",
+                    "text": "Friday - Moderate Cardio: 35-40 minutes",
+                    "childIcon": "•",
+                    "children": [
+                        "Different activity from Monday",
+                        "Consistent effort throughout"
+                    ]
+                },
+                {
+                    "icon": "🔄",
+                    "text": "Saturday - Optional Full Body or Rest",
+                    "childIcon": "•",
+                    "children": []
+                },
+                {
+                    "icon": "😌",
+                    "text": "Sunday - Rest or Light Activity",
+                    "childIcon": "•",
+                    "children": []
+                },
+                {
+                    "icon": "⬇️",
+                    "text": "Week 4 Deload: Reduce all volume by 30%, maintain intensity",
+                    "childIcon": "•",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "title": "Bonus Activities",
+            "icon": "💪",
+            "defaultIcon": "★",
+            "items": [
+                "Build aerobic base with longer cardio sessions",
+                "Practice mobility work on rest days"
+            ]
+        }   
+    ],
+    "closingNote": "<strong>Functional Fitness Philosophy:</strong> These 6 movement patterns aren't gym exercises - they're fundamental human movements you use every day. Squatting is sitting down and standing up. Hinging is picking something off the floor safely. Pushing and pulling open doors and carry groceries. By strengthening these patterns, you're not just building muscle - you're building a body that moves better, feels better, and handles life better. This is fitness with purpose."
+}
