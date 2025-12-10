@@ -1,0 +1,140 @@
+{
+    "title": "PROGRAM 1: SLEEP FOUNDATION",
+    "subtitle": "Weeks 1-4: Sleep Timing Consistency",
+    "subtitleDescription": "The first month focuses exclusively on sleep timing consistency—the single most impactful change you can make. Before worrying about duration or quality, you'll establish a reliable sleep-wake schedule that works with your life.",
+    "video": "Introduction to Functional Training",
+    "videoDescription": "Learn the fundamental movement patterns that build true functional strength: squat, hinge, push, pull, carry, and rotate. These movements translate directly to real-life activities and athletic performance.",
+    "description":"This 12-week program focuses on establishing the fundamental building blocks of better sleep. Starting with the most impactful change—consistent sleep timing—it gradually layers in simple habits that don't require dramatic lifestyle changes. The goal is to increase sleep by 20% (reaching 5-6 hours) while significantly improving sleep quality. Each intervention is introduced slowly to ensure sustainable adoption without overwhelming someone who is likely already stressed and sleep-deprived.",
+    "sections": [
+        {
+            "title": "Overall Goals",
+            "icon": "🎖️",
+            "defaultIcon": "→",
+            "items": [
+                "Establish consistent bedtime within 30-minute window",
+                "Increase sleep duration from 4-5 hours to 5-6 hours (20% improvement)",
+                "Create a basic 15-minute wind-down routine",
+                "Optimize sleep environment basics",
+                "Reduce major sleep disruptors"
+            ]
+        },    
+        {
+            "title": "Why It's Beneficial",
+            "icon": "✨",
+            "defaultIcon": "✦",
+            "items": [
+                "Immediate Impact: Consistency alone can improve sleep quality within 1-2 weeks",
+                "Sustainable Changes: Small steps prevent overwhelm and increase compliance",
+                "Foundation Building: Creates habits that support all future sleep improvements",
+                "Health Protection: Moving from 4-5 to 6 hours significantly reduces health risks",
+                "Energy Improvement: Even modest gains in sleep dramatically improve daytime function"
+            ]
+        },        
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Begin increasing daily activity levels",
+                "Set and maintain consistent wake time (±15 minutes)",
+                "Begin tracking all three metrics daily",
+                "Start basic morning routine"
+            ]
+        },
+        {
+            "title": "Week 1-2: Establish Your Schedule",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🕐",
+                    "text": "Choose realistic times:",
+                    "childIcon": "•",
+                    "children": [
+                        "Pick a bedtime you can maintain 7 days a week (even if it's late initially)",
+                        "Set wake time that works for your life (work, family, obligations)",
+                        "Example: If you currently sleep 2am-6am, keep it! Just make it consistent",
+                        "Write these times down and post them somewhere visible"
+                    ]
+                },
+                {
+                    "icon": "🌅",
+                    "text": "Morning consistency ritual (5 minutes):",
+                    "childIcon": "•",
+                    "children": [
+                        "Get out of bed immediately at wake time (no snooze)",
+                        "Open curtains or turn on lights",
+                        "Drink a glass of water",
+                        "Take 5 deep breaths"
+                    ]
+                },
+                {
+                    "icon": "🌙",
+                    "text": "Evening reminder:",
+                    "childIcon": "•",
+                    "children": [
+                        "Set phone alarm 30 minutes before bedtime",
+                        "When alarm goes off, begin preparing for bed"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 3-4: Lock In The Schedule",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🔒",
+                    "text": "Refine your timing:",
+                    "childIcon": "•",
+                    "children": [
+                        "If struggling, adjust by 15 minutes to find sweet spot",
+                        "Prioritize wake time consistency over bedtime",
+                        "Aim for 5/7 \"Yes\" responses on consistency tracker"
+                    ]
+                },
+                {
+                    "icon": "☀️",
+                    "text": "Add morning sunlight:",
+                    "childIcon": "•",
+                    "children": [
+                        "10 minutes of morning light within 1 hour of waking",
+                        "Can be through window if weather is poor",
+                        "Combine with coffee or breakfast"
+                    ]
+                },
+                {
+                    "icon": "🛏️",
+                    "text": "Begin environment prep:",
+                    "childIcon": "•",
+                    "children": [
+                        "Make bedroom slightly cooler (68-70°F)",
+                        "Remove one source of light each week (LED clocks, chargers, etc.)"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Daily Tracking Goals for Weeks 1-4:",
+            "icon": "✓",
+            "defaultIcon": "★",
+            "items": [
+                "Consistency: Aim for \"Yes\" 5 out of 7 days",
+                "Quality: No target yet—just observe patterns",
+                "Duration: No target yet—just record baseline"
+            ]
+        },
+        {
+            "title": "Common Challenges & Solutions:",
+            "icon": "⚡",
+            "defaultIcon": "★",
+            "items": [
+                "\"I can't fall asleep at my bedtime\" → Still go to bed, rest quietly, no phones",
+                "\"I have social events\" → Maintain wake time even after late nights",
+                "\"Weekends are different\" → Maximum 30-minute variation allowed"
+            ]
+        }
+    ],
+    "closingNote": "<strong>Advanced Sleep Science:</strong> Your brain cycles through 90-minute sleep stages (light → deep → REM) 4-6 times per night. Deep sleep (physical recovery) dominates the first half of night, while REM sleep (mental recovery, memory consolidation) dominates the second half. By optimizing your environment and timing, you can maximize both. Elite athletes and performers treat sleep like training - you're now doing the same."
+}

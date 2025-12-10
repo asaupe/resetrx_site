@@ -7,6 +7,31 @@
     "description": "This 12-week program bridges the gap between sporadic exercise and a truly active lifestyle. It systematically increases both exercise frequency and intensity while introducing variety to prevent boredom. The program adds a second strength training day by week 5 and introduces interval training by week 9, preparing you for continued advancement in the months ahead.",
     "sections": [
         {
+            "title": "Overall Goals",
+            "icon": "🎖️",
+            "defaultIcon": "→",
+            "items": [
+                "Build cardiovascular endurance from 15 to 30 minutes", 
+                "Build cardio endurance from 25 to 40 minutes",
+                "Establish consistent strength training 2x per week",
+                "Introduce interval training for improved fitness",
+                "Reach 7,000 daily steps consistently",
+                "Add flexibility work for injury prevention"
+            ]
+        },    
+        {
+            "title": "Why It's Beneficial",
+            "icon": "✨",
+            "defaultIcon": "✦",
+            "items": [
+                "Build cardiovascular endurance from 15 to 30 minutes",             
+                "Builds all fitness components: Combines cardio, strength, and flexibility",
+                "Prevents plateaus: Progressive overload ensures continuous improvement",
+                "Supports weight management: Sufficient volume for fat loss with muscle preservation",
+                "Improves energy: Regular exercise at this level significantly boosts daily energy"
+            ]
+        },        
+        {
             "title": "Phase Goals",
             "icon": "🎯",
             "defaultIcon": "✓",

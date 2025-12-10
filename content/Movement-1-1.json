@@ -7,6 +7,30 @@
     "description":"This program takes a gentle, progressive approach to establishing sustainable exercise habits. Starting with just 20 minutes of easy walking three times per week, it gradually builds both duration and frequency over 12 weeks. The focus is on creating consistency without overwhelming the body or mind. Strength training is intentionally delayed until week 9, allowing your cardiovascular system and movement patterns to adapt first.",
     "sections": [
         {
+            "title": "Overall Goals",
+            "icon": "🎖️",
+            "defaultIcon": "→",
+            "items": [
+                "Establish a consistent 3-5 day per week exercise routine",
+                "Build cardiovascular endurance from 15 to 30 minutes",
+                "Introduce basic strength movements safely",
+                "Increase daily steps from under 5,000 to 5,500+",
+                "Create sustainable habits for long-term success"
+            ]
+        },    
+        {
+            "title": "Why It's Beneficial",
+            "icon": "✨",
+            "defaultIcon": "✦",
+            "items": [
+                "Reduces overwhelm: Starting gradually is the key to long-term success",
+                "Builds confidence: Small, achievable goals create positive momentum",
+                "Prevents injury: Gradual progression allows tendons, ligaments, and muscles to adapt",
+                "Establishes habits: 12 weeks creates automatic behaviors that continue to build",
+                "Improves all health markers: Even light exercise significantly reduces disease risk"
+            ]
+        },        
+        {
             "title": "Phase Goals",
             "icon": "🎯",
             "defaultIcon": "✓",
