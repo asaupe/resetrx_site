@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Book Quest Appointment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: transparent;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            background: white;
+            padding: 20px 16px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        select,
+        input[type="date"],
+        input[type="time"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            color: #1a1a1a;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23666' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .location-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .location-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .location-item:last-child {
+            border-bottom: none;
+        }
+
+        .location-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .location-item.selected {
+            background-color: #e3f2fd;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .location-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .location-address {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .location-distance {
+            font-size: 11px;
+            color: #3b82f6;
+            margin-top: 2px;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            border-color: #3b82f6;
+        }
+
+        .time-slot.selected {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .time-slot.unavailable {
+            opacity: 0.4;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 24px;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-primary:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .info-box-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .info-box-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 450px) {
+            .container {
+                max-width: 440px;
+                margin: 0 auto;
+                padding: 24px 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .subtitle {
+                font-size: 13px;
+            }
+
+            .container {
+                padding: 16px 12px;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Book Your Quest Appointment</h1>
+        <p class="subtitle">Find a Quest location near you and schedule your visit</p>
+
+        <!-- Step 1: Location -->
+        <div class="form-group">
+            <label for="zipcode">Enter Your ZIP Code</label>
+            <input type="text" id="zipcode" placeholder="e.g., 94102" maxlength="5">
+        </div>
+
+        <div id="locationSection" class="hidden">
+            <div class="form-group">
+                <label>Select a Location</label>
+                <div class="location-list" id="locationList">
+                    <!-- Locations will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Date -->
+        <div id="dateSection" class="hidden">
+            <div class="form-group">
+                <label for="appointmentDate">Select Date</label>
+                <input type="date" id="appointmentDate">
+            </div>
+        </div>
+
+        <!-- Step 3: Time -->
+        <div id="timeSection" class="hidden">
+            <div class="form-group">
+                <label>Select Time</label>
+                <div class="time-slots" id="timeSlots">
+                    <!-- Time slots will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div id="confirmSection" class="hidden">
+            <div class="info-box">
+                <div class="info-box-title">Appointment Summary</div>
+                <div class="info-box-text" id="appointmentSummary"></div>
+            </div>
+        </div>
+
+        <button class="btn-primary" id="actionBtn" disabled>Find Locations</button>
+    </div>
+
+    <script>
+        // Sample location data
+        const sampleLocations = [
+            { id: 1, name: "Quest Diagnostics - Downtown", address: "123 Main St, San Francisco, CA 94102", distance: "0.5 mi" },
+            { id: 2, name: "Quest Diagnostics - Mission", address: "456 Valencia St, San Francisco, CA 94110", distance: "1.2 mi" },
+            { id: 3, name: "Quest Diagnostics - Richmond", address: "789 Geary Blvd, San Francisco, CA 94118", distance: "2.1 mi" },
+            { id: 4, name: "Quest Diagnostics - Sunset", address: "321 Irving St, San Francisco, CA 94122", distance: "3.4 mi" }
+        ];
+
+        const timeSlots = [
+            "8:00 AM", "9:00 AM", "10:00 AM",
+            "11:00 AM", "12:00 PM", "1:00 PM",
+            "2:00 PM", "3:00 PM", "4:00 PM"
+        ];
+
+        let selectedLocation = null;
+        let selectedDate = null;
+        let selectedTime = null;
+
+        const zipcodeInput = document.getElementById('zipcode');
+        const locationSection = document.getElementById('locationSection');
+        const locationList = document.getElementById('locationList');
+        const dateSection = document.getElementById('dateSection');
+        const appointmentDate = document.getElementById('appointmentDate');
+        const timeSection = document.getElementById('timeSection');
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        const confirmSection = document.getElementById('confirmSection');
+        const actionBtn = document.getElementById('actionBtn');
+        const appointmentSummary = document.getElementById('appointmentSummary');
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        appointmentDate.setAttribute('min', today);
+
+        // ZIP code input handler
+        zipcodeInput.addEventListener('input', (e) => {
+            const value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+            
+            if (value.length === 5) {
+                actionBtn.disabled = false;
+                actionBtn.textContent = 'Find Locations';
+            } else {
+                actionBtn.disabled = true;
+            }
+        });
+
+        // Action button handler
+        actionBtn.addEventListener('click', () => {
+            if (actionBtn.textContent === 'Find Locations') {
+                loadLocations();
+            } else if (actionBtn.textContent === 'Continue to Date Selection') {
+                showDateSection();
+            } else if (actionBtn.textContent === 'Continue to Time Selection') {
+                showTimeSection();
+            } else if (actionBtn.textContent === 'Confirm Appointment') {
+                confirmAppointment();
+            }
+        });
+
+        function loadLocations() {
+            locationList.innerHTML = '';
+            sampleLocations.forEach(location => {
+                const item = document.createElement('div');
+                item.className = 'location-item';
+                item.innerHTML = `
+                    <div class="location-name">${location.name}</div>
+                    <div class="location-address">${location.address}</div>
+                    <div class="location-distance">${location.distance} away</div>
+                `;
+                item.addEventListener('click', () => selectLocation(location, item));
+                locationList.appendChild(item);
+            });
+            
+            locationSection.classList.remove('hidden');
+            actionBtn.disabled = true;
+            actionBtn.textContent = 'Continue to Date Selection';
+        }
+
+        function selectLocation(location, element) {
+            document.querySelectorAll('.location-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedLocation = location;
+            actionBtn.disabled = false;
+        }
+
+        function showDateSection() {
+            dateSection.classList.remove('hidden');
+            actionBtn.disabled = true;
+            actionBtn.textContent = 'Continue to Time Selection';
+        }
+
+        appointmentDate.addEventListener('change', (e) => {
+            selectedDate = e.target.value;
+            actionBtn.disabled = !selectedDate;
+        });
+
+        function showTimeSection() {
+            timeSlotsContainer.innerHTML = '';
+            timeSlots.forEach((time, index) => {
+                const slot = document.createElement('div');
+                slot.className = 'time-slot';
+                // Make some slots unavailable randomly for demo
+                if (Math.random() > 0.7) {
+                    slot.classList.add('unavailable');
+                }
+                slot.textContent = time;
+                
+                if (!slot.classList.contains('unavailable')) {
+                    slot.addEventListener('click', () => selectTime(time, slot));
+                }
+                
+                timeSlotsContainer.appendChild(slot);
+            });
+            
+            timeSection.classList.remove('hidden');
+            actionBtn.disabled = true;
+            actionBtn.textContent = 'Confirm Appointment';
+        }
+
+        function selectTime(time, element) {
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedTime = time;
+            
+            // Show summary
+            const date = new Date(selectedDate);
+            const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            
+            appointmentSummary.innerHTML = `
+                <strong>${selectedLocation.name}</strong><br>
+                ${selectedLocation.address}<br><br>
+                <strong>${dateStr}</strong><br>
+                ${selectedTime}
+            `;
+            
+            confirmSection.classList.remove('hidden');
+            actionBtn.disabled = false;
+        }
+
+        function confirmAppointment() {
+            alert('Appointment confirmed! You will receive a confirmation email shortly.');
+            // In production, this would make an API call to book the appointment
+        }
+    </script>
+</body>
+</html>
