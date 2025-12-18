@@ -59,6 +59,13 @@
             z-index: 1;
         }
 
+        .video-section iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+        }
+
         .program-badge {
             display: inline-block;
             background: rgba(255,255,255,0.2);
@@ -682,10 +689,51 @@
             const displayPlan = params.planName || `${params.program} Level ${params.level}`;
             const levelLabel = getLevelLabel(params.level);
             
-            // Extract module name from subtitle (e.g., "Weeks 1-4: Movement Habit Formation" -> "Movement Habit Formation")
+            // Extract module name from subtitle
             let moduleName = data.subtitle || '';
             if (moduleName.includes(':')) {
                 moduleName = moduleName.split(':')[1].trim();
+            }
+            
+            // Check if video is a YouTube URL
+            let videoEmbed = '';
+            if (data.video && data.video.includes('youtube.com')) {
+                // Extract video ID from various YouTube URL formats
+                let videoId = '';
+                if (data.video.includes('watch?v=')) {
+                    videoId = data.video.split('watch?v=')[1].split('&')[0];
+                } else if (data.video.includes('youtu.be/')) {
+                    videoId = data.video.split('youtu.be/')[1].split('?')[0];
+                }
+                
+                if (videoId) {
+                    videoEmbed = `
+                        <div class="video-section">
+                            <div class="video-placeholder" onclick="loadVideo(this, '${videoId}')">
+                                <div class="play-button"></div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Introduction Video</div>
+                                <div class="video-meta">${params.program} • ${levelLabel} • Module ${params.module}</div>
+                                <div class="video-description">${data.videoDescription || ''}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else if (data.video) {
+                // Fallback to placeholder with video title
+                videoEmbed = `
+                    <div class="video-section">
+                        <div class="video-placeholder">
+                            <div class="play-button"></div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title">${data.video}</div>
+                            <div class="video-meta">${params.program} • ${levelLabel} • Module ${params.module}</div>
+                            <div class="video-description">${data.videoDescription || ''}</div>
+                        </div>
+                    </div>
+                `;
             }
             
             const content = `
@@ -716,16 +764,7 @@
                 </div>
 
                 <div class="content-wrapper">
-                    <div class="video-section">
-                        <div class="video-placeholder">
-                            <div class="play-button"></div>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-title">${data.video}</div>
-                            <div class="video-meta">${params.program} • ${levelLabel} • Module ${params.module}</div>
-                            <div class="video-description">${data.videoDescription}</div>
-                        </div>
-                    </div>
+                    ${videoEmbed}
 
                     <div class="overview-section">
                         <div class="section-header">
@@ -746,6 +785,20 @@
             `;
             
             return content;
+        }
+
+        // Add this new function after generateContent
+        function loadVideo(placeholder, videoId) {
+            const iframe = document.createElement('iframe');
+            iframe.width = '100%';
+            iframe.height = '315';
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            iframe.frameBorder = '0';
+            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.style.cssText = 'border-radius: 16px 16px 0 0; display: block; aspect-ratio: 16/9;';
+            
+            placeholder.parentNode.replaceChild(iframe, placeholder);
         }
 
         function generateErrorPage(params, errorMessage) {
