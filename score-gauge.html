@@ -27,7 +27,7 @@
 
         .score-card {
             background: transparent;
-            padding: 8px 0;
+            padding: 10px 5px;
             width: 100%;
             height: 100%;
             display: flex;
@@ -38,40 +38,36 @@
 
         .header {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             flex-shrink: 0;
             width: 100%;
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 800;
             color: #1a1a1a;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             line-height: 1.1;
         }
 
         .updated {
-            font-size: 13px;
+            font-size: 14px;
             color: #666;
             line-height: 1.2;
         }
 
         .gauge-container {
             position: relative;
-            width: 90%;
-            max-width: 90%;
+            width: 100%;
+            max-width: 100%;
             flex-shrink: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         .gauge-svg {
             width: 100%;
             height: auto;
             display: block;
-            margin: 0 auto;
         }
 
         .gauge-bg {
@@ -98,7 +94,7 @@
             top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 52px;
+            font-size: 56px;
             font-weight: 900;
             color: #1a1a1a;
         }
@@ -106,10 +102,10 @@
         .scale-labels {
             display: flex;
             justify-content: space-between;
-            padding: 0 5%;
-            margin-top: -8px;
+            padding: 0 15px;
+            margin-top: -10px;
             flex-shrink: 0;
-            width: 90%;
+            width: 100%;
         }
 
         .scale-label {
@@ -117,14 +113,14 @@
         }
 
         .scale-number {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: #1a1a1a;
             line-height: 1.1;
         }
 
         .scale-text {
-            font-size: 11px;
+            font-size: 12px;
             color: #666;
             font-weight: 600;
             margin-top: 2px;
@@ -135,76 +131,54 @@
             text-align: center;
             padding: 20px;
             color: #666;
-            font-size: 14px;
+            font-size: 16px;
         }
 
-        /* Small phone size (iPhone SE, small Android) - Compact 320px */
-        @media (max-width: 390px) {
+        /* Small screens (iPhone SE, small Android) */
+        @media (max-width: 375px) {
             .score-card {
-                max-width: 320px;
-                padding: 6px 0;
+                padding: 8px 3px;
             }
 
             h1 {
-                font-size: 22px;
+                font-size: 24px;
                 margin-bottom: 2px;
             }
 
             .updated {
-                font-size: 11px;
-            }
-
-            .gauge-container {
-                width: 88%;
-                max-width: 88%;
+                font-size: 12px;
             }
 
             .score-value {
-                font-size: 44px;
+                font-size: 48px;
             }
 
             .scale-labels {
-                width: 88%;
-                padding: 0 4%;
-                margin-top: -6px;
+                padding: 0 10px;
+                margin-top: -8px;
             }
 
             .scale-number {
-                font-size: 18px;
+                font-size: 20px;
             }
 
             .scale-text {
-                font-size: 10px;
+                font-size: 11px;
             }
         }
 
-        /* Large phone size (iPhone 12+, large Android) - Spacious 400px */
-        @media (min-width: 391px) {
-            .score-card {
-                max-width: 400px;
-            }
-
+        /* Medium screens (iPhone 12-15, standard Android) */
+        @media (min-width: 376px) and (max-width: 430px) {
             h1 {
-                font-size: 32px;
-                margin-bottom: 4px;
+                font-size: 30px;
             }
 
             .updated {
                 font-size: 15px;
             }
 
-            .gauge-container {
-                width: 92%;
-                max-width: 92%;
-            }
-
             .score-value {
-                font-size: 64px;
-            }
-
-            .scale-labels {
-                width: 92%;
-                padding: 0 5%;
+                font-size: 60px;
             }
 
             .scale-number {
@@ -216,45 +190,74 @@
             }
         }
 
-        /* Very short screens */
-        @media (max-height: 500px) {
+        /* Large screens (iPhone Pro Max, large Android) */
+        @media (min-width: 431px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .updated {
+                font-size: 16px;
+            }
+
+            .score-value {
+                font-size: 72px;
+            }
+
+            .scale-labels {
+                padding: 0 20px;
+            }
+
+            .scale-number {
+                font-size: 28px;
+            }
+
+            .scale-text {
+                font-size: 14px;
+            }
+        }
+
+        /* Short screens - reduce vertical spacing even more */
+        @media (max-height: 600px) {
             .score-card {
-                padding: 4px 0;
+                padding: 5px 3px;
             }
 
             .header {
-                margin-bottom: 4px;
+                margin-bottom: 5px;
             }
 
             h1 {
-                font-size: 20px;
+                font-size: 22px;
                 margin-bottom: 2px;
             }
 
             .updated {
-                font-size: 10px;
-            }
-
-            .gauge-container {
-                width: 88%;
-                max-width: 88%;
+                font-size: 11px;
             }
 
             .score-value {
-                font-size: 38px;
+                font-size: 42px;
             }
 
             .scale-labels {
-                width: 88%;
-                margin-top: -4px;
+                padding: 0 10px;
+                margin-top: -5px;
             }
 
             .scale-number {
-                font-size: 16px;
+                font-size: 18px;
             }
 
             .scale-text {
-                font-size: 9px;
+                font-size: 10px;
+            }
+        }
+
+        /* Very tall screens - still minimal spacing */
+        @media (min-height: 800px) {
+            .header {
+                margin-bottom: 15px;
             }
         }
     </style>
@@ -300,7 +303,7 @@
             
             return `
                 <div class="gauge-container">
-                    <svg class="gauge-svg" viewBox="35 0 330 250" preserveAspectRatio="xMidYMid meet">
+                    <svg class="gauge-svg" viewBox="20 0 360 250" preserveAspectRatio="xMidYMid meet">
                         <!-- Background arc -->
                         <path class="gauge-bg" d="M 50 200 A 150 150 0 0 1 350 200" />
                         
