@@ -3,7 +3,7 @@
  * Handles OAuth authentication and API calls to KHSS Salesforce endpoints
  */
 
-const HttpsProxyAgent = require('https-proxy-agent');
+const { HttpsProxyAgent } = require('https-proxy-agent');
 
 class KHSSClient {
     constructor(config) {
