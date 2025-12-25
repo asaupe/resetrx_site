@@ -1,5 +1,6 @@
 // Simple function to return the outbound IP address of this Netlify Function
 const { HttpsProxyAgent } = require('https-proxy-agent');
+const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
     try {

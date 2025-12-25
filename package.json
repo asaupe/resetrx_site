@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ResetRx health screening appointment booking",
   "dependencies": {
-    "https-proxy-agent": "^7.0.2"
+    "https-proxy-agent": "^7.0.2",
+    "node-fetch": "^2.7.0"
   }
 }

@@ -4,6 +4,7 @@
  */
 
 const { HttpsProxyAgent } = require('https-proxy-agent');
+const fetch = require('node-fetch');
 
 class KHSSClient {
     constructor(config) {
