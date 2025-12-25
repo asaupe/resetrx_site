@@ -3,6 +3,8 @@
  * Handles OAuth authentication and API calls to KHSS Salesforce endpoints
  */
 
+const HttpsProxyAgent = require('https-proxy-agent');
+
 class KHSSClient {
     constructor(config) {
         this.baseURL = config.baseURL;
@@ -15,6 +17,13 @@ class KHSSClient {
         this.activityId = config.activityId || '1';
         this.token = null;
         this.tokenExpiry = null;
+        
+        // Setup proxy agent if Fixie URL is configured
+        this.proxyAgent = null;
+        if (process.env.FIXIE_URL) {
+            console.log('Fixie proxy configured for static IP');
+            this.proxyAgent = new HttpsProxyAgent(process.env.FIXIE_URL);
+        }
     }
 
     /**
@@ -39,6 +48,9 @@ class KHSSClient {
 
             console.log('Authenticating with KHSS...');
             console.log('Base URL:', this.baseURL);
+            if (this.proxyAgent) {
+                console.log('Using Fixie proxy for static IP');
+            }
 
             const response = await fetch(
                 `https://${this.baseURL}/services/oauth2/token?${params.toString()}`,
@@ -46,7 +58,8 @@ class KHSSClient {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
-                    }
+                    },
+                    agent: this.proxyAgent
                 }
             );
 
@@ -99,7 +112,8 @@ class KHSSClient {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify(body)
+                    body: JSON.stringify(body),
+                    agent: this.proxyAgent
                 }
             );
 
@@ -250,7 +264,8 @@ class KHSSClient {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
+                    agent: this.proxyAgent
                 }
             );
 
