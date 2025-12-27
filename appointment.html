@@ -485,7 +485,21 @@
             });
             element.classList.add('selected');
             selectedLocation = location;
+            
+            // Clear previous date and time selections when changing location
+            selectedDate = null;
+            selectedTime = null;
+            appointmentDate.value = '';
+            
+            // Hide and reset date/time sections
+            dateSection.classList.add('hidden');
+            timeSection.classList.add('hidden');
+            confirmSection.classList.add('hidden');
+            timeSlotsContainer.innerHTML = '';
+            
+            // Reset button to date selection state
             actionBtn.disabled = false;
+            actionBtn.textContent = 'Continue to Date Selection';
         }
 
         function showDateSection() {

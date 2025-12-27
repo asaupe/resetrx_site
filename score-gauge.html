@@ -358,23 +358,77 @@
         function getURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             return {
+                profileId: urlParams.get('profileId') || 'TWVtYmVyOjJkYzAxM2E3LThhOGEtNDU1NC04MTM5LWQyYWQ3YmQ5Nzc4Ng==',
                 score: parseFloat(urlParams.get('score')) || null,
                 sleep: parseFloat(urlParams.get('sleep')) || null,
                 movement: parseFloat(urlParams.get('movement')) || null,
                 mindfulness: parseFloat(urlParams.get('mindfulness')) || null,
-                nutrition: parseFloat(urlParams.get('nutrition')) || null,
-                weight: parseFloat(urlParams.get('weight')) || null
+                nutrition: parseFloat(urlParams.get('nutrition')) || null
             };
         }
 
-        function calculateAverageScore(pillars) {
-            const scores = Object.values(pillars).filter(s => s !== null);
-            if (scores.length === 0) return null;
-            return scores.reduce((a, b) => a + b, 0) / scores.length;
+        async function loadScore() {
+            const params = getURLParameters();
+            const container = document.getElementById('content');
+            
+            try {
+                // If score params provided, use them directly
+                if (params.score !== null) {
+                    renderStaticScore(params);
+                    return;
+                }
+                
+                // Otherwise, fetch from Suggestic
+                container.innerHTML = '<div class="loading">Loading your wellness score...</div>';
+                
+                const response = await fetch('/.netlify/functions/calculate-user-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        profileId: params.profileId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load score');
+                }
+                
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to calculate score');
+                }
+                
+                const data = result.data;
+                
+                // Update date
+                const today = new Date();
+                document.getElementById('updateDate').textContent = 
+                    `Updated on: ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear().toString().slice(-2)}`;
+                
+                // Render gauge with overall score
+                container.innerHTML = createGauge(data.scores.overall);
+                
+                console.log('User scores:', data.scores);
+                console.log('Raw data:', data.rawData);
+                
+            } catch (error) {
+                console.error('Error loading score:', error);
+                container.innerHTML = `
+                    <div class="loading">
+                        Error loading score: ${error.message}<br>
+                        <small>Using demo score instead</small>
+                    </div>
+                `;
+                
+                // Fallback to demo score
+                setTimeout(() => {
+                    container.innerHTML = createGauge(4.4);
+                }, 2000);
+            }
         }
 
-        function loadScore() {
-            const params = getURLParameters();
+        function renderStaticScore(params) {
             const container = document.getElementById('content');
             
             // Build pillars object
@@ -383,7 +437,6 @@
             if (params.movement !== null) pillars.Movement = params.movement;
             if (params.mindfulness !== null) pillars.Mindfulness = params.mindfulness;
             if (params.nutrition !== null) pillars.Nutrition = params.nutrition;
-            if (params.weight !== null) pillars.Weight = params.weight;
             
             // Calculate overall score
             let overallScore = params.score;
@@ -403,6 +456,12 @@
             
             // Render gauge only
             container.innerHTML = createGauge(overallScore);
+        }
+
+        function calculateAverageScore(pillars) {
+            const scores = Object.values(pillars).filter(s => s !== null);
+            if (scores.length === 0) return null;
+            return scores.reduce((a, b) => a + b, 0) / scores.length;
         }
 
         // Load score when page loads

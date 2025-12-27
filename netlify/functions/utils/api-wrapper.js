@@ -12,33 +12,40 @@ class SuggesticClient {
     /**
      * Execute a GraphQL query
      * @param {string} query - GraphQL query string
-     * @param {string} userId - User ID for sg-user header
+     * @param {string} userId - Member ID (base64 format)
      * @returns {Promise<Object>} - Query result data
      */
     async query(query, userId) {
         try {
+            console.log('Suggestic API Request:', {
+                endpoint: this.endpoint,
+                userId: userId,
+                queryPreview: query.substring(0, 200)
+            });
+            
             const response = await fetch(this.endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Token ${this.apiToken}`,
-                    'sg-user': userId
+                    'Authorization': `Bearer ${this.apiToken}`
                 },
                 body: JSON.stringify({ query })
             });
 
             if (!response.ok) {
                 const errorText = await response.text();
+                console.error('Suggestic API HTTP error:', response.status, errorText);
                 throw new Error(`Suggestic API error: ${response.status} - ${errorText}`);
             }
 
             const result = await response.json();
             
             if (result.errors) {
-                console.error('GraphQL errors:', result.errors);
+                console.error('GraphQL errors:', JSON.stringify(result.errors, null, 2));
                 throw new Error(result.errors[0].message);
             }
 
+            console.log('Suggestic API success, data keys:', Object.keys(result.data || {}));
             return result.data;
         } catch (error) {
             console.error('Suggestic query error:', error);
@@ -83,21 +90,27 @@ class SuggesticClient {
      * @returns {Promise<Object>} - Sleep times data
      */
     async getSleepData(userId, startDate, endDate) {
+        // Convert to DateTime format: 2025-12-22T00:00:00Z
+        const startDateTime = `${startDate}T00:00:00Z`;
+        const endDateTime = `${endDate}T23:59:59Z`;
+        
         const query = `
             query {
-                sleepTimes(start: "${startDate}", end: "${endDate}") {
-                    dailyGoal
-                    totalTime
-                    pageInfo {
-                        hasNextPage
-                        hasPreviousPage
-                    }
-                    edges {
-                        node {
-                            date
-                            source
-                            value
-                            id
+                member(id: "${userId}") {
+                    sleepTimes(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
+                        dailyGoal
+                        totalTime
+                        pageInfo {
+                            hasNextPage
+                            hasPreviousPage
+                        }
+                        edges {
+                            node {
+                                date
+                                source
+                                value
+                                id
+                            }
                         }
                     }
                 }
@@ -105,7 +118,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.sleepTimes;
+        return data.member.sleepTimes;
     }
 
     /**
@@ -116,20 +129,26 @@ class SuggesticClient {
      * @returns {Promise<Object>} - Sleep quality scores data
      */
     async getSleepQualityData(userId, startDate, endDate) {
+        // Convert to DateTime format
+        const startDateTime = `${startDate}T00:00:00Z`;
+        const endDateTime = `${endDate}T23:59:59Z`;
+        
         const query = `
             query {
-                sleepQualityScores(start: "${startDate}", end: "${endDate}") {
-                    average
-                    pageInfo {
-                        hasNextPage
-                        hasPreviousPage
-                    }
-                    edges {
-                        node {
-                            date
-                            source
-                            value
-                            id
+                member(id: "${userId}") {
+                    sleepQualityScores(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
+                        average
+                        pageInfo {
+                            hasNextPage
+                            hasPreviousPage
+                        }
+                        edges {
+                            node {
+                                date
+                                source
+                                value
+                                id
+                            }
                         }
                     }
                 }
@@ -137,7 +156,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.sleepQualityScores;
+        return data.member.sleepQualityScores;
     }
 
     /**
@@ -148,21 +167,23 @@ class SuggesticClient {
      * @returns {Promise<Object>} - Steps counter data
      */
     async getStepsData(userId, startDate, endDate) {
-        // Convert YYYY-MM-DD to YYYYMMDD format required by stepsCounter
-        const formatDate = (dateStr) => dateStr.replace(/-/g, '');
+        // Convert to DateTime format
+        const startDateTime = `${startDate}T00:00:00Z`;
+        const endDateTime = `${endDate}T23:59:59Z`;
         
         const query = `
             query {
-                stepsCounter(start: "${formatDate(startDate)}", end: "${formatDate(endDate)}") {
-                    dailyGoal
-                    distance
-                    steps
-                    edges {
-                        node {
-                            steps
-                            source
-                            datetime
-                            id
+                member(id: "${userId}") {
+                    stepsCounter(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
+                        dailyGoal
+                        distance
+                        edges {
+                            node {
+                                steps
+                                source
+                                datetime
+                                id
+                            }
                         }
                     }
                 }
@@ -170,7 +191,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.stepsCounter;
+        return data.member.stepsCounter;
     }
 
     /**
@@ -181,21 +202,27 @@ class SuggesticClient {
      * @returns {Promise<Object>} - Exercise tracker data
      */
     async getMovementData(userId, startDate, endDate) {
+        // Convert to DateTime format
+        const startDateTime = `${startDate}T00:00:00Z`;
+        const endDateTime = `${endDate}T23:59:59Z`;
+        
         const query = `
             query {
-                exerciseTracker(start: "${startDate}", end: "${endDate}") {
-                    pageInfo {
-                        hasNextPage
-                        hasPreviousPage
-                    }
-                    edges {
-                        node {
-                            calories
-                            datetime
-                            id
-                            intensity
-                            type
-                            durationMinutes
+                member(id: "${userId}") {
+                    exerciseTracker(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
+                        pageInfo {
+                            hasNextPage
+                            hasPreviousPage
+                        }
+                        edges {
+                            node {
+                                calories
+                                datetime
+                                id
+                                intensity
+                                type
+                                durationMinutes
+                            }
                         }
                     }
                 }
@@ -203,7 +230,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.exerciseTracker;
+        return data.member.exerciseTracker;
     }
 
     /**
