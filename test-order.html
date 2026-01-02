@@ -95,12 +95,12 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        orderKey: 'TEST' + Date.now(),
-                        labAccount: '7401519',
+                        orderKey: 'RX' + String(Date.now()).slice(-12), // 14 chars: RX + 12 digit timestamp
+                        labAccount: '73946524',
                         patient: {
                             id: 'TEST10001',
-                            firstName: 'Test',
-                            lastName: 'Patient',
+                            firstName: 'Patient',
+                            lastName: 'Test',
                             dob: '1980-01-01',
                             sex: 'Male',
                             street: '123 Test St',
@@ -111,7 +111,7 @@
                             email: 'test@example.com'
                         },
                         tests: [
-                            { testCode: '866' } // Basic Metabolic Panel
+                            { testCode: '899' }
                         ]
                     })
                 });

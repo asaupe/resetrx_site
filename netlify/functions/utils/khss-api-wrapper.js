@@ -292,10 +292,11 @@ class KHSSClient {
 let testClient = null;
 let prodClient = null;
 
-function getKHSSClient() {
-    const useProduction = process.env.USE_PRODUCTION === 'true';
+function getKHSSClient(useProduction) {
+    // Allow override via parameter, otherwise check env var
+    const isProd = useProduction !== undefined ? useProduction : (process.env.USE_PRODUCTION === 'true');
     
-    if (useProduction) {
+    if (isProd) {
         if (!prodClient) {
             prodClient = new KHSSClient({
                 baseURL: process.env.KHSS_PROD_BASE_URL,

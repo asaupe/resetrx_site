@@ -27,7 +27,8 @@ class SuggesticClient {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.apiToken}`
+                    'Authorization': `Token ${this.apiToken}`,
+                    'sg-user': userId
                 },
                 body: JSON.stringify({ query })
             });
@@ -87,30 +88,25 @@ class SuggesticClient {
      * @param {string} userId - User ID
      * @param {string} startDate - Start date (YYYY-MM-DD)
      * @param {string} endDate - End date (YYYY-MM-DD)
+     * @param {string} source - Data source (APPLE or HEALTHCONNECT)
      * @returns {Promise<Object>} - Sleep times data
      */
-    async getSleepData(userId, startDate, endDate) {
-        // Convert to DateTime format: 2025-12-22T00:00:00Z
-        const startDateTime = `${startDate}T00:00:00Z`;
-        const endDateTime = `${endDate}T23:59:59Z`;
-        
+    async getSleepData(userId, startDate, endDate, source = 'APPLE') {
         const query = `
             query {
-                member(id: "${userId}") {
-                    sleepTimes(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
-                        dailyGoal
-                        totalTime
-                        pageInfo {
-                            hasNextPage
-                            hasPreviousPage
-                        }
-                        edges {
-                            node {
-                                date
-                                source
-                                value
-                                id
-                            }
+                sleepTimes(start: "${startDate}", end: "${endDate}", source: ${source}, first: 300) {
+                    dailyGoal
+                    totalTime
+                    pageInfo {
+                        hasNextPage
+                        hasPreviousPage
+                    }
+                    edges {
+                        node {
+                            date
+                            source
+                            value
+                            id
                         }
                     }
                 }
@@ -118,7 +114,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.member.sleepTimes;
+        return data.sleepTimes;
     }
 
     /**
@@ -126,29 +122,24 @@ class SuggesticClient {
      * @param {string} userId - User ID
      * @param {string} startDate - Start date (YYYY-MM-DD)
      * @param {string} endDate - End date (YYYY-MM-DD)
+     * @param {string} source - Data source (APPLE or HEALTHCONNECT)
      * @returns {Promise<Object>} - Sleep quality scores data
      */
-    async getSleepQualityData(userId, startDate, endDate) {
-        // Convert to DateTime format
-        const startDateTime = `${startDate}T00:00:00Z`;
-        const endDateTime = `${endDate}T23:59:59Z`;
-        
+    async getSleepQualityData(userId, startDate, endDate, source = 'APPLE') {
         const query = `
             query {
-                member(id: "${userId}") {
-                    sleepQualityScores(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
-                        average
-                        pageInfo {
-                            hasNextPage
-                            hasPreviousPage
-                        }
-                        edges {
-                            node {
-                                date
-                                source
-                                value
-                                id
-                            }
+                sleepQualityScores(start: "${startDate}", end: "${endDate}", source: ${source}, first: 300) {
+                    average
+                    pageInfo {
+                        hasNextPage
+                        hasPreviousPage
+                    }
+                    edges {
+                        node {
+                            date
+                            source
+                            value
+                            id
                         }
                     }
                 }
@@ -156,7 +147,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.member.sleepQualityScores;
+        return data.sleepQualityScores;
     }
 
     /**
@@ -164,26 +155,24 @@ class SuggesticClient {
      * @param {string} userId - User ID
      * @param {string} startDate - Start date (YYYY-MM-DD)
      * @param {string} endDate - End date (YYYY-MM-DD)
+     * @param {string} source - Data source (APPLE or HEALTHCONNECT)
      * @returns {Promise<Object>} - Steps counter data
      */
-    async getStepsData(userId, startDate, endDate) {
-        // Convert to DateTime format
-        const startDateTime = `${startDate}T00:00:00Z`;
-        const endDateTime = `${endDate}T23:59:59Z`;
+    async getStepsData(userId, startDate, endDate, source = 'APPLE') {
+        // Convert YYYY-MM-DD to YYYYMMDD numeric format
+        const formatDate = (dateStr) => parseInt(dateStr.replace(/-/g, ''));
         
         const query = `
             query {
-                member(id: "${userId}") {
-                    stepsCounter(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
-                        dailyGoal
-                        distance
-                        edges {
-                            node {
-                                steps
-                                source
-                                datetime
-                                id
-                            }
+                stepsCounter(start: ${formatDate(startDate)}, end: ${formatDate(endDate)}, source: ${source}, first: 300) {
+                    dailyGoal
+                    distance
+                    edges {
+                        node {
+                            steps
+                            source
+                            datetime
+                            id
                         }
                     }
                 }
@@ -191,7 +180,7 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.member.stepsCounter;
+        return data.stepsCounter;
     }
 
     /**
@@ -199,30 +188,25 @@ class SuggesticClient {
      * @param {string} userId - User ID
      * @param {string} startDate - Start date (YYYY-MM-DD)
      * @param {string} endDate - End date (YYYY-MM-DD)
+     * @param {string} source - Data source (APPLE or HEALTHCONNECT)
      * @returns {Promise<Object>} - Exercise tracker data
      */
-    async getMovementData(userId, startDate, endDate) {
-        // Convert to DateTime format
-        const startDateTime = `${startDate}T00:00:00Z`;
-        const endDateTime = `${endDate}T23:59:59Z`;
-        
+    async getMovementData(userId, startDate, endDate, source = 'APPLE') {
         const query = `
             query {
-                member(id: "${userId}") {
-                    exerciseTracker(start: "${startDateTime}", end: "${endDateTime}", first: 300) {
-                        pageInfo {
-                            hasNextPage
-                            hasPreviousPage
-                        }
-                        edges {
-                            node {
-                                calories
-                                datetime
-                                id
-                                intensity
-                                type
-                                durationMinutes
-                            }
+                exerciseTracker(start: "${startDate}", end: "${endDate}", source: ${source}, first: 300) {
+                    pageInfo {
+                        hasNextPage
+                        hasPreviousPage
+                    }
+                    edges {
+                        node {
+                            calories
+                            datetime
+                            id
+                            intensity
+                            type
+                            durationMinutes
                         }
                     }
                 }
@@ -230,7 +214,43 @@ class SuggesticClient {
         `;
         
         const data = await this.query(query, userId);
-        return data.member.exerciseTracker;
+        return data.exerciseTracker;
+    }
+
+    /**
+     * Get user's device source (APPLE for iOS, HEALTHCONNECT for Android)
+     * @param {string} userId - User ID
+     * @returns {Promise<string>} - Source type (APPLE or HEALTHCONNECT)
+     */
+    async getUserSource(userId) {
+        // Try to detect from recent step data
+        const query = `
+            query {
+                stepsCounter(start: 20251201, end: 20260102, first: 1) {
+                    edges {
+                        node {
+                            source
+                        }
+                    }
+                }
+            }
+        `;
+        
+        try {
+            const data = await this.query(query, userId);
+            const source = data.stepsCounter?.edges?.[0]?.node?.source;
+            
+            if (source) {
+                console.log('Detected user source:', source);
+                return source;
+            }
+        } catch (error) {
+            console.warn('Could not detect user source:', error.message);
+        }
+        
+        // Default to APPLE if cannot detect
+        console.log('Defaulting to APPLE source');
+        return 'APPLE';
     }
 
     /**

@@ -315,8 +315,8 @@
         // Temporary patient data (will be replaced with Suggestic data later)
         const tempPatientData = {
             id: 'TEST10001',
-            firstName: 'John',
-            lastName: 'Doe',
+            firstName: 'Patient',
+            lastName: 'Test',
             dob: '1985-06-15',
             sex: 'Male',
             street: '123 Main St',
@@ -384,11 +384,11 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            orderKey: 'ORDER' + Date.now(),
-                            labAccount: '7401519',
+                            orderKey: 'RX' + String(Date.now()).slice(-12), // 14 chars: RX + 12 digit timestamp
+                            labAccount: '73946524',
                             patient: tempPatientData,
                             tests: [
-                                { testCode: '866' } // Basic Metabolic Panel - will be customized later
+                                { testCode: '899' }
                             ]
                         })
                     });

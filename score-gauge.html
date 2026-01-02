@@ -54,7 +54,8 @@
         .updated {
             font-size: 14px;
             color: #666;
-            line-height: 1.2;
+            line-height: 1.4;
+            padding: 0 10px;
         }
 
         .gauge-container {
@@ -358,7 +359,7 @@
         function getURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             return {
-                profileId: urlParams.get('profileId') || 'TWVtYmVyOjJkYzAxM2E3LThhOGEtNDU1NC04MTM5LWQyYWQ3YmQ5Nzc4Ng==',
+                profileId: urlParams.get('user_id') || urlParams.get('profileId') || 'TWVtYmVyOjJkYzAxM2E3LThhOGEtNDU1NC04MTM5LWQyYWQ3YmQ5Nzc4Ng==',
                 score: parseFloat(urlParams.get('score')) || null,
                 sleep: parseFloat(urlParams.get('sleep')) || null,
                 movement: parseFloat(urlParams.get('movement')) || null,
@@ -401,9 +402,9 @@
                 
                 const data = result.data;
                 
-                // Update date
+                // Update date and message
                 const today = new Date();
-                document.getElementById('updateDate').textContent = 
+                document.getElementById('updateDate').textContent = data.message || 
                     `Updated on: ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear().toString().slice(-2)}`;
                 
                 // Render gauge with overall score

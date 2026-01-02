@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const { patient, orderKey, tests, labAccount } = JSON.parse(event.body);
+        const { patient, orderKey, tests, labAccount, useProduction } = JSON.parse(event.body);
 
         // Validate required fields
         if (!patient || !orderKey) {
@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
         // Default to basic metabolic panel test if none provided
         const effectiveTests = tests || [{ testCode: '866', timestamp: new Date().toISOString() }];
 
-        const client = getKHSSClient();
+        const client = getKHSSClient(useProduction);
         const orderResult = await client.createOrder(
             patient,
             orderKey,
