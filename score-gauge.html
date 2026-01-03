@@ -402,6 +402,24 @@
                 
                 const data = result.data;
                 
+                // Check if user has no tracking data
+                if (data.noData || data.scores.overall === 'N/A') {
+                    document.getElementById('updateDate').textContent = data.message || 
+                        "We don't have any tracking data yet! Connect your wearable device to get started. 📱";
+                    
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px;">
+                            <div style="font-size: 72px; font-weight: 900; color: #666; margin-bottom: 20px;">
+                                N/A
+                            </div>
+                            <div style="font-size: 18px; color: #999; line-height: 1.6;">
+                                No tracking data available yet
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 // Update date and message
                 const today = new Date();
                 document.getElementById('updateDate').textContent = data.message || 

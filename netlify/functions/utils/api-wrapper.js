@@ -12,10 +12,10 @@ class SuggesticClient {
     /**
      * Execute a GraphQL query
      * @param {string} query - GraphQL query string
-     * @param {string} userId - Member ID (base64 format)
+     * @param {string} userId - Member ID (base64 format) - optional for admin queries
      * @returns {Promise<Object>} - Query result data
      */
-    async query(query, userId) {
+    async query(query, userId = null) {
         try {
             console.log('Suggestic API Request:', {
                 endpoint: this.endpoint,
@@ -23,13 +23,19 @@ class SuggesticClient {
                 queryPreview: query.substring(0, 200)
             });
             
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.apiToken}`
+            };
+            
+            // Only add sg-user header if userId is provided (for user-specific queries)
+            if (userId) {
+                headers['sg-user'] = userId;
+            }
+            
             const response = await fetch(this.endpoint, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${this.apiToken}`,
-                    'sg-user': userId
-                },
+                headers: headers,
                 body: JSON.stringify({ query })
             });
 
@@ -291,6 +297,70 @@ class SuggesticClient {
             mealsLogged: 0,
             compliance: 0
         };
+    }
+
+    /**
+     * Get user profile information
+     * @param {string} userId - Member ID (base64 format)
+     * @returns {Promise<Object>} - User profile data including email, name, programs, etc.
+     */
+    async getUserProfile(userId) {
+        const query = `
+            query {
+                myProfile {
+                    id
+                    email
+                    firstName
+                    lastName
+                    onboardingDetails {
+                        currentProgram {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+        `;
+
+        const data = await this.query(query, userId);
+        return data.myProfile || null;
+    }
+
+    /**
+     * Search for a profile by email address
+     * @param {string} email - User's email address
+     * @returns {Promise<Object>} - Profile data including userId, programs, meal plan
+     */
+    async searchProfileByEmail(email) {
+        const query = `
+            query {
+                searchProfile(email: "${email}") {
+                    id
+                    userId
+                    programName
+                    basalMetabolicRate
+                    caloricDifference
+                    dailyCaloricIntakeGoal
+                    mealPlan {
+                        id
+                        day
+                        date
+                        meals {
+                            recipe {
+                                id
+                                name
+                            }
+                            meal
+                            calories
+                        }
+                    }
+                }
+            }
+        `;
+
+        // Query without userId - use admin token authority
+        const data = await this.query(query);
+        return data.searchProfile || null;
     }
 }
 

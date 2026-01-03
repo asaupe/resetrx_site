@@ -105,6 +105,44 @@ exports.handler = async (event, context) => {
 
         console.log('Profile data (calculated from Suggestic):', profile);
         
+        // Check if user has any real tracking data
+        const hasTrackingData = (
+            (profile.sleepTime && profile.sleepTime > 0) ||
+            (profile.steps && profile.steps > 0) ||
+            (profile.exercise && profile.exercise > 0) ||
+            (profile.mealTracking && profile.mealTracking.percentageCompleted > 0)
+        );
+
+        // If no tracking data, return N/A response
+        if (!hasTrackingData) {
+            return {
+                statusCode: 200,
+                body: JSON.stringify({
+                    success: true,
+                    data: {
+                        profileId: userId,
+                        name: 'User',
+                        scores: {
+                            overall: 'N/A',
+                            sleep: 'N/A',
+                            movement: 'N/A',
+                            mindfulness: 'N/A',
+                            nutrition: 'N/A'
+                        },
+                        message: "We don't have any tracking data yet! Connect your wearable device or start logging your activities to see your wellness score. 📱",
+                        noData: true,
+                        rawData: {
+                            sleepTime: 0,
+                            sleepQuality: 0,
+                            steps: 0,
+                            exercise: 0,
+                            mealCompliance: 0
+                        }
+                    }
+                })
+            };
+        }
+        
         // Get assigned wellness programs (simplified for now)
         const assignedPrograms = [];
         
