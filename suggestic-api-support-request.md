@@ -57,7 +57,7 @@ When I inspect the coaching portal's network requests, I can see this exact quer
 I've tried:
 - Endpoint: https://production.suggestic.com/graphql (returns empty edges)
 - Endpoint: https://production.suggestic.com/cp/graphql (returns HTML error page)
-- Auth: Token f05b32d43269ef15736c3da29818edf86722f7ea (no data)
+- Auth: Token [REDACTED] (no data)
 - Auth: Bearer JWT token from portal (works in browser, expires in code)
 
 QUESTIONS:
