@@ -192,23 +192,26 @@ class KHSSClient {
     /**
      * Schedule an appointment
      * @param {string} patientId - Patient identifier
+     * @param {string} orderKey - Order key
      * @param {string} siteCode - Location site code
      * @param {string} day - Appointment date (YYYY-MM-DD)
      * @param {number} hour - Hour (0-23)
      * @param {number} min - Minute (0-59)
      * @returns {Promise<Object>} - Appointment confirmation
      */
-    async setAppointment(patientId, siteCode, day, hour, min) {
+    async setAppointment(patientId, orderKey, siteCode, day, hour, min) {
+        // KHSS Schedule/v1 expects YYYY-MM-DD format and simple patient IDs
         const payload = {
             patient_Id: patientId,
             partner_Id: this.partnerId,
             activity_Id: this.activityId,
             hour: hour.toString(),
             min: min.toString(),
-            day: day,
+            day: day, // Keep YYYY-MM-DD format
             site_Code: siteCode
         };
 
+        console.log('KHSS setAppointment payload:', JSON.stringify(payload, null, 2));
         return await this.apiCall('Schedule/v1', payload);
     }
 

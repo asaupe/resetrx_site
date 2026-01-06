@@ -31,6 +31,8 @@ exports.handler = async (event, context) => {
             firstAvailable !== false
         );
 
+        console.log('KHSS appointments response sample:', JSON.stringify(appointments, null, 2).substring(0, 1000));
+
         return {
             statusCode: 200,
             headers: {

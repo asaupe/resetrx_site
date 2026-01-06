@@ -215,6 +215,51 @@
             line-height: 1.4;
         }
 
+        .profile-preview {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .profile-preview-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .profile-field {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .profile-field:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .profile-value {
+            font-size: 13px;
+            color: #1a1a1a;
+            text-align: right;
+        }
+
+        .loading-profile {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
         .hidden {
             display: none;
         }
@@ -251,6 +296,14 @@
     <div class="container">
         <h1>Book Your Quest Appointment</h1>
         <p class="subtitle">Find a Quest location near you and schedule your visit</p>
+
+        <!-- Profile Preview -->
+        <div id="profilePreview" class="profile-preview hidden">
+            <div class="profile-preview-title">Patient Information</div>
+            <div id="profileFields">
+                <div class="loading-profile">Loading profile...</div>
+            </div>
+        </div>
 
         <!-- Step 1: Location -->
         <div class="form-group">
@@ -300,11 +353,16 @@
         // Configuration
         const API_BASE = '/.netlify/functions';
         
-        // Get patient ID from URL parameter or use test default
+        // Get parameters from URL
         const urlParams = new URLSearchParams(window.location.search);
-        const patientId = urlParams.get('patientId') || 'TEST10001'; // Default test patient ID
-
+        const userId = urlParams.get('user_id') || urlParams.get('userId') || 'b78361e7-c7ba-4c93-a5c5-840a110bd317'; // Default to Arne's ID for testing
+        
+        // Test code and lab account will be fetched from config
+        let testCode = urlParams.get('testCode'); // Allow URL override
+        let labAccount = null;
+        
         // State
+        let userProfile = null;
         let locations = [];
         let appointments = [];
         let selectedLocation = null;
@@ -312,22 +370,24 @@
         let selectedTime = null;
         let currentOrderKey = null;
         
-        // Temporary patient data (will be replaced with Suggestic data later)
-        const tempPatientData = {
-            id: 'TEST10001',
-            firstName: 'Patient',
-            lastName: 'Test',
-            dob: '1985-06-15',
-            sex: 'Male',
-            street: '123 Main St',
-            city: 'Chicago',
-            state: 'Illinois',
-            postalCode: '60642',
-            phone: '312-555-0100',
-            email: 'patient@example.com'
+        // Temporary patient data (will be replaced with actual profile data)
+        let tempPatientData = {
+            id: 'TEMP' + String(Date.now()).slice(-8),
+            firstName: 'Loading',
+            lastName: '...',
+            dob: '1985-01-01',
+            sex: 'Unknown',
+            street: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            phone: '',
+            email: ''
         };
 
         const zipcodeInput = document.getElementById('zipcode');
+        const profilePreview = document.getElementById('profilePreview');
+        const profileFields = document.getElementById('profileFields');
         const locationSection = document.getElementById('locationSection');
         const locationList = document.getElementById('locationList');
         const dateSection = document.getElementById('dateSection');
@@ -337,6 +397,124 @@
         const confirmSection = document.getElementById('confirmSection');
         const actionBtn = document.getElementById('actionBtn');
         const appointmentSummary = document.getElementById('appointmentSummary');
+
+        // Load user profile on page load
+        loadUserProfile();
+        loadConfig();
+
+        // Helper function to generate a numeric hash from a string
+        function hashCode(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return hash;
+        }
+
+        async function loadConfig() {
+            try {
+                const response = await fetch(`${API_BASE}/get-config`);
+                const result = await response.json();
+
+                if (result.success) {
+                    // Use config values if not overridden by URL params
+                    if (!testCode) {
+                        testCode = result.data.testCode;
+                    }
+                    if (!labAccount) {
+                        labAccount = result.data.labAccount;
+                    }
+                    console.log('Config loaded:', { testCode, labAccount, env: result.data.environment });
+                }
+            } catch (error) {
+                console.error('Error loading config:', error);
+                // Fallback to defaults
+                if (!testCode) testCode = '866';
+                if (!labAccount) labAccount = '7401519';
+            }
+        }
+
+        async function loadUserProfile() {
+            try {
+                profilePreview.classList.remove('hidden');
+                profileFields.innerHTML = '<div class="loading-profile">Loading profile...</div>';
+
+                const response = await fetch(`${API_BASE}/get-user-profile?user_id=${userId}`);
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to load profile');
+                }
+
+                // Extract profile data from the response
+                userProfile = result.data.profile || {};
+                
+                // Map Suggestic profile to patient data format
+                // Use Suggestic database ID or create a simple numeric ID from UUID hash
+                // KHSS works better with shorter, simpler IDs like TEST10001
+                const simpleId = userProfile.databaseId 
+                    ? `SGRX${userProfile.databaseId}` 
+                    : `SGRX${Math.abs(hashCode(userId))}`;
+                
+                tempPatientData = {
+                    id: simpleId,
+                    firstName: userProfile.firstName || 'Unknown',
+                    lastName: userProfile.lastName || 'User',
+                    dob: userProfile.dateOfBirth || '1985-01-01',
+                    sex: userProfile.biologicalSex || 'Male',
+                    street: userProfile.address?.street || '123 Main St',
+                    city: userProfile.address?.city || 'Chicago',
+                    state: userProfile.address?.state || 'Illinois', // Default to Illinois for KHSS
+                    postalCode: userProfile.address?.postalCode || userProfile.postalCode || '60642',
+                    phone: userProfile.phone || '555-0100',
+                    email: userProfile.email || ''
+                };
+
+                // Display profile preview
+                displayProfilePreview();
+                
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                profileFields.innerHTML = `<div class="loading-profile" style="color: #dc2626;">
+                    Unable to load profile. Using test data.
+                </div>`;
+                
+                // Use fallback test data
+                tempPatientData = {
+                    id: 'TEST' + String(Date.now()).slice(-8),
+                    firstName: 'Test',
+                    lastName: 'Patient',
+                    dob: '1985-01-01',
+                    sex: 'Male',
+                    street: '123 Main St',
+                    city: 'Chicago',
+                    state: 'Illinois',
+                    postalCode: '60642',
+                    phone: '555-0100',
+                    email: 'test@example.com'
+                };
+            }
+        }
+
+        function displayProfilePreview() {
+            const fields = [
+                { label: 'Name', value: `${tempPatientData.firstName} ${tempPatientData.lastName}` },
+                { label: 'Email', value: tempPatientData.email || 'Not provided' },
+                { label: 'Phone', value: tempPatientData.phone || 'Not provided' },
+                { label: 'Address', value: tempPatientData.street || 'Not provided' },
+                { label: 'City, State', value: `${tempPatientData.city || ''}${tempPatientData.city && tempPatientData.state ? ', ' : ''}${tempPatientData.state || ''}`.trim() || 'Not provided' },
+                { label: 'ZIP Code', value: tempPatientData.postalCode || 'Not provided' }
+            ];
+
+            profileFields.innerHTML = fields.map(field => `
+                <div class="profile-field">
+                    <span class="profile-label">${field.label}</span>
+                    <span class="profile-value">${field.value}</span>
+                </div>
+            `).join('');
+        }
 
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
@@ -385,11 +563,12 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             orderKey: 'RX' + String(Date.now()).slice(-12), // 14 chars: RX + 12 digit timestamp
-                            labAccount: '73946524',
+                            labAccount: labAccount,
                             patient: tempPatientData,
                             tests: [
-                                { testCode: '899' }
-                            ]
+                                { testCode: testCode }
+                            ],
+                            useProduction: false // Use QA/test environment
                         })
                     });
                     
@@ -414,7 +593,8 @@
                         postalCode: zipcode,
                         patientId: tempPatientData.id,
                         orderKey: currentOrderKey,
-                        radiusMiles: 50
+                        radiusMiles: 50,
+                        useProduction: false // Use QA/test environment
                     })
                 });
 
@@ -539,7 +719,8 @@
                         orderKey: currentOrderKey,
                         fromDate: fromDate.toISOString().split('T')[0],
                         toDate: toDate.toISOString().split('T')[0],
-                        firstAvailable: false
+                        firstAvailable: false,
+                        useProduction: false // Use QA/test environment
                     })
                 });
 
@@ -661,8 +842,9 @@
             element.classList.add('selected');
             selectedTime = appointment;
             
-            // Show summary
-            const date = new Date(selectedDate);
+            // Show summary - parse date carefully to avoid timezone issues
+            const [year, month, day] = selectedDate.split('-').map(Number);
+            const date = new Date(year, month - 1, day); // month is 0-indexed
             const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
             const timeStr = formatAppointmentTime(appointment);
             
@@ -685,18 +867,33 @@
             actionBtn.disabled = true;
             actionBtn.textContent = 'Booking...';
             
+            // Extract hour and min from selectedTime
+            const hour = selectedTime.apptStartHour || selectedTime.hour || 0;
+            const min = selectedTime.apptStartMin || selectedTime.min || 0;
+            
+            // Remove RRX25- prefix from orderKey if present (KHSS adds it automatically)
+            const orderKeyForAppointment = currentOrderKey.replace(/^RRX25[-.]/, '');
+            
+            const appointmentData = {
+                patientId: tempPatientData.id,
+                orderKey: orderKeyForAppointment,
+                siteCode: selectedLocation.siteCode,
+                day: selectedDate,
+                hour: hour,
+                min: min,
+                useProduction: false // Use QA/test environment
+            };
+            
+            console.log('Confirming appointment with data:', appointmentData);
+            console.log('Original orderKey:', currentOrderKey);
+            console.log('orderKey for appointment:', orderKeyForAppointment);
+            console.log('selectedTime object:', selectedTime);
+            
             try {
                 const response = await fetch(`${API_BASE}/set-appointment`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        patientId: tempPatientData.id,
-                        orderKey: currentOrderKey,
-                        siteCode: selectedLocation.siteCode,
-                        day: selectedDate,
-                        hour: selectedTime.apptStartHour || selectedTime.hour || 0,
-                        min: selectedTime.apptStartMin || selectedTime.min || 0
-                    })
+                    body: JSON.stringify(appointmentData)
                 });
 
                 const result = await response.json();
