@@ -295,7 +295,7 @@
 <body>
     <div class="container">
         <h1>Book Your Quest Appointment</h1>
-        <p class="subtitle">Find a Quest location near you and schedule your visit</p>
+        <p class="subtitle">Complete your information and schedule your visit</p>
 
         <!-- Profile Preview -->
         <div id="profilePreview" class="profile-preview hidden">
@@ -304,6 +304,33 @@
                 <div class="loading-profile">Loading profile...</div>
             </div>
         </div>
+
+        <!-- Additional Patient Info -->
+        <div id="patientInfoSection" class="hidden">
+            <div class="form-group">
+                <label for="dateOfBirth">Date of Birth</label>
+                <input type="date" id="dateOfBirth" placeholder="mm/dd/yyyy" required>
+                <div style="font-size: 12px; color: #666; margin-top: 4px;">Required for lab order</div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" id="createOrderBtn" disabled>Create Lab Order</button>
+        </div>
+
+        <!-- Scheduling Section (shown after order is created) -->
+        <div id="schedulingSection" class="hidden">
+            <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+                <div style="font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;">✅ Order Created</div>
+                <div style="font-size: 12px; color: #666;">Now let's schedule your appointment</div>
+            </div>
 
         <!-- Step 1: Location -->
         <div class="form-group">
@@ -324,7 +351,8 @@
         <div id="dateSection" class="hidden">
             <div class="form-group">
                 <label for="appointmentDate">Select Date</label>
-                <input type="date" id="appointmentDate">
+                <input type="date" id="appointmentDate" placeholder="mm/dd/yyyy">
+                <div style="font-size: 12px; color: #666; margin-top: 4px;">Tap to select an appointment date</div>
             </div>
         </div>
 
@@ -347,6 +375,7 @@
         </div>
 
         <button class="btn-primary" id="actionBtn" disabled>Find Locations</button>
+        </div><!-- End scheduling section -->
     </div>
 
     <script>
@@ -388,6 +417,11 @@
         const zipcodeInput = document.getElementById('zipcode');
         const profilePreview = document.getElementById('profilePreview');
         const profileFields = document.getElementById('profileFields');
+        const patientInfoSection = document.getElementById('patientInfoSection');
+        const dateOfBirthInput = document.getElementById('dateOfBirth');
+        const genderSelect = document.getElementById('gender');
+        const createOrderBtn = document.getElementById('createOrderBtn');
+        const schedulingSection = document.getElementById('schedulingSection');
         const locationSection = document.getElementById('locationSection');
         const locationList = document.getElementById('locationList');
         const dateSection = document.getElementById('dateSection');
@@ -411,6 +445,23 @@
                 hash = hash & hash; // Convert to 32-bit integer
             }
             return hash;
+        }
+
+        // Helper function to format phone number to XXX-XXX-XXXX
+        function formatPhoneNumber(phone) {
+            if (!phone) return '312-555-0100'; // Default fallback
+            
+            // Remove all non-digit characters
+            const digits = phone.replace(/\D/g, '');
+            
+            // If we don't have enough digits, return default
+            if (digits.length < 10) return '312-555-0100';
+            
+            // Take the last 10 digits (in case there's a country code)
+            const last10 = digits.slice(-10);
+            
+            // Format as XXX-XXX-XXXX
+            return `${last10.slice(0, 3)}-${last10.slice(3, 6)}-${last10.slice(6, 10)}`;
         }
 
         async function loadConfig() {
@@ -468,12 +519,24 @@
                     city: userProfile.address?.city || 'Chicago',
                     state: userProfile.address?.state || 'Illinois', // Default to Illinois for KHSS
                     postalCode: userProfile.address?.postalCode || userProfile.postalCode || '60642',
-                    phone: userProfile.phone || '312-555-0100',
+                    phone: formatPhoneNumber(userProfile.phone),
                     email: userProfile.email || ''
                 };
 
                 // Display profile preview
                 displayProfilePreview();
+                
+                // Pre-fill DOB and gender if available
+                if (tempPatientData.dob) {
+                    dateOfBirthInput.value = tempPatientData.dob;
+                }
+                if (tempPatientData.sex) {
+                    genderSelect.value = tempPatientData.sex;
+                }
+                
+                // Show patient info section
+                patientInfoSection.classList.remove('hidden');
+                validateOrderForm();
                 
             } catch (error) {
                 console.error('Error loading profile:', error);
@@ -492,9 +555,15 @@
                     city: 'Chicago',
                     state: 'Illinois',
                     postalCode: '60642',
-                    phone: '312-555-0100',
+                    phone: formatPhoneNumber('3125550100'),
                     email: 'test@example.com'
                 };
+                
+                // Still show patient info section even if profile load fails
+                patientInfoSection.classList.remove('hidden');
+                dateOfBirthInput.value = tempPatientData.dob;
+                genderSelect.value = tempPatientData.sex;
+                validateOrderForm();
             }
         }
 
@@ -519,6 +588,74 @@
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
         appointmentDate.setAttribute('min', today);
+        
+        // Set max DOB to today (can't be born in the future)
+        dateOfBirthInput.setAttribute('max', today);
+
+        // Validate order form
+        function validateOrderForm() {
+            const hasDoB = dateOfBirthInput.value.length > 0;
+            const hasGender = genderSelect.value.length > 0;
+            createOrderBtn.disabled = !(hasDoB && hasGender);
+        }
+
+        dateOfBirthInput.addEventListener('change', validateOrderForm);
+        genderSelect.addEventListener('change', validateOrderForm);
+
+        // Create Order button handler
+        createOrderBtn.addEventListener('click', async () => {
+            createOrderBtn.disabled = true;
+            createOrderBtn.textContent = 'Creating order...';
+            
+            // Update patient data with DOB and gender from user inputs
+            tempPatientData.dob = dateOfBirthInput.value;
+            tempPatientData.sex = genderSelect.value;
+            
+            console.log('Patient data being sent:', JSON.stringify(tempPatientData, null, 2));
+            
+            try {
+                console.log('Creating order...');
+                const orderPayload = {
+                    orderKey: 'RX' + String(Date.now()).slice(-12),
+                    labAccount: labAccount,
+                    patient: tempPatientData,
+                    tests: [
+                        { testCode: testCode }
+                    ],
+                    useProduction: false
+                };
+                
+                console.log('Full order payload:', JSON.stringify(orderPayload, null, 2));
+                
+                const orderResponse = await fetch(`${API_BASE}/create-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderPayload)
+                });
+                
+                console.log('Order response status:', orderResponse.status);
+                
+                const orderResult = await orderResponse.json();
+                console.log('Order result:', JSON.stringify(orderResult, null, 2));
+                
+                if (!orderResult.success) {
+                    throw new Error('Failed to create order: ' + (orderResult.error || 'Unknown error'));
+                }
+                
+                currentOrderKey = orderResult.data.Order_Key;
+                console.log('Order created successfully:', currentOrderKey);
+                
+                // Hide patient info section and show scheduling section
+                patientInfoSection.classList.add('hidden');
+                schedulingSection.classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Error creating order:', error);
+                alert(`Error creating order: ${error.message}\n\nCheck the console for more details.`);
+                createOrderBtn.textContent = 'Create Lab Order';
+                createOrderBtn.disabled = false;
+            }
+        });
 
         // ZIP code input handler
         zipcodeInput.addEventListener('input', (e) => {
@@ -532,18 +669,32 @@
                 actionBtn.disabled = true;
             }
         });
+        
+        // When ZIP changes after locations are loaded, clear and allow reload
+        zipcodeInput.addEventListener('change', (e) => {
+            if (e.target.value.length === 5 && locations.length > 0) {
+                // Clear previous selections
+                locationSection.classList.add('hidden');
+                dateSection.classList.add('hidden');
+                timeSection.classList.add('hidden');
+                confirmSection.classList.add('hidden');
+                selectedLocation = null;
+                selectedDate = null;
+                selectedTime = null;
+                actionBtn.disabled = false;
+                actionBtn.style.display = 'block';
+                actionBtn.textContent = 'Find Locations';
+            }
+        });
 
         // Action button handler
         actionBtn.addEventListener('click', () => {
             if (actionBtn.textContent === 'Find Locations') {
                 loadLocations();
-            } else if (actionBtn.textContent === 'Continue to Date Selection') {
-                showDateSection();
-            } else if (actionBtn.textContent === 'Continue to Time Selection') {
-                showTimeSection();
             } else if (actionBtn.textContent === 'Confirm Appointment') {
                 confirmAppointment();
             }
+            // Other states are handled automatically now
         });
 
         async function loadLocations() {
@@ -551,39 +702,10 @@
             
             // Show loading state
             actionBtn.disabled = true;
-            actionBtn.textContent = 'Creating order...';
-            locationList.innerHTML = '<div style="padding: 16px; text-align: center; color: #666;">Setting up your appointment...</div>';
+            actionBtn.textContent = 'Finding locations...';
+            locationList.innerHTML = '<div style="padding: 16px; text-align: center; color: #666;">Searching for Quest locations...</div>';
             
             try {
-                // Step 1: Create order if we don't have one
-                if (!currentOrderKey) {
-                    console.log('Creating order first...');
-                    const orderResponse = await fetch(`${API_BASE}/create-order`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            orderKey: 'RX' + String(Date.now()).slice(-12), // 14 chars: RX + 12 digit timestamp
-                            labAccount: labAccount,
-                            patient: tempPatientData,
-                            tests: [
-                                { testCode: testCode }
-                            ],
-                            useProduction: false // Use QA/test environment
-                        })
-                    });
-                    
-                    const orderResult = await orderResponse.json();
-                    
-                    if (!orderResult.success) {
-                        throw new Error('Failed to create order: ' + (orderResult.error || 'Unknown error'));
-                    }
-                    
-                    currentOrderKey = orderResult.data.Order_Key;
-                    console.log('Order created:', currentOrderKey);
-                }
-                
-                // Step 2: Search for locations
-                actionBtn.textContent = 'Finding locations...';
                 console.log('Fetching locations for ZIP:', zipcode, 'Order Key:', currentOrderKey);
                 
                 const response = await fetch(`${API_BASE}/get-locations`, {
@@ -619,7 +741,25 @@
                 locationList.innerHTML = '';
                 
                 if (!locations || locations.length === 0) {
-                    locationList.innerHTML = '<div style="padding: 16px; text-align: center; color: #666;">No locations found within 50 miles.</div>';
+                    locationList.innerHTML = `<div style="padding: 16px; text-align: center; color: #dc2626;">
+                        <strong>No Quest locations found within 50 miles of ${zipcode}</strong><br><br>
+                        <span style="color: #666;">Please try a different ZIP code or contact support for assistance.</span>
+                    </div>`;
+                    locationSection.classList.remove('hidden');
+                    actionBtn.textContent = 'Try Different ZIP';
+                    actionBtn.disabled = false;
+                    // Reset to allow trying a new ZIP
+                    actionBtn.onclick = () => {
+                        locationSection.classList.add('hidden');
+                        zipcodeInput.value = '';
+                        zipcodeInput.focus();
+                        actionBtn.disabled = true;
+                        actionBtn.onclick = null;
+                        // Re-attach the normal click handler
+                        setTimeout(() => {
+                            actionBtn.removeEventListener('click', actionBtn.onclick);
+                        }, 0);
+                    };
                     return;
                 }
 
@@ -641,7 +781,7 @@
                 });
                 
                 locationSection.classList.remove('hidden');
-                actionBtn.textContent = 'Continue to Date Selection';
+                actionBtn.style.display = 'none'; // Hide button - date section shows automatically when location is selected
             } catch (error) {
                 console.error('Error loading locations:', error);
                 
@@ -671,22 +811,17 @@
             selectedTime = null;
             appointmentDate.value = '';
             
-            // Hide and reset date/time sections
-            dateSection.classList.add('hidden');
+            // Hide and reset time sections
             timeSection.classList.add('hidden');
             confirmSection.classList.add('hidden');
             timeSlotsContainer.innerHTML = '';
             
-            // Reset button to date selection state
-            actionBtn.disabled = false;
-            actionBtn.textContent = 'Continue to Date Selection';
+            // Auto-show date section when location is selected
+            dateSection.classList.remove('hidden');
+            actionBtn.style.display = 'none'; // Keep button hidden
         }
 
-        function showDateSection() {
-            dateSection.classList.remove('hidden');
-            actionBtn.disabled = true;
-            actionBtn.textContent = 'Continue to Time Selection';
-        }
+
 
         appointmentDate.addEventListener('change', async (e) => {
             selectedDate = e.target.value;
@@ -701,8 +836,8 @@
         async function showTimeSection() {
             timeSlotsContainer.innerHTML = '<div style="padding: 16px; text-align: center; color: #666;">Loading available times...</div>';
             timeSection.classList.remove('hidden');
-            actionBtn.disabled = true;
-            actionBtn.textContent = 'Loading...';
+            confirmSection.classList.add('hidden'); // Hide confirmation while loading
+            actionBtn.style.display = 'none'; // Hide button while loading
             
             try {
                 // Get appointments for the week starting from selected date
@@ -752,8 +887,12 @@
                 console.log('Time slots extracted:', timeSlots);
                 
                 if (timeSlots.length === 0) {
-                    timeSlotsContainer.innerHTML = '<div style="padding: 16px; text-align: center; color: #666;">No appointments available for this date.</div>';
-                    actionBtn.textContent = 'Confirm Appointment';
+                    timeSlotsContainer.innerHTML = `<div style="padding: 16px; text-align: center; color: #dc2626;">
+                        <strong>No appointments available on this date</strong><br><br>
+                        <span style="color: #666;">Please select a different date to see available times.</span>
+                    </div>`;
+                    actionBtn.style.display = 'none'; // Keep button hidden
+                    confirmSection.classList.add('hidden'); // Hide confirmation if it was visible
                     return;
                 }
 
@@ -860,7 +999,9 @@
             `;
             
             confirmSection.classList.remove('hidden');
+            actionBtn.style.display = 'block'; // Show button when ready to confirm
             actionBtn.disabled = false;
+            actionBtn.textContent = 'Confirm Appointment';
         }
 
         async function confirmAppointment() {
@@ -871,12 +1012,11 @@
             const hour = selectedTime.apptStartHour || selectedTime.hour || 0;
             const min = selectedTime.apptStartMin || selectedTime.min || 0;
             
-            // Remove RRX25- prefix from orderKey if present (KHSS adds it automatically)
-            const orderKeyForAppointment = currentOrderKey.replace(/^RRX25[-.]/, '');
-            
+            // Use the exact order key returned from order creation
+            // KHSS should handle any prefix/suffix internally
             const appointmentData = {
                 patientId: tempPatientData.id,
-                orderKey: orderKeyForAppointment,
+                orderKey: currentOrderKey,
                 siteCode: selectedLocation.siteCode,
                 day: selectedDate,
                 hour: hour,
@@ -885,8 +1025,10 @@
             };
             
             console.log('Confirming appointment with data:', appointmentData);
-            console.log('Original orderKey:', currentOrderKey);
-            console.log('orderKey for appointment:', orderKeyForAppointment);
+            console.log('Order Key:', currentOrderKey);
+            console.log('Patient ID:', tempPatientData.id);
+            console.log('Site Code:', selectedLocation.siteCode);
+            console.log('Date/Time:', selectedDate, hour + ':' + min);
             console.log('selectedTime object:', selectedTime);
             
             try {

@@ -203,6 +203,7 @@ class KHSSClient {
         // KHSS Schedule/v1 expects YYYY-MM-DD format and simple patient IDs
         const payload = {
             patient_Id: patientId,
+            order_Key: orderKey, // Include the order key to link appointment to order
             partner_Id: this.partnerId,
             activity_Id: this.activityId,
             hour: hour.toString(),
