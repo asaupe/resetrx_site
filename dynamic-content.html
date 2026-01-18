@@ -1201,15 +1201,8 @@
                 const dateObj = new Date(date + 'T12:00:00');
                 const dayLabel = dayLabels[dateObj.getDay()];
                 
-                // Format combined label: "6k/11m" or empty if no data
-                const stepsK = (steps / 1000).toFixed(steps >= 1000 ? 1 : 0);
-                const combinedLabel = (steps > 0 || exercise > 0) 
-                    ? `<div style="font-size: 9px; color: #999; margin-bottom: 2px;">${stepsK}k/${exercise}m</div>` 
-                    : '';
-                
                 chartHTML += `
                     <div class="activity-day">
-                        ${combinedLabel}
                         <div class="activity-bars">
                             <div class="activity-bar steps-bar" style="height: ${stepsHeight}%; min-height: 2px; opacity: ${steps > 0 ? 1 : 0.2};" title="${steps.toLocaleString()} steps"></div>
                             <div class="activity-bar exercise-bar" style="height: ${exerciseHeight}%; min-height: 2px; opacity: ${exercise > 0 ? 1 : 0.2};" title="${exercise} min exercise"></div>
@@ -1220,21 +1213,6 @@
             });
             
             chartHTML += '</div>';
-
-            // Add y-axis labels - steps on left, exercise on right
-            const yAxisHTML = `
-                <div class="y-axis y-axis-left">
-                    <div class="y-axis-label">${(maxSteps / 1000).toFixed(0)}k</div>
-                    <div class="y-axis-label">${(maxSteps / 2000).toFixed(0)}k</div>
-                    <div class="y-axis-label">0</div>
-                </div>
-                <div class="y-axis y-axis-right">
-                    <div class="y-axis-label">${Math.round(maxExercise)}m</div>
-                    <div class="y-axis-label">${Math.round(maxExercise * 0.5)}m</div>
-                    <div class="y-axis-label">0</div>
-                </div>
-            `;
-            chartHTML = chartHTML.replace('</div>', yAxisHTML + '</div>');
 
             // Show message if no data at all
             const noDataMessage = !hasData ? `
