@@ -1,7 +1,7 @@
 const { getSuggesticClient } = require('./utils/api-wrapper');
 
 exports.handler = async (event, context) => {
-    console.log('Weight data fetch attempt');
+    console.log('Activity data fetch attempt');
 
     if (event.httpMethod !== 'POST') {
         return {
@@ -26,11 +26,49 @@ exports.handler = async (event, context) => {
         }
         
         const client = getSuggesticClient();
-        const weightData = await client.getWeightData(
-            effectiveUserId, 
-            startDate, 
-            endDate
-        );
+        
+        // Detect user's device source
+        const source = await client.getUserSource(effectiveUserId);
+        
+        // Fetch steps and exercise data in parallel
+        const [stepsData, exerciseData] = await Promise.all([
+            client.getStepsData(effectiveUserId, startDate, endDate, source).catch(err => {
+                console.error('Steps data error:', err);
+                return null;
+            }),
+            client.getMovementData(effectiveUserId, startDate, endDate, source).catch(err => {
+                console.error('Movement data error:', err);
+                return null;
+            })
+        ]);
+
+        // Transform data into daily aggregates
+        const dailyData = {};
+        
+        // Process steps data
+        if (stepsData?.edges) {
+            stepsData.edges.forEach(edge => {
+                const date = edge.node.datetime.split('T')[0]; // Extract YYYY-MM-DD
+                if (!dailyData[date]) {
+                    dailyData[date] = { date, steps: 0, exercise_minutes: 0 };
+                }
+                dailyData[date].steps = edge.node.steps || 0;
+            });
+        }
+        
+        // Process exercise data
+        if (exerciseData?.edges) {
+            exerciseData.edges.forEach(edge => {
+                const date = edge.node.datetime.split('T')[0]; // Extract YYYY-MM-DD
+                if (!dailyData[date]) {
+                    dailyData[date] = { date, steps: 0, exercise_minutes: 0 };
+                }
+                dailyData[date].exercise_minutes += edge.node.durationMinutes || 0;
+            });
+        }
+
+        // Convert to array and sort by date
+        const activityArray = Object.values(dailyData).sort((a, b) => a.date.localeCompare(b.date));
 
         return {
             statusCode: 200,
@@ -39,12 +77,12 @@ exports.handler = async (event, context) => {
             },
             body: JSON.stringify({ 
                 success: true, 
-                data: weightData,
+                data: activityArray,
                 userId: effectiveUserId
             })
         };
     } catch (error) {
-        console.error('Weight fetch error:', error);
+        console.error('Activity fetch error:', error);
         return {
             statusCode: 500,
             body: JSON.stringify({ 
