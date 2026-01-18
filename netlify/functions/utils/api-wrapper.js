@@ -280,23 +280,60 @@ class SuggesticClient {
     }
 
     /**
-     * Fetch nutrition data
-     * TODO: Add actual Suggestic nutrition query when available
+     * Fetch nutrition/meal tracking data
+     * @param {string} userId - User ID
+     * @param {string} startDate - Start date (YYYY-MM-DD)
+     * @param {string} endDate - End date (YYYY-MM-DD)
+     * @returns {Promise<Object>} - Meal tracking compliance data
      */
     async getNutritionData(userId, startDate, endDate) {
-        // Placeholder - replace with actual Suggestic nutrition query
         const query = `
             query {
-                # TODO: Add actual nutrition query
+                foodLogs(start: "${startDate}", end: "${endDate}") {
+                    edges {
+                        node {
+                            id
+                            date
+                        }
+                    }
+                }
             }
         `;
         
-        // For now, return mock data
-        return {
-            entries: [],
-            mealsLogged: 0,
-            compliance: 0
-        };
+        try {
+            console.log('Fetching food logs...');
+            const data = await this.query(query, userId);
+            console.log('Food logs response:', JSON.stringify(data, null, 2));
+            
+            if (!data.foodLogs || !data.foodLogs.edges) {
+                console.log('No food logs found');
+                return {
+                    percentageCompleted: 0,
+                    mealsLogged: 0,
+                    mealsExpected: 0
+                };
+            }
+            
+            const loggedMeals = data.foodLogs.edges.length;
+            const days = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+            const expectedMeals = days * 3; // Assuming 3 meals per day
+            const percentageCompleted = expectedMeals > 0 ? Math.round((loggedMeals / expectedMeals) * 100) : 0;
+            
+            console.log(`✓ Found ${loggedMeals} logged meals out of ${expectedMeals} expected (${percentageCompleted}%)`);
+            
+            return {
+                percentageCompleted: Math.min(percentageCompleted, 100),
+                mealsLogged: loggedMeals,
+                mealsExpected: expectedMeals
+            };
+        } catch (error) {
+            console.error('Nutrition data error:', error.message);
+            return {
+                percentageCompleted: 0,
+                mealsLogged: 0,
+                mealsExpected: 0
+            };
+        }
     }
 
     /**

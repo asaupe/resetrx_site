@@ -51,7 +51,7 @@ exports.handler = async (event, context) => {
         console.log('Using data source:', source);
 
         // Fetch real data from Suggestic
-        const [sleepData, sleepQualityData, stepsData, movementData] = await Promise.all([
+        const [sleepData, sleepQualityData, stepsData, movementData, nutritionData] = await Promise.all([
             client.getSleepData(userId, startDateStr, endDateStr, source).catch(err => {
                 console.error('Sleep data error:', err);
                 return { edges: [], dailyGoal: 480, totalTime: 0 };
@@ -67,6 +67,10 @@ exports.handler = async (event, context) => {
             client.getMovementData(userId, startDateStr, endDateStr, source).catch(err => {
                 console.error('Movement data error:', err);
                 return { edges: [] };
+            }),
+            client.getNutritionData(userId, startDateStr, endDateStr).catch(err => {
+                console.error('Nutrition data error:', err);
+                return { percentageCompleted: 0, mealsLogged: 0, mealsExpected: 0 };
             })
         ]);
 
@@ -74,7 +78,8 @@ exports.handler = async (event, context) => {
             sleepEntries: sleepData.edges?.length || 0,
             sleepQualityEntries: sleepQualityData.edges?.length || 0,
             stepsEntries: stepsData.edges?.length || 0,
-            movementEntries: movementData.edges?.length || 0
+            movementEntries: movementData.edges?.length || 0,
+            nutritionCompliance: nutritionData.percentageCompleted || 0
         });
 
         // Calculate averages from the data
@@ -100,6 +105,11 @@ exports.handler = async (event, context) => {
             sleepQuality: Math.round(avgSleepQuality),
             steps: Math.round(avgSteps),
             exercise: Math.round(avgExercise),
+            mealTracking: {
+                percentageCompleted: nutritionData.percentageCompleted || 0,
+                mealsLogged: nutritionData.mealsLogged || 0,
+                mealsExpected: nutritionData.mealsExpected || 0
+            },
             program: null
         };
 
@@ -178,7 +188,7 @@ exports.handler = async (event, context) => {
                         sleepQuality: profile.sleepQuality || 0,
                         steps: profile.steps || 0,
                         exercise: profile.exercise || 0,
-                        mealCompliance: 0 // Not yet available
+                        mealCompliance: Math.round(profile.mealTracking?.percentageCompleted || 0)
                     },
                     assignedPrograms: profile.program ? [profile.program] : [],
                     planData: planData.map(p => ({ pillar: p.pillar, title: p.data.title }))
