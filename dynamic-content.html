@@ -1115,16 +1115,6 @@
             
             chartHTML += '</div>';
 
-            // Add y-axis labels for sleep hours
-            const yAxisHTML = `
-                <div class="y-axis y-axis-left">
-                    <div class="y-axis-label">${Math.round(maxSleep)}h</div>
-                    <div class="y-axis-label">${Math.round(maxSleep * 0.5)}h</div>
-                    <div class="y-axis-label">0h</div>
-                </div>
-            `;
-            chartHTML = chartHTML.replace('</div>', yAxisHTML + '</div>');
-
             const noDataMessage = !hasData ? `
                 <div style="text-align: center; color: #999; font-size: 13px; margin-top: 12px;">
                     No sleep data recorded in the last 7 days
@@ -1201,8 +1191,16 @@
                 const dateObj = new Date(date + 'T12:00:00');
                 const dayLabel = dayLabels[dateObj.getDay()];
                 
+                // Format combined label: "6K<br>100m" or empty if no data
+                const stepsLabel = steps > 0 ? `${(steps / 1000).toFixed(1)}K` : '';
+                const exerciseLabel = exercise > 0 ? `${exercise}m` : '';
+                const combinedLabel = (stepsLabel || exerciseLabel) 
+                    ? `<div style="font-size: 9px; color: #999; margin-bottom: 2px; text-align: center; line-height: 1.2;">${stepsLabel}<br>${exerciseLabel}</div>` 
+                    : '';
+                
                 chartHTML += `
                     <div class="activity-day">
+                        ${combinedLabel}
                         <div class="activity-bars">
                             <div class="activity-bar steps-bar" style="height: ${stepsHeight}%; min-height: 2px; opacity: ${steps > 0 ? 1 : 0.2};" title="${steps.toLocaleString()} steps"></div>
                             <div class="activity-bar exercise-bar" style="height: ${exerciseHeight}%; min-height: 2px; opacity: ${exercise > 0 ? 1 : 0.2};" title="${exercise} min exercise"></div>
