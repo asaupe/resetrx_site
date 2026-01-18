@@ -30,14 +30,18 @@ exports.handler = async (event, context) => {
         // Detect user's device source
         const source = await client.getUserSource(effectiveUserId);
         
-        // Fetch steps and exercise data in parallel
-        const [stepsData, exerciseData] = await Promise.all([
+        // Fetch steps, exercise, and sleep data in parallel
+        const [stepsData, exerciseData, sleepData] = await Promise.all([
             client.getStepsData(effectiveUserId, startDate, endDate, source).catch(err => {
                 console.error('Steps data error:', err);
                 return null;
             }),
             client.getMovementData(effectiveUserId, startDate, endDate, source).catch(err => {
                 console.error('Movement data error:', err);
+                return null;
+            }),
+            client.getSleepData(effectiveUserId, startDate, endDate, source).catch(err => {
+                console.error('Sleep data error:', err);
                 return null;
             })
         ]);
@@ -50,7 +54,7 @@ exports.handler = async (event, context) => {
             stepsData.edges.forEach(edge => {
                 const date = edge.node.datetime.split('T')[0]; // Extract YYYY-MM-DD
                 if (!dailyData[date]) {
-                    dailyData[date] = { date, steps: 0, exercise_minutes: 0 };
+                    dailyData[date] = { date, steps: 0, exercise_minutes: 0, sleep_hours: 0 };
                 }
                 dailyData[date].steps = edge.node.steps || 0;
             });
@@ -61,9 +65,21 @@ exports.handler = async (event, context) => {
             exerciseData.edges.forEach(edge => {
                 const date = edge.node.datetime.split('T')[0]; // Extract YYYY-MM-DD
                 if (!dailyData[date]) {
-                    dailyData[date] = { date, steps: 0, exercise_minutes: 0 };
+                    dailyData[date] = { date, steps: 0, exercise_minutes: 0, sleep_hours: 0 };
                 }
                 dailyData[date].exercise_minutes += edge.node.durationMinutes || 0;
+            });
+        }
+
+        // Process sleep data (value is in minutes, convert to hours)
+        if (sleepData?.edges) {
+            sleepData.edges.forEach(edge => {
+                const date = edge.node.date; // Sleep data uses 'date' field directly
+                if (!dailyData[date]) {
+                    dailyData[date] = { date, steps: 0, exercise_minutes: 0, sleep_hours: 0 };
+                }
+                // Convert minutes to hours (rounded to 1 decimal)
+                dailyData[date].sleep_hours = Math.round((edge.node.value / 60) * 10) / 10;
             });
         }
 

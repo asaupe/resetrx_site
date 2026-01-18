@@ -551,7 +551,7 @@
             justify-content: space-around;
             height: 180px;
             gap: 4px;
-            margin: 20px 0;
+            margin: 20px 40px 20px 40px;
             position: relative;
         }
 
@@ -563,6 +563,32 @@
             right: 0;
             height: 1px;
             background: #e0e0e0;
+        }
+
+        .y-axis {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #999;
+            pointer-events: none;
+        }
+
+        .y-axis-left {
+            left: -35px;
+            align-items: flex-end;
+        }
+
+        .y-axis-right {
+            right: -35px;
+            align-items: flex-start;
+        }
+
+        .y-axis-label {
+            line-height: 1;
         }
 
         .activity-day {
@@ -889,6 +915,19 @@
                 `;
             }
             
+            // Add sleep graph for Sleep program
+            if (params.program === 'Sleep' && params.user_id && params.user_id !== 'guest') {
+                activityGraph = `
+                    <div class="activity-graph-section" id="activityGraphSection">
+                        <div class="activity-graph-header">
+                            <div class="activity-graph-icon">😴</div>
+                            <div class="activity-graph-title">7-Day Sleep</div>
+                        </div>
+                        <div class="activity-loading">Loading your sleep data...</div>
+                    </div>
+                `;
+            }
+            
             const content = `
                 <div class="hero-header">
                     <div class="hero-content">
@@ -1009,6 +1048,105 @@
             }
         }
 
+        function renderSleepGraph(data) {
+            const section = document.getElementById('activityGraphSection');
+            if (!section) return;
+
+            console.log('renderSleepGraph received data:', data, 'Type:', typeof data, 'IsArray:', Array.isArray(data));
+
+            // Ensure data is an array
+            if (!Array.isArray(data)) {
+                data = [];
+            }
+
+            // Get last 7 days of data
+            const today = new Date();
+            const last7Days = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                last7Days.push(date.toISOString().split('T')[0]);
+            }
+
+            // Find max sleep hours for scaling
+            let maxSleep = 0;
+            let hasData = false;
+
+            last7Days.forEach(date => {
+                const entry = data.find(d => d.date === date);
+                if (entry && entry.sleep_hours > 0) {
+                    hasData = true;
+                    maxSleep = Math.max(maxSleep, entry.sleep_hours || 0);
+                }
+            });
+
+            // Use 10 hours as default max for scaling
+            maxSleep = Math.max(maxSleep, 10);
+
+            const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            let chartHTML = '<div class="activity-chart">';
+            
+            last7Days.forEach((date, index) => {
+                const entry = data.find(d => d.date === date);
+                const sleepHours = entry?.sleep_hours || 0;
+                
+                const sleepHeight = (sleepHours / maxSleep) * 100;
+                
+                const dateObj = new Date(date + 'T12:00:00');
+                const dayLabel = dayLabels[dateObj.getDay()];
+                
+                // Format sleep label: "7.5h" or empty if no data
+                const sleepLabel = sleepHours > 0 
+                    ? `<div style="font-size: 9px; color: #999; margin-bottom: 2px;">${sleepHours.toFixed(1)}h</div>` 
+                    : '';
+                
+                chartHTML += `
+                    <div class="activity-day">
+                        ${sleepLabel}
+                        <div class="activity-bars">
+                            <div class="activity-bar" style="background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%); height: ${sleepHeight}%; min-height: 2px; opacity: ${sleepHours > 0 ? 1 : 0.2}; max-width: 32px;" title="${sleepHours} hours sleep"></div>
+                        </div>
+                        <div class="activity-day-label">${dayLabel}</div>
+                    </div>
+                `;
+            });
+            
+            chartHTML += '</div>';
+
+            // Add y-axis labels for sleep hours
+            const yAxisHTML = `
+                <div class="y-axis y-axis-left">
+                    <div class="y-axis-label">${Math.round(maxSleep)}h</div>
+                    <div class="y-axis-label">${Math.round(maxSleep * 0.5)}h</div>
+                    <div class="y-axis-label">0h</div>
+                </div>
+            `;
+            chartHTML = chartHTML.replace('</div>', yAxisHTML + '</div>');
+
+            const noDataMessage = !hasData ? `
+                <div style="text-align: center; color: #999; font-size: 13px; margin-top: 12px;">
+                    No sleep data recorded in the last 7 days
+                </div>
+            ` : '';
+
+            section.innerHTML = `
+                <div class="activity-graph-header">
+                    <div class="activity-graph-icon">😴</div>
+                    <div class="activity-graph-title">7-Day Sleep</div>
+                </div>
+                ${chartHTML}
+                <div class="activity-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                        <span>Sleep Hours</span>
+                    </div>
+                </div>
+                ${noDataMessage}
+            `;
+        }
+
         function renderActivityGraph(data) {
             const section = document.getElementById('activityGraphSection');
             if (!section) return;
@@ -1063,8 +1201,15 @@
                 const dateObj = new Date(date + 'T12:00:00');
                 const dayLabel = dayLabels[dateObj.getDay()];
                 
+                // Format combined label: "6k/11m" or empty if no data
+                const stepsK = (steps / 1000).toFixed(steps >= 1000 ? 1 : 0);
+                const combinedLabel = (steps > 0 || exercise > 0) 
+                    ? `<div style="font-size: 9px; color: #999; margin-bottom: 2px;">${stepsK}k/${exercise}m</div>` 
+                    : '';
+                
                 chartHTML += `
                     <div class="activity-day">
+                        ${combinedLabel}
                         <div class="activity-bars">
                             <div class="activity-bar steps-bar" style="height: ${stepsHeight}%; min-height: 2px; opacity: ${steps > 0 ? 1 : 0.2};" title="${steps.toLocaleString()} steps"></div>
                             <div class="activity-bar exercise-bar" style="height: ${exerciseHeight}%; min-height: 2px; opacity: ${exercise > 0 ? 1 : 0.2};" title="${exercise} min exercise"></div>
@@ -1075,6 +1220,21 @@
             });
             
             chartHTML += '</div>';
+
+            // Add y-axis labels - steps on left, exercise on right
+            const yAxisHTML = `
+                <div class="y-axis y-axis-left">
+                    <div class="y-axis-label">${(maxSteps / 1000).toFixed(0)}k</div>
+                    <div class="y-axis-label">${(maxSteps / 2000).toFixed(0)}k</div>
+                    <div class="y-axis-label">0</div>
+                </div>
+                <div class="y-axis y-axis-right">
+                    <div class="y-axis-label">${Math.round(maxExercise)}m</div>
+                    <div class="y-axis-label">${Math.round(maxExercise * 0.5)}m</div>
+                    <div class="y-axis-label">0</div>
+                </div>
+            `;
+            chartHTML = chartHTML.replace('</div>', yAxisHTML + '</div>');
 
             // Show message if no data at all
             const noDataMessage = !hasData ? `
@@ -1133,8 +1293,13 @@
                 // Load activity graph for Movement program
                 if (params.program === 'Movement' && params.user_id && params.user_id !== 'guest') {
                     const activityData = await loadActivityData(params.user_id);
-                    // Always render graph, even with empty data
                     renderActivityGraph(activityData || []);
+                }
+                
+                // Load sleep graph for Sleep program
+                if (params.program === 'Sleep' && params.user_id && params.user_id !== 'guest') {
+                    const sleepData = await loadActivityData(params.user_id);
+                    renderSleepGraph(sleepData || []);
                 }
 
             } catch (error) {
