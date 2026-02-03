@@ -1156,31 +1156,19 @@
                     // Don't fail the whole booking - just log the error
                 }
 
-                // Show success message with countdown
-                let countdown = 10;
-                
+                // Show success message
                 appointmentSummary.innerHTML = `
                     <div style="text-align: center; color: #059669; padding: 20px;">
                         <h3>✅ Appointment Confirmed!</h3>
-                        <p>Confirmation Number: ${typeof result.data === 'string' ? result.data : (result.data.confirmationNumber || 'Pending')}</p>
-                        <p style="color: #666; margin-top: 10px;">You will receive a confirmation email shortly.</p>
-                        <p style="color: #059669; margin-top: 20px; font-weight: bold;">Redirecting in <span id="countdown">${countdown}</span> seconds...</p>
+                        <p style="font-size: 18px; font-weight: 600; margin-top: 10px;">Confirmation Number: ${typeof result.data === 'string' ? result.data : (result.data.confirmationNumber || 'Pending')}</p>
+                        <p style="color: #666; margin-top: 20px; font-size: 15px;">You will receive a confirmation email shortly with all the details for your appointment.</p>
                     </div>
                 `;
                 
-                // Countdown timer
-                const countdownInterval = setInterval(() => {
-                    countdown--;
-                    const countdownEl = document.getElementById('countdown');
-                    if (countdownEl) {
-                        countdownEl.textContent = countdown;
-                    }
-                    
-                    if (countdown <= 0) {
-                        clearInterval(countdownInterval);
-                        window.location.href = 'https://asaupe.github.io/resetrx_site/html_files/week_1_day_1.html';
-                    }
-                }, 1000);
+                // Redirect after 10 seconds (without showing countdown)
+                setTimeout(() => {
+                    window.location.href = 'https://asaupe.github.io/resetrx_site/html_files/week_1_day_1.html';
+                }, 10000);
                 
             } catch (error) {
                 console.error('Error confirming appointment:', error);
