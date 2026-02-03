@@ -13,14 +13,16 @@ class SuggesticClient {
      * Execute a GraphQL query
      * @param {string} query - GraphQL query string
      * @param {string} userId - Member ID (base64 format) - optional for admin queries
+     * @param {Object} variables - GraphQL variables - optional
      * @returns {Promise<Object>} - Query result data
      */
-    async query(query, userId = null) {
+    async query(query, userId = null, variables = null) {
         try {
             console.log('Suggestic API Request:', {
                 endpoint: this.endpoint,
                 userId: userId,
-                queryPreview: query.substring(0, 200)
+                queryPreview: query.substring(0, 200),
+                hasVariables: !!variables
             });
             
             const headers = {
@@ -33,10 +35,15 @@ class SuggesticClient {
                 headers['sg-user'] = userId;
             }
             
+            const body = { query };
+            if (variables) {
+                body.variables = variables;
+            }
+
             const response = await fetch(this.endpoint, {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify({ query })
+                body: JSON.stringify(body)
             });
 
             if (!response.ok) {

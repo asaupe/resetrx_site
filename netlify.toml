@@ -4,6 +4,12 @@
 [build]
   functions = "netlify/functions"
 
+# Scheduled Functions
+# Note: Scheduled functions work in production, not in local dev
+[functions]
+  # External node modules if needed
+  external_node_modules = []
+
 # Global headers for all responses
 [[headers]]
   for = "/*"

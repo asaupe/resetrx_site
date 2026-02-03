@@ -32,6 +32,8 @@ exports.handler = async (event, context) => {
         const client = getSuggesticClient();
         
         // Use the users query to get profile data
+        // NOTE: This is an ADMIN query - do NOT pass userId to query()
+        // Admin queries use token-only auth, not sg-user header
         const query = `
             query {
                 users(userUUIDs: "${userId}") {

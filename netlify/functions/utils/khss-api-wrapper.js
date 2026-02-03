@@ -217,6 +217,50 @@ class KHSSClient {
     }
 
     /**
+     * Retrieve lab results from KHSS
+     * @returns {Promise<Object>} - Results data or "No results for retrieval"
+     */
+    async getResults() {
+        const token = await this.authenticate();
+        
+        const url = `https://${this.instanceURL}/services/apexrest/RetrieveResults/v1/?Partner_Id=${this.partnerId}`;
+        console.log('Retrieving results from:', url);
+        
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                agent: this.proxyAgent
+            });
+
+            console.log(`Results response status: ${response.status}`);
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Results API error response:', errorText);
+                throw new Error(`Results API error: ${response.status} - ${errorText}`);
+            }
+
+            const result = await response.json();
+            
+            // Check if it's the "no results" message
+            if (typeof result === 'string' && result.includes('No results')) {
+                console.log('No results available for retrieval');
+                return { hasResults: false, message: result };
+            }
+
+            console.log('Results retrieved successfully');
+            return { hasResults: true, data: Array.isArray(result) ? result : [result] };
+            
+        } catch (error) {
+            console.error('Error retrieving results:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Create a lab order
      * @param {Object} patient - Patient information
      * @param {string} orderKey - Unique order key

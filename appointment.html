@@ -464,6 +464,59 @@
             return `${last10.slice(0, 3)}-${last10.slice(3, 6)}-${last10.slice(6, 10)}`;
         }
 
+        // Prepare complete appointment record for Suggestic persistence
+        function prepareAppointmentRecord(confirmationData) {
+            const [year, month, day] = selectedDate.split('-').map(Number);
+            const hour = selectedTime.apptStartHour || selectedTime.hour || 0;
+            const min = selectedTime.apptStartMin || selectedTime.min || 0;
+            
+            // Create ISO datetime string
+            const appointmentDateTime = new Date(year, month - 1, day, hour, min);
+            
+            // Format time as HH:MM
+            const timeStr = `${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
+            
+            // Build full location address
+            const address = `${selectedLocation.address1 || ''}${selectedLocation.address2 ? ', ' + selectedLocation.address2 : ''}`;
+            const cityState = `${selectedLocation.city || ''}, ${selectedLocation.state || ''} ${selectedLocation.postalCode || ''}`;
+            const fullAddress = `${address}, ${cityState}`;
+            
+            return {
+                // Suggestic relation
+                userId: userId,
+                
+                // Order details
+                orderKey: currentOrderKey,
+                labAccount: labAccount,
+                testCode: testCode,
+                orderCreatedAt: new Date().toISOString(),
+                
+                // Appointment details
+                confirmationNumber: typeof confirmationData === 'string' ? confirmationData : (confirmationData.confirmationNumber || confirmationData.Confirmation_Number || 'PENDING'),
+                appointmentDate: selectedDate,
+                appointmentTime: timeStr,
+                appointmentDateTime: appointmentDateTime.toISOString(),
+                
+                // Location
+                siteCode: selectedLocation.siteCode,
+                locationName: selectedLocation.name || 'Quest Diagnostics',
+                locationAddress: fullAddress,
+                locationPhone: selectedLocation.phone || '',
+                
+                // Patient snapshot (what was submitted)
+                patientId: tempPatientData.id,
+                patientDOB: tempPatientData.dob,
+                patientGender: tempPatientData.sex,
+                patientPhone: tempPatientData.phone,
+                patientEmail: tempPatientData.email,
+                
+                // Metadata
+                bookingTimestamp: new Date().toISOString(),
+                environment: testCode === '866' ? 'test' : 'production',
+                status: 'scheduled'
+            };
+        }
+
         async function loadConfig() {
             try {
                 const response = await fetch(`${API_BASE}/get-config`);
@@ -514,7 +567,7 @@
                     firstName: userProfile.firstName || 'Unknown',
                     lastName: userProfile.lastName || 'User',
                     dob: userProfile.dateOfBirth || '1985-01-01',
-                    sex: userProfile.biologicalSex || 'Male',
+                    sex: userProfile.biologicalSex || 'Female',
                     street: userProfile.address?.street || '123 Main St',
                     city: userProfile.address?.city || 'Chicago',
                     state: userProfile.address?.state || 'Illinois', // Default to Illinois for KHSS
@@ -550,7 +603,7 @@
                     firstName: 'Test',
                     lastName: 'Patient',
                     dob: '1985-01-01',
-                    sex: 'Male',
+                    sex: 'Female',
                     street: '123 Main St',
                     city: 'Chicago',
                     state: 'Illinois',
@@ -1044,14 +1097,72 @@
                     throw new Error(result.error || 'Failed to book appointment');
                 }
 
+                // Prepare appointment data for Suggestic persistence
+                const appointmentRecord = prepareAppointmentRecord(result.data);
+                console.log('Appointment record ready for Suggestic:', appointmentRecord);
+                
+                // Show saving state
+                actionBtn.style.display = 'none';
+                appointmentSummary.innerHTML = `
+                    <div style="text-align: center; color: #3b82f6; padding: 20px;">
+                        <h3>💾 Saving Appointment...</h3>
+                        <p style="color: #666; margin-top: 10px;">Please wait while we save your appointment details.</p>
+                    </div>
+                `;
+                
+                // Save to Suggestic custom attributes
+                try {
+                    const saveResponse = await fetch(`${API_BASE}/save-appointment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(appointmentRecord)
+                    });
+                    
+                    const saveResult = await saveResponse.json();
+                    console.log('Suggestic save result:', saveResult);
+                    
+                    if (!saveResult.success) {
+                        console.error('Failed to save to Suggestic:', saveResult.error);
+                        // Don't fail the whole booking - just log the error
+                    }
+                } catch (saveError) {
+                    console.error('Error saving to Suggestic:', saveError);
+                    // Don't fail the whole booking - just log the error
+                }
+
+                // Send appointment confirmation email via Klaviyo
+                try {
+                    const emailData = {
+                        ...appointmentRecord,
+                        patientFirstName: tempPatientData.firstName,
+                        patientLastName: tempPatientData.lastName
+                    };
+                    
+                    const emailResponse = await fetch(`${API_BASE}/send-appointment-email`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(emailData)
+                    });
+                    
+                    const emailResult = await emailResponse.json();
+                    console.log('Klaviyo email result:', emailResult);
+                    
+                    if (!emailResult.success) {
+                        console.error('Failed to send email:', emailResult.error);
+                        // Don't fail the whole booking - just log the error
+                    }
+                } catch (emailError) {
+                    console.error('Error sending email:', emailError);
+                    // Don't fail the whole booking - just log the error
+                }
+
                 // Show success message with countdown
                 let countdown = 10;
-                actionBtn.style.display = 'none'; // Hide the button
                 
                 appointmentSummary.innerHTML = `
                     <div style="text-align: center; color: #059669; padding: 20px;">
                         <h3>✅ Appointment Confirmed!</h3>
-                        <p>Confirmation Number: ${result.data.confirmationNumber || 'Pending'}</p>
+                        <p>Confirmation Number: ${typeof result.data === 'string' ? result.data : (result.data.confirmationNumber || 'Pending')}</p>
                         <p style="color: #666; margin-top: 10px;">You will receive a confirmation email shortly.</p>
                         <p style="color: #059669; margin-top: 20px; font-weight: bold;">Redirecting in <span id="countdown">${countdown}</span> seconds...</p>
                     </div>
