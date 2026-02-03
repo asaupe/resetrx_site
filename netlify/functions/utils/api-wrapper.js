@@ -406,6 +406,71 @@ class SuggesticClient {
         const data = await this.query(query);
         return data.searchProfile || null;
     }
+
+    /**
+     * Get user by profileId or userId
+     * Tries users query first, then searches by converting profileId to find userId
+     * @param {string} id - Either userId or profileId (UUID format)
+     * @returns {Promise<Object>} - User data with both userId and profileId
+     */
+    async getUserById(id) {
+        // First try users query (assumes it's a userId)
+        try {
+            const usersQuery = `
+                query {
+                    users(userUUIDs: "${id}") {
+                        edges {
+                            node {
+                                databaseId
+                                name
+                                email
+                                phone
+                                isActive
+                                profileId
+                            }
+                        }
+                    }
+                }
+            `;
+            
+            const data = await this.query(usersQuery);
+            if (data.users && data.users.edges && data.users.edges.length > 0) {
+                return data.users.edges[0].node;
+            }
+        } catch (error) {
+            console.log('users query failed, assuming input is profileId:', error.message);
+        }
+        
+        // If not found, try using myProfile with base64 encoded profileId
+        try {
+            const profileIdBase64 = Buffer.from(`Profile:${id}`).toString('base64');
+            const myProfileQuery = `
+                query {
+                    myProfile {
+                        id
+                        email
+                    }
+                }
+            `;
+            
+            const data = await this.query(myProfileQuery, profileIdBase64);
+            if (data.myProfile) {
+                // Convert myProfile response to match users format
+                return {
+                    databaseId: id,  // Keep the original profileId as databaseId
+                    name: '',  // myProfile doesn't have name field
+                    email: data.myProfile.email,
+                    phone: '',  // myProfile doesn't have phone field
+                    isActive: true,  // Assume active if profile exists
+                    profileId: data.myProfile.id
+                };
+            }
+        } catch (error) {
+            console.log('myProfile with profileId failed:', error.message);
+        }
+        
+        return null;
+    }
 }
 
 // Export a singleton instance

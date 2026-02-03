@@ -3,6 +3,14 @@ const { getSuggesticClient } = require('./utils/api-wrapper');
 /**
  * Get user profile by user_id
  * Lightweight endpoint that just fetches profile data without scoring calculations
+ * 
+ * IMPORTANT: Suggestic has two different IDs:
+ * 1. userId (memberId) - Works with users() query - use this for lookups
+ * 2. profileId - Does NOT work with users() query
+ * 
+ * If you have a profileId from the coaching portal, you need to either:
+ * - Look up the user by email using search-profile endpoint
+ * - Or get their userId (memberId) instead
  */
 
 exports.handler = async (event, context) => {
@@ -31,38 +39,29 @@ exports.handler = async (event, context) => {
 
         const client = getSuggesticClient();
         
-        // Use the users query to get profile data
-        // NOTE: This is an ADMIN query - do NOT pass userId to query()
-        // Admin queries use token-only auth, not sg-user header
-        const query = `
-            query {
-                users(userUUIDs: "${userId}") {
-                    edges {
-                        node {
-                            databaseId
-                            name
-                            email
-                            phone
-                            isActive
-                            profileId
-                        }
-                    }
-                }
-            }
-        `;
+        // Try to get user by either userId or profileId
+        const userNode = await client.getUserById(userId);
         
-        const data = await client.query(query);
-        
-        if (!data.users || !data.users.edges || data.users.edges.length === 0) {
+        if (!userNode) {
             throw new Error('Profile not found');
         }
         
-        const userNode = data.users.edges[0].node;
-        
         // Split name into firstName and lastName
-        const nameParts = (userNode.name || '').split(' ');
-        const firstName = nameParts[0] || '';
-        const lastName = nameParts.slice(1).join(' ') || '';
+        // If name is not available, try to extract from email
+        let firstName = '';
+        let lastName = '';
+        
+        if (userNode.name && userNode.name.trim()) {
+            const nameParts = userNode.name.split(' ');
+            firstName = nameParts[0] || '';
+            lastName = nameParts.slice(1).join(' ') || '';
+        } else if (userNode.email) {
+            // Extract name from email (e.g., "seth@resetrx.life" -> "Seth")
+            const emailName = userNode.email.split('@')[0];
+            // Capitalize first letter
+            firstName = emailName.charAt(0).toUpperCase() + emailName.slice(1);
+            lastName = '';
+        }
 
         return {
             statusCode: 200,
