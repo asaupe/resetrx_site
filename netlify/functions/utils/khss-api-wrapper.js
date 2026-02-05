@@ -266,9 +266,10 @@ class KHSSClient {
      * @param {string} orderKey - Unique order key
      * @param {Array} tests - Array of test objects with Test_Code
      * @param {string} labAccount - Lab account number
+     * @param {string} suggesticUserId - Suggestic user ID for result matching
      * @returns {Promise<Object>} - Order confirmation
      */
-    async createOrder(patient, orderKey, tests, labAccount) {
+    async createOrder(patient, orderKey, tests, labAccount, suggesticUserId = null) {
         const payload = {
             Lab_Account: labAccount,
             Lab_Name: "Quest",

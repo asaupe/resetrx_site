@@ -675,7 +675,8 @@
                     tests: [
                         { testCode: testCode }
                     ],
-                    useProduction: false
+                    useProduction: false,
+                    userId: userId // Include Suggestic userId for biomarker sync
                 };
                 
                 console.log('Full order payload:', JSON.stringify(orderPayload, null, 2));

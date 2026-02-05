@@ -1,6 +1,18 @@
 node_modules/
 .DS_Store
 .env
+
 # Local Netlify folder
 .netlify
+
+# Test files
+test-*.js
+test-*.html
+*-test.html
+fetch-test-results.js
+query-*.js
+list-*.js
 profile-id-lookup.html
+
+# Test data
+test-data/

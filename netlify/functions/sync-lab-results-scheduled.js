@@ -3,7 +3,7 @@ const { handler: syncHandler } = require('./sync-lab-results');
 /**
  * Scheduled function wrapper for biomarker sync
  * Runs automatically every 6 hours via Netlify's scheduled functions
- * Schedule: 0 */6 * * * (every 6 hours at :00)
+ * Schedule: 0 6 * * * (every 6 hours at :00)
  */
 exports.handler = async (event, context) => {
     console.log('🕐 Scheduled biomarker sync triggered at:', new Date().toISOString());

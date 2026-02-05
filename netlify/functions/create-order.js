@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const { patient, orderKey, tests, labAccount, useProduction } = JSON.parse(event.body);
+        const { patient, orderKey, tests, labAccount, useProduction, userId } = JSON.parse(event.body);
 
         // Validate required fields
         if (!patient || !orderKey) {
@@ -35,7 +35,8 @@ exports.handler = async (event, context) => {
             patient,
             orderKey,
             effectiveTests,
-            effectiveLabAccount
+            effectiveLabAccount,
+            userId // Pass Suggestic userId for result matching
         );
 
         return {
