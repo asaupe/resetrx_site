@@ -34,9 +34,6 @@ async function sendLabResultsNotification({
     hasAbnormalResults,
     userId
 }) {
-    // Determine result status for messaging
-    const resultStatus = hasAbnormalResults ? 'action_needed' : 'all_normal';
-
     // Format dates
     const formattedCollectionDate = new Date(collectionDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -58,7 +55,6 @@ async function sendLabResultsNotification({
         lastName: lastName,
         properties: {
             // Result Summary (counts only, no specifics)
-            result_status: resultStatus,
             has_abnormal_results: hasAbnormalResults,
             total_biomarkers_tested: totalBiomarkers,
             abnormal_count: abnormalCount,
@@ -78,11 +74,8 @@ async function sendLabResultsNotification({
     });
 }
 
-// Export for use in sync-lab-results.js
-module.exports = { sendLabResultsNotification };
-
-// Also export as Netlify function handler if called directly
-exports.handler = async (event, context) => {
+// Netlify function handler
+const handler = async (event, context) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
@@ -128,3 +121,6 @@ exports.handler = async (event, context) => {
         };
     }
 };
+
+// Export both the utility function and the handler
+module.exports = { sendLabResultsNotification, handler };

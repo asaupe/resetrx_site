@@ -14,8 +14,7 @@ Notify users when their Quest lab results have been received and synced to their
 - `last_name` - Patient last name
 
 ### Result Summary (Counts Only)
-- `result_status` - Either "action_needed" or "all_normal"
-- `has_abnormal_results` - Boolean flag
+- `has_abnormal_results` - Boolean flag (true if any results abnormal)
 - `total_biomarkers_tested` - Count of biomarkers
 - `abnormal_count` - Number of out-of-range results
 - `normal_count` - Number of in-range results
