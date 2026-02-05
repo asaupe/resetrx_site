@@ -43,6 +43,35 @@ The platform uses serverless functions to handle:
 
 Located in `netlify/functions/utils/`:
 
+#### Klaviyo Client (`klaviyo-client.js`)
+
+Centralized Klaviyo event tracking to avoid code duplication:
+
+```javascript
+const { sendKlaviyoEvent } = require('./utils/klaviyo-client');
+
+// Send an event to Klaviyo
+await sendKlaviyoEvent({
+    metricName: 'Quest Appointment Booked',
+    email: 'user@example.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    phoneNumber: '+1234567890', // optional
+    properties: {
+        confirmation_number: 'ABC123',
+        appointment_date: 'January 15, 2026',
+        location_name: 'Quest Diagnostics - Main St'
+        // ... any custom properties
+    }
+});
+```
+
+All Klaviyo interactions use this utility to:
+- Handle API authentication
+- Build consistent event payloads
+- Manage error handling
+- Parse responses correctly
+
 #### Custom Attributes Utility (`custom-attributes.js`)
 
 Reusable helper functions for managing Suggestic custom attributes:

@@ -1,6 +1,7 @@
 const { getKHSSClient } = require('./utils/khss-api-wrapper');
 const { getSuggesticClient } = require('./utils/api-wrapper');
 const { isInCustomAttributeArray, addToCustomAttributeArray } = require('./utils/custom-attributes');
+const { sendLabResultsNotification } = require('./send-lab-results-notification');
 const fs = require('fs');
 const path = require('path');
 
@@ -132,6 +133,20 @@ exports.handler = async (event, context) => {
                     
                     // Mark order as synced to prevent duplicates
                     await markOrderAsSynced(sgClient, userId, orderKey);
+                    
+                    // Send Klaviyo notification about lab results
+                    try {
+                        await sendKlaviyoLabResultsNotification(
+                            sgClient,
+                            userId,
+                            orderKey,
+                            biomarkers,
+                            order
+                        );
+                    } catch (klaviyoError) {
+                        console.warn('Failed to send Klaviyo notification (non-critical):', klaviyoError.message);
+                        // Don't fail the sync if Klaviyo notification fails
+                    }
 
                     syncedCount++;
                     syncResults.push({
@@ -701,6 +716,71 @@ async function storeSimpleProfileBiomarkers(sgClient, userId, biomarkers) {
     `;
 
     return await sgClient.query(mutation, userId);
+}
+
+/**
+ * Send Klaviyo notification about lab results
+ * @param {Object} sgClient - Suggestic API client
+ * @param {string} userId - Suggestic user ID
+ * @param {string} orderKey - Quest order key
+ * @param {Array} biomarkers - Array of biomarker objects
+ * @param {Object} order - KHSS order object
+ */
+async function sendKlaviyoLabResultsNotification(sgClient, userId, orderKey, biomarkers, order) {
+    // Get user profile to retrieve email and name
+    const profileQuery = `
+        query {
+            myProfile {
+                id
+                email
+                firstName
+                lastName
+            }
+        }
+    `;
+    
+    const profileResult = await sgClient.query(profileQuery, userId);
+    const profile = profileResult.myProfile;
+    
+    if (!profile || !profile.email) {
+        console.warn('Cannot send Klaviyo notification: No email found for user');
+        return;
+    }
+    
+    // Categorize biomarkers into normal vs abnormal
+    const abnormalBiomarkers = [];
+    const normalBiomarkers = [];
+    
+    for (const biomarker of biomarkers) {
+        const isAbnormal = biomarker.abnormalFlag && 
+                          biomarker.abnormalFlag !== '' && 
+                          biomarker.abnormalFlag.toLowerCase() !== 'no';
+        
+        if (isAbnormal) {
+            abnormalBiomarkers.push(biomarker.name);
+        } else {
+            normalBiomarkers.push(biomarker.name);
+        }
+    }
+    
+    // Get collection date from first biomarker
+    const collectionDate = biomarkers[0]?.collectionDateTime || new Date().toISOString();
+    
+    // Send notification
+    await sendLabResultsNotification({
+        email: profile.email,
+        firstName: profile.firstName || '',
+        lastName: profile.lastName || '',
+        orderKey: orderKey,
+        totalBiomarkers: biomarkers.length,
+        abnormalCount: abnormalBiomarkers.length,
+        collectionDate: collectionDate,
+        resultDate: new Date().toISOString(),
+        hasAbnormalResults: abnormalBiomarkers.length > 0,
+        userId: userId
+    });
+    
+    console.log(`📧 Klaviyo notification sent to ${profile.email}`);
 }
 
 /**
