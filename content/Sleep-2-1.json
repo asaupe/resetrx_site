@@ -1,0 +1,143 @@
+{
+    "title": "PROGRAM 2: SLEEP ENHANCEMENT",
+    "subtitle": "Weeks 1-4: Precision Timing",
+    "subtitleDescription": "This phase tightens your sleep schedule from a 30-minute to a 15-minute window and begins the gradual process of extending sleep duration. You'll also establish a more structured evening routine.",
+    "video": "https://www.youtube.com/watch?v=dQFPI1CMWuo&authuser=0",
+    "videoDescription": "Discover the science-backed strategies for optimizing your sleep quality. Learn about sleep architecture, circadian rhythms, and practical techniques to fall asleep faster, stay asleep longer, and wake up refreshed.",
+    "description":"This program builds upon basic sleep hygiene to create a more robust sleep system. Over 12 weeks, it addresses both sleep duration and quality through structured evening routines, strategic timing of activities, and environmental optimization. The program recognizes that people at this level often have demanding schedules but are ready to prioritize sleep. It emphasizes quality improvements for those who cannot immediately achieve 7-8 hours due to life circumstances.",
+    "sections": [
+        {
+            "title": "Overall Goals",
+            "icon": "🎖️",
+            "defaultIcon": "→",
+            "items": [
+                "Achieve rock-solid bedtime consistency (±15 minutes)", 
+                "Increase sleep from 5-6 hours to 6-7 hours (20% improvement)",
+                "Establish 20-30 minute evening wind-down routine",
+                "Eliminate sleep disruptors (late caffeine, alcohol, screens)",
+                "Optimize bedroom environment completely"
+            ]
+        },    
+        {
+            "title": "Why It's Beneficial",
+            "icon": "✨",
+            "defaultIcon": "✦",
+            "items": [
+                "Quality Focus: Improves sleep architecture even when quantity is limited",
+                "Cognitive Benefits: Moving to 6-7 hours notably improves focus and decision-making",
+                "Stress Resilience: Better sleep quality enhances ability to handle daily stress",
+                "Metabolic Health: Adequate sleep supports weight management and blood sugar control",
+                "Sustainable Lifestyle: Creates habits that fit within busy schedules"
+            ]
+        },
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Begin increasing daily activity levels",
+                "Set and maintain consistent wake time (±15 minutes)",
+                "Begin tracking all three metrics daily",
+                "Start basic morning routine"
+            ]
+        },
+        {
+            "title": "Week 1-2: Tighten Sleep Schedule",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🔒",
+                    "text": "Lock in precise timing:",
+                    "childIcon": "•",
+                    "children": [
+                        "Choose exact bedtime and wake time (e.g., 10:45 PM - 5:45 AM)",
+                        "Set multiple alarms: 30 min warning, 15 min warning, bedtime",
+                        "Wake alarm plus backup 5 minutes later",
+                        "Post schedule in bedroom and bathroom"
+                    ]
+                },
+                {
+                    "icon": "🌙",
+                    "text": "Establish 20-minute wind-down routine:",
+                    "childIcon": "•",
+                    "children": [
+                        "Minutes 1-5: Prep tomorrow (outfit, bag, breakfast plan)",
+                        "Minutes 6-10: Bathroom routine (skincare, teeth, comfortable clothes)",
+                        "Minutes 11-15: Gentle stretching or yoga poses",
+                        "Minutes 16-20: Reading or journaling in bed",
+                        "Start routine exactly 20 minutes before lights out"
+                    ]
+                },
+                {
+                    "icon": "🛏️",
+                    "text": "Perfect bedroom environment:",
+                    "childIcon": "•",
+                    "children": [
+                        "Complete darkness (cover ALL lights, use tape if needed)",
+                        "Temperature 65-68°F (use fan for white noise if needed)",
+                        "Phone on airplane mode or Do Not Disturb",
+                        "Comfortable bedding appropriate for season"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 3-4: Extend Sleep Duration",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "⏰",
+                    "text": "Add 15 minutes to sleep time:",
+                    "childIcon": "•",
+                    "children": [
+                        "Move bedtime 15 minutes earlier OR",
+                        "Wake 15 minutes later (choose what works for your life)",
+                        "Maintain the ±15 minute consistency"
+                    ]
+                },
+                {
+                    "icon": "🌅",
+                    "text": "Optimize morning routine:",
+                    "childIcon": "•",
+                    "children": [
+                        "No snooze button ever",
+                        "Lights on immediately",
+                        "10-15 minutes morning sunlight (eat breakfast by window)",
+                        "Consistent morning beverage at same time"
+                    ]
+                },
+                {
+                    "icon": "💊",
+                    "text": "Begin supplement support (optional, consult doctor):",
+                    "childIcon": "•",
+                    "children": [
+                        "Magnesium glycinate 200mg 1 hour before bed",
+                        "Keep consistent timing if using"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Daily Tracking Goals for Weeks 1-4:",
+            "icon": "📊",
+            "defaultIcon": "★",
+            "items": [
+                "Consistency: \"Yes\" 6 out of 7 days minimum",
+                "Quality: Establish baseline, look for upward trend",
+                "Duration: Add 15 minutes to your baseline average"
+            ]
+        },
+        {
+            "title": "Success Markers",
+            "icon": "🎯",
+            "defaultIcon": "★",
+            "items": [
+                "Wind-down routine takes exactly 20 minutes",
+                "Bedtime varies by less than 15 minutes"
+            ]
+        }
+    ],
+    "closingNote": "<strong>Advanced Sleep Science:</strong> Your brain cycles through 90-minute sleep stages (light → deep → REM) 4-6 times per night. Deep sleep (physical recovery) dominates the first half of night, while REM sleep (mental recovery, memory consolidation) dominates the second half. By optimizing your environment and timing, you can maximize both. Elite athletes and performers treat sleep like training - you're now doing the same."
+}

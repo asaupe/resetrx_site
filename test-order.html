@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHSS Order Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        input {
+            padding: 8px 12px;
+            font-size: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .success {
+            color: #059669;
+        }
+        .error {
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <h1>KHSS API Test Suite</h1>
+    
+    <!-- Order Creation Section -->
+    <div class="section">
+        <h2>1. Create Test Order</h2>
+        <p>First, create a test order to get an Order_Key for location searches</p>
+        
+        <button onclick="createTestOrder()">Create Test Order</button>
+        
+        <div class="result" id="orderResult"></div>
+    </div>
+
+    <!-- Location Search Section -->
+    <div class="section">
+        <h2>2. Search Locations</h2>
+        <p>Search for Quest PSC locations by ZIP code (requires valid Order_Key)</p>
+        
+        <input type="text" id="zipCode" placeholder="ZIP Code" value="90210">
+        <button onclick="searchLocations()" id="searchBtn" disabled>Search Locations</button>
+        
+        <div class="result" id="locationResult"></div>
+    </div>
+
+    <script>
+        let currentOrderKey = null;
+
+        async function createTestOrder() {
+            const resultDiv = document.getElementById('orderResult');
+            resultDiv.innerHTML = '<p>Creating order...</p>';
+            
+            try {
+                const response = await fetch('/.netlify/functions/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderKey: 'RX' + String(Date.now()).slice(-12), // 14 chars: RX + 12 digit timestamp
+                        labAccount: '73946524',
+                        patient: {
+                            id: 'TEST10001',
+                            firstName: 'Patient',
+                            lastName: 'Test',
+                            dob: '1980-01-01',
+                            sex: 'Male',
+                            street: '123 Test St',
+                            city: 'Chicago',
+                            state: 'Illinois',
+                            postalCode: '60642',
+                            phone: '312-555-0100',
+                            email: 'test@example.com'
+                        },
+                        tests: [
+                            { testCode: '899' }
+                        ]
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentOrderKey = result.data.Order_Key;
+                    document.getElementById('searchBtn').disabled = false;
+                    
+                    resultDiv.innerHTML = `
+                        <h3 class="success">✅ Order Created Successfully!</h3>
+                        <p><strong>Order Key:</strong> ${result.data.Order_Key}</p>
+                        <p><strong>Lab Success:</strong> ${result.data.Lab_Success}</p>
+                        <p><strong>KHSS Success:</strong> ${result.data.KHSS_Success}</p>
+                        <details>
+                            <summary>Full Response</summary>
+                            <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                        </details>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3 class="error">❌ Error</h3>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3 class="error">❌ Error</h3>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+
+        async function searchLocations() {
+            const resultDiv = document.getElementById('locationResult');
+            const zipCode = document.getElementById('zipCode').value;
+            
+            if (!currentOrderKey) {
+                resultDiv.innerHTML = '<p class="error">Please create an order first!</p>';
+                return;
+            }
+            
+            if (!zipCode || zipCode.length !== 5) {
+                resultDiv.innerHTML = '<p class="error">Please enter a valid 5-digit ZIP code</p>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<p>Searching for locations...</p>';
+            
+            try {
+                const response = await fetch('/.netlify/functions/get-locations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        postalCode: zipCode,
+                        patientId: 'TEST10001',
+                        orderKey: currentOrderKey,
+                        radiusMiles: 50
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    const locations = result.data.Locations || [];
+                    
+                    if (locations.length === 0) {
+                        resultDiv.innerHTML = `
+                            <h3 class="success">✅ Search Successful</h3>
+                            <p>No locations found near ZIP code ${zipCode}</p>
+                        `;
+                    } else {
+                        const locationList = locations.map((loc, i) => `
+                            <div style="padding: 10px; margin: 10px 0; background: #f9fafb; border-radius: 8px;">
+                                <strong>${i + 1}. ${loc.Name}</strong><br>
+                                ${loc.Address}, ${loc.City}, ${loc.State} ${loc.Zip}<br>
+                                <small>Distance: ${loc.Distance} miles | Code: ${loc.Code}</small>
+                            </div>
+                        `).join('');
+                        
+                        resultDiv.innerHTML = `
+                            <h3 class="success">✅ Found ${locations.length} Location(s)</h3>
+                            ${locationList}
+                            <details>
+                                <summary>Full Response</summary>
+                                <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                            </details>
+                        `;
+                    }
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3 class="error">❌ Error</h3>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3 class="error">❌ Error</h3>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

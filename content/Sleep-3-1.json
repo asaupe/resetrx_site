@@ -1,181 +1,150 @@
 {
     "title": "PROGRAM 3: SLEEP OPTIMIZATION",
-    "subtitle": "Weeks 1-4: Advanced Sleep Architecture",
-    "subtitleDescription": "This advanced phase focuses on optimizing your sleep cycles and understanding your personal chronotype. You'll learn to work with your body's natural rhythms rather than against them, using data tracking and environmental optimization to achieve peak sleep quality.",
-    "video": "Understanding Your Sleep Architecture",
-    "videoDescription": "Dive deep into sleep cycles, REM stages, and how to optimize each phase for maximum restoration. Learn to track and interpret your sleep data to make informed adjustments.",
-    "description": "Building on your established sleep foundation, this program takes you into advanced sleep optimization. You'll learn about sleep architecture, chronotypes, and how to use sophisticated tracking to fine-tune your sleep environment and routine. This is for those who have mastered the basics and are ready to achieve elite-level sleep quality.",
+    "subtitle": "Weeks 1-4: Perfect Consistency",
+    "subtitleDescription": "This phase achieves absolute consistency in sleep timing, including weekends and social events. You'll also establish an advanced 30-minute wind-down routine and begin tracking detailed sleep metrics.",
+    "video": "https://www.youtube.com/watch?v=dQFPI1CMWuo&authuser=0",
+    "videoDescription": "Discover the science-backed strategies for optimizing your sleep quality. Learn about sleep architecture, circadian rhythms, and practical techniques to fall asleep faster, stay asleep longer, and wake up refreshed.",
+    "description":"This advanced program is for those who have good sleep duration but want to maximize sleep quality and consistency. Over 12 weeks, it fine-tunes all aspects of sleep hygiene, addresses subtle disruptors, and implements advanced strategies for deep and REM sleep optimization. The program uses sleep tracking data to make personalized adjustments and focuses on the 10-20% improvements that transform good sleep into excellent sleep.",
     "sections": [
+        {
+            "title": "Overall Goals",
+            "icon": "🎖️",
+            "defaultIcon": "→",
+            "items": [
+                "Perfect consistency (same time ±15 minutes every night, including weekends)",
+                "Maintain 7-8 hours while improving sleep efficiency to >85%",
+                "Implement complete 30-minute wind-down routine",
+                "Optimize all sleep stages (deep sleep >15%, REM >20%)",
+                "Eliminate all subtle sleep disruptors",
+                "Track and respond to sleep metrics"
+            ]
+        },    
+        {
+            "title": "Why It's Beneficial",
+            "icon": "✨",
+            "defaultIcon": "✦",
+            "items": [
+                "Peak Performance: Optimized sleep enhances athletic and cognitive performance",
+                "Longevity Benefits: Consistent, quality sleep is linked to healthier aging",
+                "Mood Stability: Excellent sleep provides emotional resilience",
+                "Recovery Maximization: Supports exercise adaptation and muscle growth",
+                "Disease Prevention: Optimal sleep reduces risk of all major chronic diseases"
+            ]
+        },        
         {
             "title": "Phase Goals",
             "icon": "🎯",
             "defaultIcon": "✓",
             "items": [
-                "Identify your personal chronotype (early bird, night owl, or hummingbird)",
-                "Optimize sleep cycles to wake during light sleep phases",
-                "Achieve 85%+ sleep efficiency score",
-                "Master advanced environmental controls (temperature, light, sound)"
+                "Achieve ±15 minute consistency 7 days/week",
+                "Establish 30-minute advanced wind-down routine",
+                "Begin tracking sleep stages if possible",
+                "Optimize sleep environment to perfection"
+
             ]
         },
         {
-            "title": "Week 1-2: Sleep Cycle Mastery",
+            "title": "Week 1-2: Absolute Schedule Precision",
             "icon": "📅",
             "defaultIcon": "▸",
             "items": [
+                {
+                    "icon": "🔒",
+                    "text": "Lock in exact timing:",
+                    "childIcon": "•",
+                    "children": [
+                        "Choose optimal bed and wake time based on your chronotype",
+                        "Example: 10:15 PM lights out, 6:15 AM wake",
+                        "Zero tolerance for variation (including weekends)",
+                        "Delete snooze option from life completely"
+                    ]
+                },
+                {
+                    "icon": "🌙",
+                    "text": "Advanced 30-minute wind-down routine:",
+                    "childIcon": "•",
+                    "children": [
+                        "Minutes 1-5: Complete shutdown (check locks, lights, tomorrow's prep)",
+                        "Minutes 6-10: Bathroom routine with dim lighting only",
+                        "Minutes 11-15: Gentle yoga or stretching sequence",
+                        "Minutes 16-20: Journaling (gratitude, thoughts, tomorrow's priority)",
+                        "Minutes 21-25: Meditation or breathing exercises",
+                        "Minutes 26-30: Progressive muscle relaxation in bed",
+                        "Use same sequence every single night"
+                    ]
+                },
+                {
+                    "icon": "🛏️",
+                    "text": "Environment perfection:",
+                    "childIcon": "•",
+                    "children": [
+                        "Room temperature exactly 65-67°F",
+                        "Complete darkness (blackout curtains + eye mask if needed)",
+                        "White noise or silence based on preference",
+                        "Premium mattress/pillows if budget allows",
+                        "No electronics visible from bed"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Week 3-4: Weekend Protection",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🎉",
+                    "text": "Social life integration:",
+                    "childIcon": "•",
+                    "children": [
+                        "Inform friends/family of your sleep schedule",
+                        "Plan social events earlier or decline late invitations",
+                        "If must stay up late: still wake at normal time, take 20-min afternoon nap",
+                        "No \"catching up\" on sleep ever"
+                    ]
+                },
+                {
+                    "icon": "🌅",
+                    "text": "Morning optimization:",
+                    "childIcon": "•",
+                    "children": [
+                        "20 minutes bright light within 30 minutes of waking",
+                        "Consistent breakfast timing",
+                        "Morning exercise or walk at same time",
+                        "No phone for first 30 minutes after waking"
+                    ]
+                },
                 {
                     "icon": "📊",
-                    "text": "Advanced sleep tracking setup:",
+                    "text": "Begin advanced tracking:",
                     "childIcon": "•",
                     "children": [
-                        "Use sleep tracker or app (Oura Ring, Whoop, Apple Watch, or Sleep Cycle app)",
-                        "Track these metrics daily:",
-                        {
-                            "text": "Key metrics to monitor:",
-                            "children": [
-                                "Total sleep time",
-                                "REM sleep percentage (target: 20-25%)",
-                                "Deep sleep percentage (target: 15-20%)",
-                                "Sleep efficiency (time asleep vs. time in bed)",
-                                "Heart rate variability (HRV) during sleep",
-                                "Wake-up count and timing"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "icon": "🌡️",
-                    "text": "Temperature optimization protocol:",
-                    "childIcon": "•",
-                    "children": [
-                        "Set bedroom to 65-68°F (18-20°C)",
-                        "Use cooling mattress pad or weighted blanket",
-                        {
-                            "text": "Temperature timing:",
-                            "children": [
-                                "Cool room 1 hour before bed",
-                                "Warmest point: 2-3 hours before wake time",
-                                "Gradual warming triggers natural wake-up"
-                            ]
-                        },
-                        "Take warm shower 90 minutes before bed (helps core temp drop)"
-                    ]
-                },
-                {
-                    "icon": "💡",
-                    "text": "Light exposure optimization:",
-                    "childIcon": "•",
-                    "children": [
-                        "Morning: Get 10+ minutes bright light within 30 min of waking",
-                        "Afternoon: Maintain bright environment until 6 PM",
-                        "Evening: Dim lights 2-3 hours before bed",
-                        {
-                            "text": "Blue light management:",
-                            "children": [
-                                "Activate device blue light filters at sunset",
-                                "Use amber/red lights in evening",
-                                "Consider blue-blocking glasses after 8 PM",
-                                "Blackout curtains or eye mask for sleeping"
-                            ]
-                        }
+                        "Note sleep efficiency (time asleep ÷ time in bed)",
+                        "Track sleep stages if wearable provides",
+                        "Identify patterns in quality ratings"
                     ]
                 }
             ]
         },
         {
-            "title": "Week 3-4: Chronotype Alignment & REM Optimization",
-            "icon": "📅",
-            "defaultIcon": "▸",
-            "items": [
-                {
-                    "icon": "🦉",
-                    "text": "Discover your chronotype:",
-                    "childIcon": "•",
-                    "children": [
-                        "Take chronotype quiz (search \"Chronotype Quiz Michael Breus\")",
-                        {
-                            "text": "Chronotype types:",
-                            "children": [
-                                "Lion (Early Bird): Natural wake 5:30-6 AM, peak 8 AM-12 PM",
-                                "Bear (Most Common): Natural wake 7-8 AM, peak 10 AM-2 PM",
-                                "Wolf (Night Owl): Natural wake 7:30-9 AM, peak 5-9 PM",
-                                "Dolphin (Light Sleeper): Irregular, peak varies"
-                            ]
-                        },
-                        "Adjust schedule ±1 hour toward your natural chronotype",
-                        "Schedule important tasks during your peak performance windows"
-                    ]
-                },
-                {
-                    "icon": "🎵",
-                    "text": "Sound optimization:",
-                    "childIcon": "•",
-                    "children": [
-                        "Identify noise disruptions using tracker",
-                        {
-                            "text": "Sound solutions:",
-                            "children": [
-                                "White noise machine or app (40-50 dB)",
-                                "Earplugs if needed (32 NRR rating)",
-                                "Pink noise for deeper sleep (lower frequencies than white)",
-                                "Binaural beats during wind-down (delta waves 0.5-4 Hz)"
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "icon": "🧠",
-                    "text": "REM sleep enhancement:",
-                    "childIcon": "•",
-                    "children": [
-                        "Avoid alcohol 4+ hours before bed (disrupts REM)",
-                        "Keep room temperature stable (prevents wake-ups)",
-                        {
-                            "text": "Dream journaling practice:",
-                            "children": [
-                                "Keep journal by bed",
-                                "Write dreams immediately upon waking",
-                                "Note patterns and themes",
-                                "Indicates healthy REM cycles"
-                            ]
-                        },
-                        "Target 90-minute sleep cycles (plan wake time accordingly)"
-                    ]
-                },
-                {
-                    "icon": "⏰",
-                    "text": "Smart wake-up protocol:",
-                    "childIcon": "•",
-                    "children": [
-                        "Use smart alarm that wakes during light sleep phase",
-                        "Set 30-minute wake window (e.g., 6:30-7:00 AM)",
-                        "Gradual light alarm (sunrise simulation)",
-                        "Avoid snoozing - disrupts sleep cycles"
-                    ]
-                }
-            ]
-        },
-        {
-            "title": "Daily Tracking Goals for Weeks 1-4",
+            "title": "Daily Tracking Goals for Weeks 1-4:",
             "icon": "📊",
-            "defaultIcon": "✓",
+            "defaultIcon": "★",
             "items": [
-                "Log sleep metrics every morning",
-                "Track bedroom temperature nightly",
-                "Note any environmental disruptions",
-                "Weekly review: Compare data to identify patterns",
-                "Adjust one variable per week based on data"
+                "Consistency: \"Yes\" 7 out of 7 days (no exceptions)",
+                "Quality: Baseline 7+, looking for consistency",
+                "Duration: Maintain 7-8 hours",
+                "Efficiency: Target >85%"
             ]
         },
         {
             "title": "Success Markers",
-            "icon": "🏆",
+            "icon": "🎯",
             "defaultIcon": "★",
             "items": [
-                "Sleep efficiency above 85% consistently",
-                "20%+ REM sleep on most nights",
-                "15%+ deep sleep on most nights",
-                "Wake feeling refreshed 5+ days per week",
-                "Can fall back asleep within 20 min if waking at night"
+                "Can fall asleep within 15 minutes",
+                "Rare nighttime awakenings",
+                "Wake naturally 5 minutes before alarm"
             ]
         }
     ],

@@ -1,0 +1,10 @@
+{
+  "name": "resetrx-site",
+  "version": "1.0.0",
+  "description": "ResetRx health screening appointment booking",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "https-proxy-agent": "^7.0.2",
+    "node-fetch": "^2.7.0"
+  }
+}

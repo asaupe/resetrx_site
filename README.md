@@ -23,8 +23,104 @@ ResetRx integrates intelligent nutrition, adaptive fitness, and habit optimizati
 - JavaScript (vanilla)
 - Font Awesome Icons
 - Google Fonts
+- Netlify Functions (serverless backend)
+- Suggestic API (nutrition and biomarker tracking)
+- Quest Diagnostics / KHSS API (lab results integration)
 - FormSubmit (for contact form handling)
 - GitHub Pages (for hosting)
+
+## Backend Architecture
+
+### Netlify Functions
+
+The platform uses serverless functions to handle:
+- **Quest Appointment Scheduling**: Two-step booking flow with KHSS API integration
+- **Lab Results Sync**: Automated biomarker data sync from Quest to Suggestic
+- **User Profile Management**: Custom attributes for tracking appointments and lab orders
+- **Email Notifications**: Klaviyo integration for appointment confirmations
+
+### Utilities
+
+Located in `netlify/functions/utils/`:
+
+#### Klaviyo Client (`klaviyo-client.js`)
+
+Centralized Klaviyo event tracking to avoid code duplication:
+
+```javascript
+const { sendKlaviyoEvent } = require('./utils/klaviyo-client');
+
+// Send an event to Klaviyo
+await sendKlaviyoEvent({
+    metricName: 'Quest Appointment Booked',
+    email: 'user@example.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    phoneNumber: '+1234567890', // optional
+    properties: {
+        confirmation_number: 'ABC123',
+        appointment_date: 'January 15, 2026',
+        location_name: 'Quest Diagnostics - Main St'
+        // ... any custom properties
+    }
+});
+```
+
+All Klaviyo interactions use this utility to:
+- Handle API authentication
+- Build consistent event payloads
+- Manage error handling
+- Parse responses correctly
+
+#### Custom Attributes Utility (`custom-attributes.js`)
+
+Reusable helper functions for managing Suggestic custom attributes:
+
+```javascript
+const { 
+    getCustomAttribute,
+    setCustomAttribute,
+    addToCustomAttributeArray,
+    isInCustomAttributeArray 
+} = require('./utils/custom-attributes');
+
+// Example: Check if order already synced
+const alreadySynced = await isInCustomAttributeArray(
+    sgClient, 
+    userId, 
+    'synced_quest_orders', 
+    orderKey
+);
+
+// Example: Mark order as synced
+await addToCustomAttributeArray(
+    sgClient, 
+    userId, 
+    'synced_quest_orders', 
+    orderKey, 
+    'Quest Lab Results'
+);
+
+// Example: Store appointment data
+await setCustomAttribute(
+    sgClient,
+    userId,
+    'quest_appointment_id',
+    appointmentId,
+    'Quest Appointment'
+);
+```
+
+Available functions:
+- `getCustomAttributes(sgClient, userId)` - Get all custom attributes
+- `getCustomAttribute(sgClient, userId, name)` - Get single attribute value
+- `getCustomAttributeJSON(sgClient, userId, name, defaultValue)` - Get and parse JSON attribute
+- `setCustomAttribute(sgClient, userId, name, value, category)` - Set single attribute
+- `setCustomAttributeJSON(sgClient, userId, name, value, category)` - Set JSON attribute
+- `setCustomAttributes(sgClient, userId, attributes)` - Set multiple attributes at once
+- `addToCustomAttributeArray(sgClient, userId, name, item, category)` - Add item to array
+- `removeFromCustomAttributeArray(sgClient, userId, name, item, category)` - Remove from array
+- `isInCustomAttributeArray(sgClient, userId, name, item)` - Check if item exists in array
 
 ## Pages and Sections
 

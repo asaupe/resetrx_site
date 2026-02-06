@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ResetRx Score</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-card {
+            background: transparent;
+            padding: 10px 5px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+            line-height: 1.1;
+        }
+
+        .updated {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+
+        .gauge-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            flex-shrink: 0;
+        }
+
+        .gauge-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: #f0f0f0;
+            stroke-width: 30;
+            stroke-linecap: round;
+        }
+
+        .gauge-segment {
+            fill: none;
+            stroke-width: 30;
+            stroke-linecap: round;
+            transition: all 0.3s ease;
+        }
+
+        .gauge-needle {
+            transition: transform 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-origin: 200px 200px;
+        }
+
+        .score-value {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 56px;
+            font-weight: 900;
+            color: #1a1a1a;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            margin-top: -10px;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .scale-label {
+            text-align: center;
+        }
+
+        .scale-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.1;
+        }
+
+        .scale-text {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Small screens (iPhone SE, small Android) */
+        @media (max-width: 375px) {
+            .score-card {
+                padding: 8px 3px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 2px;
+            }
+
+            .updated {
+                font-size: 12px;
+            }
+
+            .score-value {
+                font-size: 48px;
+            }
+
+            .scale-labels {
+                padding: 0 10px;
+                margin-top: -8px;
+            }
+
+            .scale-number {
+                font-size: 20px;
+            }
+
+            .scale-text {
+                font-size: 11px;
+            }
+        }
+
+        /* Medium screens (iPhone 12-15, standard Android) */
+        @media (min-width: 376px) and (max-width: 430px) {
+            h1 {
+                font-size: 30px;
+            }
+
+            .updated {
+                font-size: 15px;
+            }
+
+            .score-value {
+                font-size: 60px;
+            }
+
+            .scale-number {
+                font-size: 24px;
+            }
+
+            .scale-text {
+                font-size: 13px;
+            }
+        }
+
+        /* Large screens (iPhone Pro Max, large Android) */
+        @media (min-width: 431px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .updated {
+                font-size: 16px;
+            }
+
+            .score-value {
+                font-size: 72px;
+            }
+
+            .scale-labels {
+                padding: 0 20px;
+            }
+
+            .scale-number {
+                font-size: 28px;
+            }
+
+            .scale-text {
+                font-size: 14px;
+            }
+        }
+
+        /* Short screens - reduce vertical spacing even more */
+        @media (max-height: 600px) {
+            .score-card {
+                padding: 5px 3px;
+            }
+
+            .header {
+                margin-bottom: 5px;
+            }
+
+            h1 {
+                font-size: 22px;
+                margin-bottom: 2px;
+            }
+
+            .updated {
+                font-size: 11px;
+            }
+
+            .score-value {
+                font-size: 42px;
+            }
+
+            .scale-labels {
+                padding: 0 10px;
+                margin-top: -5px;
+            }
+
+            .scale-number {
+                font-size: 18px;
+            }
+
+            .scale-text {
+                font-size: 10px;
+            }
+        }
+
+        /* Very tall screens - still minimal spacing */
+        @media (min-height: 800px) {
+            .header {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="score-card">
+        <div class="header">
+            <h1>Your ResetRx Score</h1>
+            <div class="updated" id="updateDate">Updated on: 12/14/25</div>
+        </div>
+
+        <div id="content" class="loading">Loading your score...</div>
+    </div>
+
+    <script>
+        // Color definitions for gauge segments
+        const colors = {
+            red: '#ef4444',
+            orange: '#f97316',
+            yellow: '#fbbf24',
+            lime: '#84cc16',
+            green: '#22c55e',
+            blue: '#3b82f6',
+            darkBlue: '#1e40af'
+        };
+
+        function getScoreColor(score) {
+            if (score < 1) return colors.red;
+            if (score < 2) return colors.orange;
+            if (score < 3) return colors.yellow;
+            if (score < 4) return colors.lime;
+            if (score < 4.5) return colors.green;
+            if (score < 5) return colors.blue;
+            return colors.darkBlue;
+        }
+
+        function createGauge(score) {
+            // Clamp score between 0 and 5
+            score = Math.max(0, Math.min(5, score));
+            
+            // Calculate needle rotation (-90 to 90 degrees for 0 to 5 scale)
+            const rotation = -90 + (score / 5 * 180);
+            
+            return `
+                <div class="gauge-container">
+                    <svg class="gauge-svg" viewBox="20 0 360 250" preserveAspectRatio="xMidYMid meet">
+                        <!-- Background arc -->
+                        <path class="gauge-bg" d="M 50 200 A 150 150 0 0 1 350 200" />
+                        
+                        <!-- Red segment (0-1) -->
+                        <path class="gauge-segment" stroke="${colors.red}" 
+                              d="M 50 200 A 150 150 0 0 1 80 95" />
+                        
+                        <!-- Orange segment (1-2) -->
+                        <path class="gauge-segment" stroke="${colors.orange}" 
+                              d="M 80 95 A 150 150 0 0 1 140 55" />
+                        
+                        <!-- Yellow segment (2-3) -->
+                        <path class="gauge-segment" stroke="${colors.yellow}" 
+                              d="M 140 55 A 150 150 0 0 1 200 45" />
+                        
+                        <!-- Lime segment (3-4) -->
+                        <path class="gauge-segment" stroke="${colors.lime}" 
+                              d="M 200 45 A 150 150 0 0 1 260 55" />
+                        
+                        <!-- Green/Blue segment (4-5) -->
+                        <path class="gauge-segment" stroke="${colors.green}" 
+                              d="M 260 55 A 150 150 0 0 1 320 95" />
+                        
+                        <!-- Blue segment (4.5-5) -->
+                        <path class="gauge-segment" stroke="${colors.blue}" 
+                              d="M 320 95 A 150 150 0 0 1 350 200" />
+                        
+                        <!-- Needle -->
+                        <g class="gauge-needle" style="transform: rotate(${rotation}deg);">
+                            <line x1="200" y1="200" x2="200" y2="80" 
+                                  stroke="#1a1a1a" stroke-width="6" stroke-linecap="round"/>
+                            <circle cx="200" cy="200" r="12" fill="#1a1a1a"/>
+                        </g>
+                    </svg>
+                    
+                    <div class="score-value">${score.toFixed(1)}</div>
+                </div>
+                
+                <div class="scale-labels">
+                    <div class="scale-label">
+                        <div class="scale-number">0</div>
+                        <div class="scale-text">Off Track</div>
+                    </div>
+                    <div class="scale-label">
+                        <div class="scale-number">5</div>
+                        <div class="scale-text">Superstar</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return {
+                profileId: urlParams.get('user_id') || urlParams.get('profileId') || 'TWVtYmVyOjJkYzAxM2E3LThhOGEtNDU1NC04MTM5LWQyYWQ3YmQ5Nzc4Ng==',
+                score: parseFloat(urlParams.get('score')) || null,
+                sleep: parseFloat(urlParams.get('sleep')) || null,
+                movement: parseFloat(urlParams.get('movement')) || null,
+                mindfulness: parseFloat(urlParams.get('mindfulness')) || null,
+                nutrition: parseFloat(urlParams.get('nutrition')) || null
+            };
+        }
+
+        async function loadScore() {
+            const params = getURLParameters();
+            const container = document.getElementById('content');
+            
+            try {
+                // If score params provided, use them directly
+                if (params.score !== null) {
+                    renderStaticScore(params);
+                    return;
+                }
+                
+                // Otherwise, fetch from Suggestic
+                container.innerHTML = '<div class="loading">Loading your wellness score...</div>';
+                
+                const response = await fetch('/.netlify/functions/calculate-user-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        profileId: params.profileId
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to load score');
+                }
+                
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to calculate score');
+                }
+                
+                const data = result.data;
+                
+                // Check if user has no tracking data
+                if (data.noData || data.scores.overall === 'N/A') {
+                    document.getElementById('updateDate').textContent = data.message || 
+                        "We don't have any tracking data yet! Connect your wearable device to get started. 📱";
+                    
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px 20px;">
+                            <div style="font-size: 72px; font-weight: 900; color: #666; margin-bottom: 20px;">
+                                N/A
+                            </div>
+                            <div style="font-size: 18px; color: #999; line-height: 1.6;">
+                                No tracking data available yet
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Update date and message
+                const today = new Date();
+                document.getElementById('updateDate').textContent = data.message || 
+                    `Updated on: ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear().toString().slice(-2)}`;
+                
+                // Render gauge with overall score
+                container.innerHTML = createGauge(data.scores.overall);
+                
+                console.log('User scores:', data.scores);
+                console.log('Raw data:', data.rawData);
+                
+            } catch (error) {
+                console.error('Error loading score:', error);
+                container.innerHTML = `
+                    <div class="loading">
+                        Error loading score: ${error.message}<br>
+                        <small>Using demo score instead</small>
+                    </div>
+                `;
+                
+                // Fallback to demo score
+                setTimeout(() => {
+                    container.innerHTML = createGauge(4.4);
+                }, 2000);
+            }
+        }
+
+        function renderStaticScore(params) {
+            const container = document.getElementById('content');
+            
+            // Build pillars object
+            const pillars = {};
+            if (params.sleep !== null) pillars.Sleep = params.sleep;
+            if (params.movement !== null) pillars.Movement = params.movement;
+            if (params.mindfulness !== null) pillars.Mindfulness = params.mindfulness;
+            if (params.nutrition !== null) pillars.Nutrition = params.nutrition;
+            
+            // Calculate overall score
+            let overallScore = params.score;
+            if (overallScore === null && Object.keys(pillars).length > 0) {
+                overallScore = calculateAverageScore(pillars);
+            }
+            
+            // Default demo score if nothing provided
+            if (overallScore === null) {
+                overallScore = 4.4;
+            }
+            
+            // Update date
+            const today = new Date();
+            document.getElementById('updateDate').textContent = 
+                `Updated on: ${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear().toString().slice(-2)}`;
+            
+            // Render gauge only
+            container.innerHTML = createGauge(overallScore);
+        }
+
+        function calculateAverageScore(pillars) {
+            const scores = Object.values(pillars).filter(s => s !== null);
+            if (scores.length === 0) return null;
+            return scores.reduce((a, b) => a + b, 0) / scores.length;
+        }
+
+        // Load score when page loads
+        document.addEventListener('DOMContentLoaded', loadScore);
+    </script>
+</body>
+</html>

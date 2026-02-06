@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHSS Production Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .warning strong {
+            color: #856404;
+        }
+        button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #b91c1c;
+        }
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .success {
+            color: #059669;
+        }
+        .error {
+            color: #dc2626;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .info-box h3 {
+            margin: 0 0 8px 0;
+            color: #1565c0;
+        }
+        .info-box p {
+            margin: 4px 0;
+            color: #424242;
+        }
+        .toggle-env {
+            margin: 20px 0;
+            padding: 12px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        .toggle-env label {
+            font-weight: 600;
+            margin-right: 12px;
+        }
+        .toggle-env select {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 2px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚨 KHSS Production Test</h1>
+        <p style="color: #666; margin-bottom: 20px;">Test production order submission with Quest</p>
+
+        <div class="warning">
+            <strong>⚠️ WARNING:</strong> This will submit a REAL order to Quest in production. Only use for authorized testing.
+        </div>
+
+        <div class="toggle-env">
+            <label for="envSelect">Environment:</label>
+            <select id="envSelect">
+                <option value="test">Test/QA (Safe)</option>
+                <option value="production">Production (REAL ORDER)</option>
+            </select>
+        </div>
+
+        <div class="info-box" id="testInfo">
+            <h3>Test Environment Settings</h3>
+            <p><strong>Endpoint:</strong> test.salesforce.com</p>
+            <p><strong>Username:</strong> arne@resetrx.life.ptnrtest</p>
+            <p><strong>Lab Account:</strong> 7401519</p>
+            <p><strong>Test Code:</strong> 866 (Basic Metabolic Panel)</p>
+            <p><strong>Patient:</strong> Test, Patient.3</p>
+        </div>
+
+        <div class="info-box" id="prodInfo" style="display: none;">
+            <h3>Production Environment Settings</h3>
+            <p><strong>Endpoint:</strong> login.salesforce.com</p>
+            <p><strong>Username:</strong> arne@resetrx.life</p>
+            <p><strong>Lab Account:</strong> 73946524</p>
+            <p><strong>Test Code:</strong> 899 (TSH)</p>
+            <p><strong>Patient:</strong> Patient, Test</p>
+            <p><strong>IPs Whitelisted:</strong> 52.5.155.132, 52.87.82.133 (Fixie)</p>
+        </div>
+
+        <button onclick="submitTestOrder()" id="submitBtn">Submit Test Order</button>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const envSelect = document.getElementById('envSelect');
+        const testInfo = document.getElementById('testInfo');
+        const prodInfo = document.getElementById('prodInfo');
+        const submitBtn = document.getElementById('submitBtn');
+
+        envSelect.addEventListener('change', function() {
+            const isProduction = this.value === 'production';
+            testInfo.style.display = isProduction ? 'none' : 'block';
+            prodInfo.style.display = isProduction ? 'block' : 'none';
+            submitBtn.style.background = isProduction ? '#dc2626' : '#3b82f6';
+            submitBtn.textContent = isProduction ? '🚨 Submit PRODUCTION Order' : 'Submit Test Order';
+        });
+
+        async function submitTestOrder() {
+            const isProduction = envSelect.value === 'production';
+            const resultDiv = document.getElementById('result');
+            
+            if (isProduction) {
+                if (!confirm('⚠️ Are you sure? This will submit a REAL order to Quest in PRODUCTION.')) {
+                    return;
+                }
+            }
+
+            submitBtn.disabled = true;
+            resultDiv.innerHTML = '<p>Submitting order...</p>';
+
+            try {
+                // Generate unique 14-char order key: RX + 12-digit timestamp
+                const orderKey = 'RX' + String(Date.now()).slice(-12);
+
+                const orderData = isProduction ? {
+                    orderKey: orderKey,
+                    labAccount: '73946524',
+                    patient: {
+                        id: 'PROD10001',
+                        firstName: 'Patient',
+                        lastName: 'Test',
+                        dob: '1980-01-01',
+                        sex: 'Male',
+                        street: '123 Test St',
+                        city: 'Chicago',
+                        state: 'Illinois',
+                        postalCode: '60642',
+                        phone: '312-555-0100',
+                        email: 'test@resetrx.life'
+                    },
+                    tests: [
+                        { testCode: '899' } // TSH
+                    ],
+                    useProduction: true
+                } : {
+                    orderKey: orderKey,
+                    labAccount: '7401519',
+                    patient: {
+                        id: 'TEST10001',
+                        firstName: 'Test',
+                        lastName: 'Patient',
+                        dob: '1980-01-01',
+                        sex: 'Male',
+                        street: '123 Test St',
+                        city: 'Chicago',
+                        state: 'Illinois',
+                        postalCode: '60642',
+                        phone: '312-555-0100',
+                        email: 'test@example.com'
+                    },
+                    tests: [
+                        { testCode: '866' } // Basic Metabolic Panel
+                    ],
+                    useProduction: false
+                };
+
+                const response = await fetch('/.netlify/functions/create-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <h3 class="success">✅ Order Submitted Successfully!</h3>
+                        <p><strong>Environment:</strong> ${isProduction ? 'PRODUCTION' : 'Test'}</p>
+                        <p><strong>Order Key:</strong> ${result.data.Order_Key}</p>
+                        <p><strong>Quest ID:</strong> RRX25.${result.data.Order_Key} (20 chars)</p>
+                        <p><strong>Lab Success:</strong> ${result.data.Lab_Success}</p>
+                        <p><strong>KHSS Success:</strong> ${result.data.KHSS_Success}</p>
+                        <details>
+                            <summary>Full Response</summary>
+                            <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                        </details>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3 class="error">❌ Order Failed</h3>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3 class="error">❌ Error</h3>
+                    <p>${error.message}</p>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

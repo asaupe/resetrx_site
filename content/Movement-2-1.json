@@ -1,0 +1,103 @@
+{
+    "title": "PROGRAM 2: ACTIVE LIFESTYLE",
+    "subtitle": "Weeks 1-4: Building Base",
+    "subtitleDescription": "These initial weeks establish a solid foundation by creating a consistent schedule with moderate intensity. You'll exercise 4 days per week, building both cardiovascular endurance and introducing structured strength training.",
+    "video": "https://www.youtube.com/watch?v=bUH5OXQPtqM&list=PLw5MBQ2XZVltMxBA_K_Ma7CQgKfWDbPvx&index=2",
+    "videoDescription": "Learn the fundamental movement patterns that build true functional strength: squat, hinge, push, pull, carry, and rotate. These movements translate directly to real-life activities and athletic performance.",
+    "description": "This 12-week program bridges the gap between sporadic exercise and a truly active lifestyle. It systematically increases both exercise frequency and intensity while introducing variety to prevent boredom. The program adds a second strength training day by week 5 and introduces interval training by week 9, preparing you for continued advancement in the months ahead.",
+    "sections": [
+        {
+            "title": "Overall Goals",
+            "icon": "🎖️",
+            "defaultIcon": "→",
+            "items": [
+                "Build cardiovascular endurance from 15 to 30 minutes", 
+                "Build cardio endurance from 25 to 40 minutes",
+                "Establish consistent strength training 2x per week",
+                "Introduce interval training for improved fitness",
+                "Reach 7,000 daily steps consistently",
+                "Add flexibility work for injury prevention"
+            ]
+        },    
+        {
+            "title": "Why It's Beneficial",
+            "icon": "✨",
+            "defaultIcon": "✦",
+            "items": [
+                "Build cardiovascular endurance from 15 to 30 minutes",             
+                "Builds all fitness components: Combines cardio, strength, and flexibility",
+                "Prevents plateaus: Progressive overload ensures continuous improvement",
+                "Supports weight management: Sufficient volume for fat loss with muscle preservation",
+                "Improves energy: Regular exercise at this level significantly boosts daily energy"
+            ]
+        },        
+        {
+            "title": "Phase Goals",
+            "icon": "🎯",
+            "defaultIcon": "✓",
+            "items": [
+                "Can complete 30 minutes continuous cardio comfortably",
+                "Can complete 30 minutes continuous cardio comfortably",
+                "Learn basic strength training movements",
+                "Increase daily activity levels"
+            ]
+        },
+        {
+            "title": "Week 1-4: Building Base Workout Plan",
+            "icon": "📅",
+            "defaultIcon": "▸",
+            "items": [
+                {
+                    "icon": "🏃",
+                    "text": "Cardio 3x per week: 30 minutes per session",
+                    "childIcon": "•",
+                    "children": [
+                        "Monday: Brisk walk or light jog",
+                        "Wednesday: Cycling or stationary bike",
+                        "Friday: Swimming or elliptical",
+                        "Intensity: Slightly breathless but can speak in short sentences"
+                    ]
+                },
+                {
+                    "icon": "👟",
+                    "text": "Daily Step Target: 6,500 steps per day",
+                    "childIcon": "•",
+                    "children": []
+                },
+                {
+                    "icon": "💪",
+                    "text": "Strength training 1x per week: 25 minutes full body",
+                    "childIcon": "•",
+                    "children": [
+                        {
+                            "text": "Saturday or Sunday:",
+                            "children": [
+                                "Bodyweight squats (2 sets x 10-12)",
+                                "Push-ups (modified if needed) (2 sets x 8-10)",
+                                "Lunges (2 sets x 8 per leg)",
+                                "Plank (2 sets x 20-30 seconds)",
+                                "Dumbbell rows or resistance band pulls (2 sets x 10-12)"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "icon": "✅",
+                    "text": "Daily tracking: Log workouts and note energy levels",
+                    "childIcon": "•",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "title": "Bonus Activities",
+            "icon": "💪",
+            "defaultIcon": "★",
+            "items": [
+                "Take stairs when available",
+                "Stand for 5 minutes every hour if you have a desk job"
+            ]
+        }
+    ],
+    "closingNote": "<strong>Functional Fitness Philosophy:</strong> These 6 movement patterns aren't gym exercises - they're fundamental human movements you use every day. Squatting is sitting down and standing up. Hinging is picking something off the floor safely. Pushing and pulling open doors and carry groceries. By strengthening these patterns, you're not just building muscle - you're building a body that moves better, feels better, and handles life better. This is fitness with purpose."
+}
