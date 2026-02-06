@@ -27,7 +27,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             padding: 40px;
@@ -38,38 +38,47 @@
         h1 {
             color: #1a1a1a;
             margin-bottom: 10px;
-            font-size: 32px;
+            font-size: 36px;
         }
         
         h2 {
             color: #2c3e50;
-            margin-top: 40px;
-            margin-bottom: 20px;
+            margin-top: 50px;
+            margin-bottom: 25px;
             padding-bottom: 10px;
             border-bottom: 2px solid #e0e0e0;
-            font-size: 24px;
+            font-size: 28px;
         }
         
         h3 {
             color: #34495e;
             margin-top: 30px;
             margin-bottom: 15px;
-            font-size: 20px;
+            font-size: 22px;
+        }
+        
+        h4 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 18px;
         }
         
         p {
             margin-bottom: 15px;
             color: #555;
+            font-size: 16px;
         }
         
-        ul {
+        ul, ol {
             margin-left: 20px;
             margin-bottom: 15px;
         }
         
         li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #555;
+            font-size: 16px;
         }
         
         strong {
@@ -77,25 +86,63 @@
         }
         
         .diagram-container {
-            margin: 30px 0;
-            padding: 20px;
-            background: #fafafa;
+            margin: 40px 0;
+            padding: 30px;
+            background: white;
             border-radius: 8px;
             overflow-x: auto;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            min-height: 600px;
+        }
+        
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
         }
         
         .intro {
-            font-size: 16px;
+            font-size: 18px;
             color: #666;
             margin-bottom: 30px;
-            padding: 20px;
+            padding: 25px;
             background: #f8f9fa;
             border-left: 4px solid #1565c0;
             border-radius: 4px;
         }
         
         .section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .flow-explanation {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .flow-explanation h4 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+        
+        .arrow-legend {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #f57c00;
+        }
+        
+        .arrow-legend h4 {
+            color: #e65100;
+            margin-top: 0;
         }
         
         code {
@@ -104,6 +151,32 @@
             border-radius: 3px;
             font-family: 'Monaco', 'Courier New', monospace;
             font-size: 14px;
+        }
+        
+        .toc {
+            background: #e3f2fd;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #1565c0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            margin-left: 0;
+        }
+        
+        .toc a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -114,172 +187,316 @@
         <div class="intro">
             This document provides an overview of the ResetRx health platform architecture, showing how all components work together to deliver personalized health coaching, lab results, and wellness plans.
         </div>
+        
+        <div class="toc">
+            <h3>Table of Contents</h3>
+            <ul>
+                <li><a href="#overview">1. System Overview</a></li>
+                <li><a href="#customer-layer">2. Customer-Facing Layer</a></li>
+                <li><a href="#commerce">3. Commerce & Marketing</a></li>
+                <li><a href="#lab-pipeline">4. Lab Results Pipeline</a></li>
+                <li><a href="#core-services">5. Core Services Integration</a></li>
+                <li><a href="#data-flows">6. Data Flow Details</a></li>
+            </ul>
+        </div>
 
-        <h2>System Architecture Diagram</h2>
+        <h2 id="overview">1. System Overview</h2>
+        
+        <p>The ResetRx platform is built on a layered architecture that separates customer interaction, business logic, and data storage. Here's how the pieces fit together:</p>
+        
+        <div class="arrow-legend">
+            <h4>Understanding the Diagrams</h4>
+            <ul>
+                <li><strong>Solid arrows (→)</strong> - Direct API calls or data transfers</li>
+                <li><strong>Dashed arrows (⇢)</strong> - Webhooks or asynchronous notifications</li>
+                <li><strong>Boxes</strong> - Individual services or components</li>
+                <li><strong>Grouped boxes</strong> - Related services within same system</li>
+            </ul>
+        </div>
+
+        <h2 id="customer-layer">2. Customer-Facing Layer</h2>
+        
+        <p>This shows what users interact with daily in the mobile app:</p>
         
         <div class="diagram-container">
             <div class="mermaid">
-%%{init: {'theme':'base'}}%%
-graph TB
-    subgraph "Daily Customer Interaction"
-        Mobile[Mobile App]
-        Dashboard[Dashboard & Health Score]
-        Eva[Eva AI Coach]
-        Logging[Activity & Food Logging]
-        Progress[Progress Tracking]
-        NutritionUI[Nutrition Plan View]
-        ExerciseUI[Exercise Plan View]
-        MindsetUI[Mindset Plan View]
-        SleepUI[Sleep Plan View]
-        
-        Mobile --> Dashboard
-        Mobile --> Eva
-        Mobile --> Logging
-        Mobile --> Progress
-        Mobile --> NutritionUI
-        Mobile --> ExerciseUI
-        Mobile --> MindsetUI
-        Mobile --> SleepUI
-    end
+%%{init: {'theme':'base', 'themeVariables': {'fontSize':'18px'}}}%%
+graph LR
+    Mobile[📱 Mobile App] --> Dashboard[📊 Dashboard]
+    Mobile --> Eva[🤖 Eva AI Coach]
+    Mobile --> Logging[📝 Activity Logging]
+    Mobile --> Plans[📋 Health Plans]
     
-    subgraph "Marketing & Commerce"
-        Shopify[Shopify E-commerce]
-        Products[Product Catalog]
-        Checkout[Checkout & Payment]
-        Klaviyo[Klaviyo Marketing]
-        EmailFlows[Email Flows & Campaigns]
-        
-        Shopify --> Products
-        Shopify --> Checkout
-        Klaviyo --> EmailFlows
-    end
+    Dashboard --> Score[Health Score Display]
+    Eva --> Chat[AI Conversations]
+    Logging --> Food[Food Tracking]
+    Logging --> Activity[Activity Tracking]
+    Plans --> Nutrition[Nutrition Plan]
+    Plans --> Exercise[Exercise Plan]
+    Plans --> Mindset[Mindset Plan]
+    Plans --> Sleep[Sleep Plan]
     
-    subgraph "Core Services - Suggestic Platform"
-        GraphQLAPI[GraphQL API]
-        UserProfiles[User Profiles & Auth]
-        NutritionEngine[Nutrition Plan Engine]
-        BiomarkerDB[Biomarker Storage]
-        CustomAttributes[Custom Attributes]
-        HealthData[Health Data & Metrics]
-        Database[(Database)]
-        
-        GraphQLAPI --> UserProfiles
-        GraphQLAPI --> NutritionEngine
-        GraphQLAPI --> BiomarkerDB
-        GraphQLAPI --> CustomAttributes
-        GraphQLAPI --> HealthData
-        UserProfiles --> Database
-        BiomarkerDB --> Database
-        CustomAttributes --> Database
-        HealthData --> Database
-    end
-    
-    subgraph "AI Services"
-        OpenAI[OpenAI API]
-        EvaLogic[Eva Coaching Logic]
-        
-        OpenAI --> EvaLogic
-    end
-    
-    subgraph "Lab Results Pipeline - Netlify Functions"
-        AppointmentSvc[Appointment Management]
-        LabResultsSync[Lab Results Sync<br/>Scheduled/On-Demand]
-        UserMatching[User Matching by Order Key]
-        BiomarkerProcessor[Biomarker Data Processor<br/>Unit Mapping & Alerts]
-        NotificationSvc[Notification Service]
-        
-        AppointmentSvc --> UserMatching
-        LabResultsSync --> UserMatching
-        LabResultsSync --> BiomarkerProcessor
-        BiomarkerProcessor --> NotificationSvc
-    end
-    
-    subgraph "Health Scoring System - Netlify Functions"
-        ScoreCalculator[Score Calculator]
-        WeightMetrics[Weight Tracking]
-        SleepMetrics[Sleep Quality]
-        MovementMetrics[Movement/Exercise]
-        MindfulnessMetrics[Mindfulness]
-        NutritionMetrics[Nutrition Adherence]
-        
-        ScoreCalculator --> WeightMetrics
-        ScoreCalculator --> SleepMetrics
-        ScoreCalculator --> MovementMetrics
-        ScoreCalculator --> MindfulnessMetrics
-        ScoreCalculator --> NutritionMetrics
-    end
-    
-    subgraph "Plan Generation - Netlify Functions"
-        ExercisePlanGen[Exercise Plan Generator]
-        MindsetPlanGen[Mindset Plan Generator]
-        SleepPlanGen[Sleep Plan Generator]
-    end
-    
-    subgraph "External APIs"
-        KHSS[KHSS/Quest Diagnostics]
-        LabOrders[Lab Order Submission]
-        LabResults[Test Results Retrieval]
-        
-        KHSS --> LabOrders
-        KHSS --> LabResults
-    end
-
-    %% Daily Interaction Connections
-    Dashboard --> ScoreCalculator
-    Eva --> EvaLogic
-    Logging --> HealthData
-    Progress --> HealthData
-    NutritionUI --> NutritionEngine
-    ExerciseUI --> ExercisePlanGen
-    MindsetUI --> MindsetPlanGen
-    SleepUI --> SleepPlanGen
-    Mobile --> AppointmentSvc
-    
-    %% Commerce Connections
-    Shopify -.->|New User Webhook| UserProfiles
-    Shopify -.->|Customer Sync| Klaviyo
-    
-    %% Lab Results Pipeline Flow
-    AppointmentSvc --> KHSS
-    AppointmentSvc --> CustomAttributes
-    LabResultsSync --> KHSS
-    UserMatching --> CustomAttributes
-    BiomarkerProcessor --> BiomarkerDB
-    NotificationSvc --> Klaviyo
-    
-    %% Health Scoring Connections
-    ScoreCalculator --> HealthData
-    ScoreCalculator --> BiomarkerDB
-    
-    %% Plan Generation Connections
-    ExercisePlanGen --> HealthData
-    MindsetPlanGen --> HealthData
-    SleepPlanGen --> HealthData
-    
-    %% Core API Gateway
-    Dashboard --> GraphQLAPI
-    Logging --> GraphQLAPI
-    Progress --> GraphQLAPI
-    NutritionUI --> GraphQLAPI
-
-    classDef customer fill:#e3f2fd,stroke:#1565c0,stroke-width:3px
-    classDef commerce fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef core fill:#e8f5e9,stroke:#2e7d32,stroke-width:3px
-    classDef ai fill:#fce4ec,stroke:#c2185b,stroke-width:2px
-    classDef labPipeline fill:#fff9c4,stroke:#f57f17,stroke-width:3px
-    classDef scoring fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px
-    classDef planGen fill:#e0f2f1,stroke:#00695c,stroke-width:2px
-    classDef external fill:#ffebee,stroke:#c62828,stroke-width:2px
-    
-    class Mobile,Dashboard,Eva,Logging,Progress,NutritionUI,ExerciseUI,MindsetUI,SleepUI customer
-    class Shopify,Products,Checkout,Klaviyo,EmailFlows commerce
-    class GraphQLAPI,UserProfiles,NutritionEngine,BiomarkerDB,CustomAttributes,HealthData,Database core
-    class OpenAI,EvaLogic ai
-    class AppointmentSvc,LabResultsSync,UserMatching,BiomarkerProcessor,NotificationSvc labPipeline
-    class ScoreCalculator,WeightMetrics,SleepMetrics,MovementMetrics,MindfulnessMetrics,NutritionMetrics scoring
-    class ExercisePlanGen,MindsetPlanGen,SleepPlanGen planGen
-    class KHSS,LabOrders,LabResults external
+    style Mobile fill:#1976d2,stroke:#0d47a1,stroke-width:4px,color:#fff
+    style Dashboard fill:#42a5f5,stroke:#1976d2,stroke-width:2px
+    style Eva fill:#42a5f5,stroke:#1976d2,stroke-width:2px
+    style Logging fill:#42a5f5,stroke:#1976d2,stroke-width:2px
+    style Plans fill:#42a5f5,stroke:#1976d2,stroke-width:2px
             </div>
+        </div>
+        
+        <div class="flow-explanation">
+            <h4>Mobile App Features</h4>
+            <ul>
+                <li><strong>Dashboard</strong> → Displays real-time health score calculated from multiple data sources</li>
+                <li><strong>Eva AI Coach</strong> → Powered by OpenAI, provides personalized health coaching through natural conversations</li>
+                <li><strong>Activity Logging</strong> → Users track food intake and physical activity, data syncs to Suggestic</li>
+                <li><strong>Health Plans</strong> → Nutrition plans from Suggestic, Exercise/Mindset/Sleep plans generated by your custom functions</li>
+            </ul>
+        </div>
+
+        <h2 id="commerce">3. Commerce & Marketing Flow</h2>
+        
+        <p>This shows how new users enter the system through Shopify:</p>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+%%{init: {'theme':'base', 'themeVariables': {'fontSize':'18px'}}}%%
+graph TB
+    Customer[👤 Customer] -->|Purchases| Shopify[🛒 Shopify]
+    Shopify -->|Webhook| Suggestic[Suggestic Platform]
+    Shopify -.->|Customer Sync| Klaviyo[📧 Klaviyo]
+    
+    Suggestic --> CreateUser[Create User Account]
+    Suggestic --> SendCredentials[Send App Access]
+    
+    Klaviyo --> WelcomeEmail[Welcome Email Series]
+    Klaviyo --> Campaigns[Marketing Campaigns]
+    
+    CreateUser --> Mobile[📱 User Gets App Access]
+    
+    style Shopify fill:#96bf48,stroke:#5f7c2f,stroke-width:3px
+    style Suggestic fill:#4caf50,stroke:#2e7d32,stroke-width:3px
+    style Klaviyo fill:#9c27b0,stroke:#6a1b9a,stroke-width:3px
+    style Mobile fill:#1976d2,stroke:#0d47a1,stroke-width:3px
+            </div>
+        </div>
+        
+        <div class="flow-explanation">
+            <h4>User Onboarding Process</h4>
+            <ol>
+                <li><strong>Purchase</strong> → Customer buys subscription on Shopify</li>
+                <li><strong>Webhook</strong> → Shopify sends new customer data to Suggestic</li>
+                <li><strong>Account Creation</strong> → Suggestic creates user profile with authentication</li>
+                <li><strong>Marketing Sync</strong> → Customer info synced to Klaviyo for email marketing</li>
+                <li><strong>Welcome Series</strong> → Automated emails guide user through app setup</li>
+                <li><strong>App Access</strong> → User receives credentials and downloads mobile app</li>
+            </ol>
+        </div>
+
+        <h2 id="lab-pipeline">4. Lab Results Pipeline</h2>
+        
+        <p>This is the complete journey from booking an appointment to receiving results:</p>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+%%{init: {'theme':'base', 'themeVariables': {'fontSize':'18px'}}}%%
+graph TB
+    User[👤 User in App] -->|Books Appointment| AppointSvc[Appointment Service]
+    AppointSvc -->|Submit Order| Quest[Quest/KHSS]
+    AppointSvc -->|Save Metadata| CustomAttrs[Custom Attributes]
+    
+    Quest -->|Lab Test Performed| Results[Test Results]
+    
+    Scheduler[⏰ Scheduled Sync] -->|Every Hour| LabSync[Lab Results Sync]
+    LabSync -->|Fetch Results| Quest
+    LabSync -->|Match by Order Key| UserMatch[User Matching]
+    UserMatch -->|Read Appointments| CustomAttrs
+    
+    LabSync -->|Process Data| BioProc[Biomarker Processor]
+    BioProc -->|Map Units| UnitMap[Unit Mapping]
+    BioProc -->|Detect Abnormal| Alerts[Alert Detection]
+    
+    BioProc -->|Store| Biomarkers[(Biomarker Database)]
+    BioProc -->|Notify| Klaviyo[📧 Klaviyo]
+    Klaviyo -->|Email| User
+    
+    Biomarkers -->|Display| MobileApp[📱 Mobile App]
+    
+    style AppointSvc fill:#ffa726,stroke:#f57c00,stroke-width:3px
+    style LabSync fill:#ffa726,stroke:#f57c00,stroke-width:3px
+    style Quest fill:#ef5350,stroke:#c62828,stroke-width:3px
+    style Biomarkers fill:#66bb6a,stroke:#388e3c,stroke-width:3px
+    style Klaviyo fill:#9c27b0,stroke:#6a1b9a,stroke-width:3px
+            </div>
+        </div>
+        
+        <div class="flow-explanation">
+            <h4>Lab Results Journey Explained</h4>
+            
+            <p><strong>Appointment Booking (Steps 1-3):</strong></p>
+            <ul>
+                <li><strong>User → Appointment Service</strong> - User selects lab location and time in mobile app</li>
+                <li><strong>Appointment Service → Quest/KHSS</strong> - Creates lab order in Quest system with patient info and tests</li>
+                <li><strong>Appointment Service → Custom Attributes</strong> - Saves appointment details (including order key) as JSON array in Suggestic for later matching</li>
+            </ul>
+            
+            <p><strong>Results Retrieval (Steps 4-6):</strong></p>
+            <ul>
+                <li><strong>Scheduled Sync → Lab Results Sync</strong> - Runs every hour to check for new results</li>
+                <li><strong>Lab Results Sync → Quest/KHSS</strong> - Fetches all completed test results</li>
+                <li><strong>User Matching → Custom Attributes</strong> - Searches all users' appointment arrays to find who ordered each test by matching order keys</li>
+            </ul>
+            
+            <p><strong>Data Processing (Steps 7-9):</strong></p>
+            <ul>
+                <li><strong>Biomarker Processor → Unit Mapping</strong> - Converts Quest units (mg/dL, etc.) to Suggestic's expected format</li>
+                <li><strong>Biomarker Processor → Alert Detection</strong> - Compares values against reference ranges to flag abnormal results</li>
+                <li><strong>Biomarker Processor → Database</strong> - Stores processed biomarkers in Suggestic with timestamps and alerts</li>
+            </ul>
+            
+            <p><strong>Notification (Steps 10-11):</strong></p>
+            <ul>
+                <li><strong>Biomarker Processor → Klaviyo</strong> - Sends event with result summary (counts only, no PHI details)</li>
+                <li><strong>Klaviyo → User</strong> - Triggers email notification that results are ready to view</li>
+                <li><strong>Database → Mobile App</strong> - User views detailed results with charts and trends in app</li>
+            </ul>
+        </div>
+
+        <h2 id="core-services">5. Core Services Integration</h2>
+        
+        <p>How your custom functions interact with Suggestic:</p>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+%%{init: {'theme':'base', 'themeVariables': {'fontSize':'18px'}}}%%
+graph TB
+    subgraph "Your Netlify Functions"
+        ScoreCalc[Health Score Calculator]
+        PlanGen[Plan Generators<br/>Exercise/Mindset/Sleep]
+        LabSync[Lab Results Sync]
+    end
+    
+    subgraph "Suggestic GraphQL API"
+        API[GraphQL Gateway]
+    end
+    
+    subgraph "Suggestic Data"
+        Users[User Profiles]
+        Health[Health Data<br/>Weight/Sleep/Activity]
+        Bio[Biomarkers<br/>Lab Results]
+        Attrs[Custom Attributes<br/>Appointments/Orders]
+    end
+    
+    Mobile[📱 Mobile App] <-->|Read/Write| API
+    
+    ScoreCalc -->|Read| API
+    API -->|Fetch| Health
+    API -->|Fetch| Bio
+    ScoreCalc -.->|Return Score| Mobile
+    
+    PlanGen -->|Read| API
+    API -->|Fetch| Health
+    PlanGen -.->|Return Plans| Mobile
+    
+    LabSync -->|Write| API
+    API -->|Store| Bio
+    API -->|Store| Attrs
+    
+    style ScoreCalc fill:#ab47bc,stroke:#7b1fa2,stroke-width:3px
+    style PlanGen fill:#26a69a,stroke:#00796b,stroke-width:3px
+    style LabSync fill:#ffa726,stroke:#f57c00,stroke-width:3px
+    style API fill:#66bb6a,stroke:#388e3c,stroke-width:4px
+    style Mobile fill:#1976d2,stroke:#0d47a1,stroke-width:3px
+            </div>
+        </div>
+        
+        <div class="flow-explanation">
+            <h4>Suggestic Integration Points</h4>
+            
+            <p><strong>Mobile App ↔ GraphQL API:</strong></p>
+            <ul>
+                <li>Direct two-way communication for user authentication, data logging, and viewing content</li>
+                <li>Handles nutrition plan delivery (generated by Suggestic)</li>
+            </ul>
+            
+            <p><strong>Health Score Calculator → Suggestic:</strong></p>
+            <ul>
+                <li>Reads user's health data (weight trends, sleep quality, activity levels)</li>
+                <li>Reads biomarker results from lab tests</li>
+                <li>Calculates composite score from multiple dimensions</li>
+                <li>Returns score to mobile app for display on dashboard</li>
+            </ul>
+            
+            <p><strong>Plan Generators → Suggestic:</strong></p>
+            <ul>
+                <li>Reads user health data and goals</li>
+                <li>Generates personalized exercise, mindset, and sleep plans</li>
+                <li>Returns structured plans to mobile app</li>
+            </ul>
+            
+            <p><strong>Lab Sync → Suggestic:</strong></p>
+            <ul>
+                <li>Writes biomarker data to biomarkers storage</li>
+                <li>Writes/reads custom attributes for appointment tracking</li>
+            </ul>
+        </div>
+
+        <h2 id="data-flows">6. Complete Data Flow: Lab Test Example</h2>
+        <h2 id="data-flows">6. Complete Data Flow: Lab Test Example</h2>
+        
+        <p>Let's follow a complete user journey from start to finish:</p>
+        
+        <div class="diagram-container">
+            <div class="mermaid">
+%%{init: {'theme':'base', 'themeVariables': {'fontSize':'16px'}}}%%
+sequenceDiagram
+    actor User
+    participant App as Mobile App
+    participant ApptSvc as Appointment Service
+    participant Quest as Quest/KHSS
+    participant Sync as Lab Sync (Scheduled)
+    participant Sug as Suggestic
+    participant Klav as Klaviyo
+    
+    User->>App: Books lab appointment
+    App->>ApptSvc: Submit appointment request
+    ApptSvc->>Quest: Create lab order
+    Quest-->>ApptSvc: Order Key: RRX25.12345
+    ApptSvc->>Sug: Save appointment to custom attrs
+    ApptSvc->>Klav: Send confirmation email
+    Klav->>User: Email: Appointment confirmed
+    
+    Note over Quest: User visits lab, test performed
+    
+    Sync->>Quest: Check for new results (hourly)
+    Quest-->>Sync: Results for RRX25.12345
+    Sync->>Sug: Search users for order key
+    Sug-->>Sync: Found user ID
+    Sync->>Sync: Process biomarkers + map units
+    Sync->>Sug: Store biomarkers
+    Sync->>Klav: Notify results ready (counts only)
+    Klav->>User: Email: Results available
+    User->>App: View results
+    App->>Sug: Fetch biomarkers
+    Sug-->>App: Return lab data
+    App-->>User: Display results with charts
+            </div>
+        </div>
+        
+        <div class="flow-explanation">
+            <h4>Step-by-Step Timeline</h4>
+            <ol>
+                <li><strong>Day 1, 9:00 AM</strong> - User books appointment via mobile app</li>
+                <li><strong>Day 1, 9:01 AM</strong> - Appointment service creates Quest order and saves details to Suggestic</li>
+                <li><strong>Day 1, 9:02 AM</strong> - Klaviyo sends confirmation email with appointment details</li>
+                <li><strong>Day 3, 8:00 AM</strong> - User visits Quest lab, blood drawn, test performed</li>
+                <li><strong>Day 5, 3:00 PM</strong> - Quest completes analysis, results available in KHSS</li>
+                <li><strong>Day 5, 4:00 PM</strong> - Scheduled sync runs, fetches new results</li>
+                <li><strong>Day 5, 4:01 PM</strong> - System matches results to user by order key</li>
+                <li><strong>Day 5, 4:02 PM</strong> - Biomarkers processed, units mapped, stored in Suggestic</li>
+                <li><strong>Day 5, 4:03 PM</strong> - Klaviyo email sent to user: "Your lab results are ready"</li>
+                <li><strong>Day 5, 5:30 PM</strong> - User opens app, views results with trend charts</li>
+            </ol>
         </div>
 
         <div class="section">
