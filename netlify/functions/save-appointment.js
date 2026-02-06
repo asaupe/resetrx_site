@@ -10,6 +10,7 @@
  */
 
 const { getSuggesticClient } = require('./utils/api-wrapper');
+const { getCustomAttributeJSON, setCustomAttributeJSON } = require('./utils/custom-attributes');
 
 exports.handler = async (event, context) => {
     // Enable CORS
@@ -43,76 +44,67 @@ exports.handler = async (event, context) => {
         // Initialize Suggestic client using the shared helper
         const sgClient = getSuggesticClient();
 
-        // Prepare custom attributes - convert all appointment data to STRING type
-        // Using a prefix 'quest_appointment_' to namespace these attributes
-        const attributes = [
+        // Get existing appointments array (or empty array if none)
+        const existingAppointments = await getCustomAttributeJSON(
+            sgClient,
+            appointmentData.userId,
+            'quest_appointments',
+            []
+        );
+
+        // Create appointment object
+        const appointment = {
             // USER RELATION
-            { name: 'quest_appointment_user_id', dataType: 'STRING', value: appointmentData.userId, category: 'Quest Appointment' },
+            userId: appointmentData.userId,
             
             // ORDER DETAILS
-            { name: 'quest_appointment_order_key', dataType: 'STRING', value: appointmentData.orderKey, category: 'Quest Appointment' },
-            { name: 'quest_appointment_lab_account', dataType: 'STRING', value: appointmentData.labAccount || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_test_code', dataType: 'STRING', value: appointmentData.testCode || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_order_created_at', dataType: 'STRING', value: appointmentData.orderCreatedAt || '', category: 'Quest Appointment' },
+            orderKey: appointmentData.orderKey,
+            labAccount: appointmentData.labAccount || '',
+            testCode: appointmentData.testCode || '',
+            orderCreatedAt: appointmentData.orderCreatedAt || '',
             
             // APPOINTMENT DETAILS
-            { name: 'quest_appointment_confirmation_number', dataType: 'STRING', value: appointmentData.confirmationNumber, category: 'Quest Appointment' },
-            { name: 'quest_appointment_date', dataType: 'STRING', value: appointmentData.appointmentDate || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_time', dataType: 'STRING', value: appointmentData.appointmentTime || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_datetime', dataType: 'STRING', value: appointmentData.appointmentDateTime || '', category: 'Quest Appointment' },
+            confirmationNumber: appointmentData.confirmationNumber,
+            appointmentDate: appointmentData.appointmentDate || '',
+            appointmentTime: appointmentData.appointmentTime || '',
+            appointmentDateTime: appointmentData.appointmentDateTime || '',
             
             // LOCATION DETAILS
-            { name: 'quest_appointment_site_code', dataType: 'STRING', value: appointmentData.siteCode || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_location_name', dataType: 'STRING', value: appointmentData.locationName || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_location_address', dataType: 'STRING', value: appointmentData.locationAddress || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_location_phone', dataType: 'STRING', value: appointmentData.locationPhone || '', category: 'Quest Appointment' },
+            siteCode: appointmentData.siteCode || '',
+            locationName: appointmentData.locationName || '',
+            locationAddress: appointmentData.locationAddress || '',
+            locationPhone: appointmentData.locationPhone || '',
             
             // PATIENT SNAPSHOT
-            { name: 'quest_appointment_patient_id', dataType: 'STRING', value: appointmentData.patientId || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_patient_dob', dataType: 'STRING', value: appointmentData.patientDOB || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_patient_gender', dataType: 'STRING', value: appointmentData.patientGender || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_patient_phone', dataType: 'STRING', value: appointmentData.patientPhone || '', category: 'Quest Appointment' },
-            { name: 'quest_appointment_patient_email', dataType: 'STRING', value: appointmentData.patientEmail || '', category: 'Quest Appointment' },
+            patientId: appointmentData.patientId || '',
+            patientDOB: appointmentData.patientDOB || '',
+            patientGender: appointmentData.patientGender || '',
+            patientPhone: appointmentData.patientPhone || '',
+            patientEmail: appointmentData.patientEmail || '',
             
             // METADATA
-            { name: 'quest_appointment_booking_timestamp', dataType: 'STRING', value: appointmentData.bookingTimestamp || new Date().toISOString(), category: 'Quest Appointment' },
-            { name: 'quest_appointment_environment', dataType: 'STRING', value: appointmentData.environment || 'production', category: 'Quest Appointment' },
-            { name: 'quest_appointment_status', dataType: 'STRING', value: appointmentData.status || 'scheduled', category: 'Quest Appointment' }
-        ];
-
-        // GraphQL mutation to save custom attributes
-        const mutation = `
-            mutation CreateAppointmentAttributes($attributes: [ProfileCustomAttribute!]!) {
-                createProfileCustomAttributes(
-                    append: true
-                    attributes: $attributes
-                ) {
-                    success
-                    errors {
-                        field
-                        messages
-                    }
-                }
-            }
-        `;
-
-        const variables = {
-            attributes: attributes
+            bookingTimestamp: appointmentData.bookingTimestamp || new Date().toISOString(),
+            environment: appointmentData.environment || 'production',
+            status: appointmentData.status || 'scheduled'
         };
 
-        // Execute mutation with userId header
-        const result = await sgClient.query(mutation, appointmentData.userId, variables);
+        // Add new appointment to array
+        existingAppointments.push(appointment);
 
-        console.log('Suggestic save result:', result);
+        // Save updated appointments array
+        const success = await setCustomAttributeJSON(
+            sgClient,
+            appointmentData.userId,
+            'quest_appointments',
+            existingAppointments,
+            'Quest Appointment'
+        );
 
-        // Check for errors
-        if (result.createProfileCustomAttributes?.errors?.length > 0) {
-            throw new Error(`Suggestic errors: ${JSON.stringify(result.createProfileCustomAttributes.errors)}`);
-        }
-
-        if (!result.createProfileCustomAttributes?.success) {
+        if (!success) {
             throw new Error('Failed to save appointment to Suggestic');
         }
+
+        console.log(`✅ Appointment saved successfully (${existingAppointments.length} total appointments)`);
 
         return {
             statusCode: 200,
@@ -121,7 +113,7 @@ exports.handler = async (event, context) => {
                 success: true,
                 message: 'Appointment saved successfully',
                 data: {
-                    attributesSaved: attributes.length,
+                    totalAppointments: existingAppointments.length,
                     confirmationNumber: appointmentData.confirmationNumber,
                     orderKey: appointmentData.orderKey
                 }

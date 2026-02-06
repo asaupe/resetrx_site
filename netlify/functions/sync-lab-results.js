@@ -857,27 +857,46 @@ async function findUserByOrderKey(sgClient, orderKey) {
     try {
         console.log(`Querying users with order key: ${orderKey}`);
         
-        // Step 1: Get all user IDs in the organization
-        const usersQuery = `
-            query {
-                users {
-                    edges {
-                        node {
-                            id
+        // Step 1: Get all user IDs in the organization with pagination
+        let allUserIds = [];
+        let hasNextPage = true;
+        let cursor = null;
+        
+        while (hasNextPage) {
+            const usersQuery = `
+                query ${cursor ? '($after: String!)' : ''} {
+                    users(first: 100${cursor ? ', after: $after' : ''}) {
+                        edges {
+                            node {
+                                id
+                            }
+                        }
+                        pageInfo {
+                            hasNextPage
+                            endCursor
                         }
                     }
                 }
+            `;
+            
+            const variables = cursor ? { after: cursor } : undefined;
+            const usersResult = await sgClient.query(usersQuery, null, variables);
+            
+            if (!usersResult.users || !usersResult.users.edges) {
+                console.error('No users returned from query');
+                break;
             }
-        `;
-        
-        const usersResult = await sgClient.query(usersQuery);
-        
-        if (!usersResult.users || !usersResult.users.edges) {
-            console.error('No users returned from query');
-            return null;
+            
+            const pageUserIds = usersResult.users.edges.map(edge => edge.node.id);
+            allUserIds = allUserIds.concat(pageUserIds);
+            
+            hasNextPage = usersResult.users.pageInfo?.hasNextPage || false;
+            cursor = usersResult.users.pageInfo?.endCursor || null;
+            
+            console.log(`Retrieved ${pageUserIds.length} users (total: ${allUserIds.length}, hasMore: ${hasNextPage})`);
         }
         
-        const userIds = usersResult.users.edges.map(edge => edge.node.id);
+        const userIds = allUserIds;
         console.log(`Checking ${userIds.length} users for order key ${orderKey}`);
         
         // Step 2: Query each user's custom attributes using myProfile with sg-user header
@@ -900,15 +919,25 @@ async function findUserByOrderKey(sgClient, orderKey) {
                 
                 const attributes = JSON.parse(profileResult.myProfile.customAttributes);
                 
-                // Look for quest_appointment_order_key attribute matching this order
-                const orderKeyAttr = attributes.find(attr => 
-                    attr.name === 'quest_appointment_order_key' && 
-                    attr.value === orderKey
+                // Look for quest_appointments array and search for matching orderKey
+                const appointmentsAttr = attributes.find(attr => 
+                    (attr.name === 'quest_appointments' || attr.key === 'quest_appointments')
                 );
                 
-                if (orderKeyAttr) {
-                    console.log(`✓ Found user for order ${orderKey}: ${userId}`);
-                    return userId;
+                if (appointmentsAttr && appointmentsAttr.value) {
+                    try {
+                        const appointments = JSON.parse(appointmentsAttr.value);
+                        const matchingAppointment = appointments.find(appt => 
+                            appt.orderKey === orderKey
+                        );
+                        
+                        if (matchingAppointment) {
+                            console.log(`✓ Found user for order ${orderKey}: ${userId}`);
+                            return userId;
+                        }
+                    } catch (parseError) {
+                        console.warn(`Could not parse appointments for user ${userId}:`, parseError.message);
+                    }
                 }
             } catch (profileError) {
                 console.warn(`Could not query profile for user ${userId}:`, profileError.message);

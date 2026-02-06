@@ -9,6 +9,10 @@ node_modules/
 test-*.js
 test-*.html
 *-test.html
+debug-*.js
+verify-*.js
+find-*.js
+create-test-*.js
 fetch-test-results.js
 query-*.js
 list-*.js
