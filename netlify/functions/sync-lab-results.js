@@ -1,6 +1,6 @@
 const { getKHSSClient } = require('./utils/khss-api-wrapper');
 const { getSuggesticClient } = require('./utils/api-wrapper');
-const { isInCustomAttributeArray, addToCustomAttributeArray } = require('./utils/custom-attributes');
+const { isInCustomAttributeArray, addToCustomAttributeArray, getCustomAttributeJSON } = require('./utils/custom-attributes');
 const { sendLabResultsNotification } = require('./send-lab-results-notification');
 const fs = require('fs');
 const path = require('path');
@@ -899,48 +899,29 @@ async function findUserByOrderKey(sgClient, orderKey) {
         const userIds = allUserIds;
         console.log(`Checking ${userIds.length} users for order key ${orderKey}`);
         
-        // Step 2: Query each user's custom attributes using myProfile with sg-user header
-        const profileQuery = `
-            query {
-                myProfile {
-                    id
-                    customAttributes
-                }
-            }
-        `;
-        
+        // Step 2: Check each user's quest_appointments array for matching orderKey
         for (const userId of userIds) {
             try {
-                const profileResult = await sgClient.query(profileQuery, userId);
-                
-                if (!profileResult.myProfile || !profileResult.myProfile.customAttributes) {
-                    continue;
-                }
-                
-                const attributes = JSON.parse(profileResult.myProfile.customAttributes);
-                
-                // Look for quest_appointments array and search for matching orderKey
-                const appointmentsAttr = attributes.find(attr => 
-                    (attr.name === 'quest_appointments' || attr.key === 'quest_appointments')
+                const appointments = await getCustomAttributeJSON(
+                    sgClient, 
+                    userId, 
+                    'quest_appointments', 
+                    []
                 );
                 
-                if (appointmentsAttr && appointmentsAttr.value) {
-                    try {
-                        const appointments = JSON.parse(appointmentsAttr.value);
-                        const matchingAppointment = appointments.find(appt => 
-                            appt.orderKey === orderKey
-                        );
-                        
-                        if (matchingAppointment) {
-                            console.log(`✓ Found user for order ${orderKey}: ${userId}`);
-                            return userId;
-                        }
-                    } catch (parseError) {
-                        console.warn(`Could not parse appointments for user ${userId}:`, parseError.message);
+                if (appointments.length > 0) {
+                    const matchingAppointment = appointments.find(appt => 
+                        appt.orderKey === orderKey
+                    );
+                    
+                    if (matchingAppointment) {
+                        console.log(`✓ Found user for order ${orderKey}: ${userId}`);
+                        return userId;
                     }
                 }
-            } catch (profileError) {
-                console.warn(`Could not query profile for user ${userId}:`, profileError.message);
+            } catch (error) {
+                // Skip users we can't query or don't have appointments
+                continue;
             }
         }
         
