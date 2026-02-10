@@ -122,6 +122,103 @@ Available functions:
 - `removeFromCustomAttributeArray(sgClient, userId, name, item, category)` - Remove from array
 - `isInCustomAttributeArray(sgClient, userId, name, item)` - Check if item exists in array
 
+### Lab Results Data Storage
+
+Lab results are stored in two complementary locations, linked by `orderKey`:
+
+**1. Suggestic Lab Test Reports (Processed Biomarkers)**
+- User-facing processed data stored via Suggestic's biomarker API
+- Report title: `"Quest Lab Results - {orderKey}"`
+- Contains: biomarker values, units, alerts, reference ranges, dates
+- Queryable via `labTestReports` GraphQL query
+
+**2. Custom Attributes Raw JSON (Complete Audit Trail)**
+- Complete KHSS response stored in `quest_lab_results` custom attribute (JSON array)
+- Each record includes: `orderKey`, full `order` object, `patient` data, `syncedAt` timestamp
+- Contains: all dates, notes, PDF reports, raw results, facility info, verification data
+- Queryable via `getCustomAttributeJSON(sgClient, userId, 'quest_lab_results', [])`
+
+**Relating the Data:**
+
+Both are linked by the Quest order key (e.g., `"RRX25.RX769802150731"`):
+
+```javascript
+// Find lab test report by orderKey
+const reportTitle = `Quest Lab Results - ${orderKey}`;
+const report = labTestReports.edges.find(edge => 
+    edge.node.testName === reportTitle
+);
+
+// Find raw KHSS data by orderKey
+const rawResults = await getCustomAttributeJSON(
+    sgClient, userId, 'quest_lab_results', []
+);
+const rawData = rawResults.find(r => r.orderKey === orderKey);
+
+// Now you have:
+// - report.biomarkerResults = processed biomarkers
+// - rawData.order.Results = complete KHSS raw data
+// - rawData.order.PDFs = base64 encoded PDF reports
+// - rawData.order.Notes = all KHSS notes
+```
+
+**Future Helper Function (Optional):**
+
+If you frequently need to retrieve both processed biomarkers and raw KHSS data together, consider creating a helper function in `netlify/functions/utils/`:
+
+```javascript
+// Example: utils/lab-results-helper.js (not yet implemented)
+async function getCompleteLabResults(sgClient, userId, orderKey) {
+    // 1. Get processed biomarkers from Suggestic lab test report
+    const reportQuery = `
+        query {
+            labTestReports(first: 50) {
+                edges {
+                    node {
+                        id
+                        testName
+                        testDate
+                        biomarkerResults {
+                            edges {
+                                node {
+                                    biomarker { name }
+                                    value
+                                    unit
+                                    date
+                                    alert
+                                    alertText
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `;
+    
+    const reports = await sgClient.query(reportQuery, userId);
+    const report = reports.labTestReports?.edges?.find(edge => 
+        edge.node.testName === `Quest Lab Results - ${orderKey}`
+    );
+    
+    // 2. Get raw KHSS data from custom attributes
+    const rawResults = await getCustomAttributeJSON(
+        sgClient, userId, 'quest_lab_results', []
+    );
+    const rawData = rawResults.find(r => r.orderKey === orderKey);
+    
+    return {
+        biomarkers: report?.node?.biomarkerResults || [],
+        rawData: rawData || null,
+        orderKey: orderKey
+    };
+}
+```
+
+**Additional Tracking:**
+- `synced_quest_orders` array: Simple list of orderKeys that have been synced (prevents duplicates)
+- `quest_appointments` array: Appointment records that include the orderKey for cross-reference
+
 ## Pages and Sections
 
 1. **Hero Section**: Introducing ResetRx with a clear value proposition

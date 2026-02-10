@@ -1,6 +1,6 @@
 const { getKHSSClient } = require('./utils/khss-api-wrapper');
 const { getSuggesticClient } = require('./utils/api-wrapper');
-const { isInCustomAttributeArray, addToCustomAttributeArray, getCustomAttributeJSON } = require('./utils/custom-attributes');
+const { isInCustomAttributeArray, addToCustomAttributeArray, getCustomAttributeJSON, setCustomAttributeJSON } = require('./utils/custom-attributes');
 const { sendLabResultsNotification } = require('./send-lab-results-notification');
 const fs = require('fs');
 const path = require('path');
@@ -130,6 +130,9 @@ exports.handler = async (event, context) => {
                         biomarkers,
                         orderMetadata
                     );
+                    
+                    // Save the complete raw KHSS data for this order
+                    await saveRawLabResultsData(sgClient, userId, orderKey, order, patient);
                     
                     // Mark order as synced to prevent duplicates
                     await markOrderAsSynced(sgClient, userId, orderKey);
@@ -781,6 +784,78 @@ async function sendKlaviyoLabResultsNotification(sgClient, userId, orderKey, bio
     });
     
     console.log(`📧 Klaviyo notification sent to ${profile.email}`);
+}
+
+/**
+ * Save complete raw KHSS lab results data to custom attributes
+ * Stores the original JSON for audit trail, debugging, and re-processing
+ * @param {Object} sgClient - Suggestic API client
+ * @param {string} userId - Suggestic user ID
+ * @param {string} orderKey - Quest order key
+ * @param {Object} order - Complete KHSS order object
+ * @param {Object} patient - Complete KHSS patient object
+ */
+async function saveRawLabResultsData(sgClient, userId, orderKey, order, patient) {
+    try {
+        // Get existing lab results array (or empty array if none)
+        const existingResults = await getCustomAttributeJSON(
+            sgClient,
+            userId,
+            'quest_lab_results',
+            []
+        );
+
+        // Create lab result record with complete raw data
+        const labResultRecord = {
+            // IDENTIFICATION
+            orderKey: orderKey,
+            userId: userId,
+            
+            // ORDER DATA (complete raw KHSS order object)
+            order: {
+                Order_Key: order.Order_Key,
+                Notes: order.Notes || [],
+                PDFs: order.PDFs || [],
+                Results: order.Results || [],
+                // Include any other order fields from KHSS
+                ...order
+            },
+            
+            // PATIENT DATA (snapshot at time of results)
+            patient: {
+                Patient_Id: patient.Patient_Id,
+                Notes: patient.Notes || [],
+                // Include any other patient fields from KHSS
+                ...patient
+            },
+            
+            // METADATA
+            syncedAt: new Date().toISOString(),
+            resultCount: (order.Results || []).length,
+            environment: process.env.USE_TEST_DATA === 'true' ? 'test' : 'production'
+        };
+
+        // Add new result to array
+        existingResults.push(labResultRecord);
+
+        // Save updated lab results array
+        const success = await setCustomAttributeJSON(
+            sgClient,
+            userId,
+            'quest_lab_results',
+            existingResults,
+            'Quest Lab Results'
+        );
+
+        if (!success) {
+            console.warn(`Failed to save raw lab results data for order ${orderKey}`);
+        } else {
+            console.log(`✅ Saved raw lab results data for order ${orderKey} (${existingResults.length} total results)`);
+        }
+    } catch (error) {
+        console.warn('Error saving raw lab results data:', error.message);
+        // Don't fail the whole sync if we can't save raw data
+    }
 }
 
 /**
