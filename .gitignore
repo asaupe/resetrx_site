@@ -17,6 +17,7 @@ fetch-test-results.js
 query-*.js
 list-*.js
 profile-id-lookup.html
+deno.lock
 
 # Test data
 test-data/

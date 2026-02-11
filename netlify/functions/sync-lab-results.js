@@ -730,14 +730,12 @@ async function storeSimpleProfileBiomarkers(sgClient, userId, biomarkers) {
  * @param {Object} order - KHSS order object
  */
 async function sendKlaviyoLabResultsNotification(sgClient, userId, orderKey, biomarkers, order) {
-    // Get user profile to retrieve email and name
+    // Get user profile to retrieve email
     const profileQuery = `
         query {
             myProfile {
                 id
                 email
-                firstName
-                lastName
             }
         }
     `;
